@@ -1,26 +1,25 @@
 package com.example.bboba
 
 import android.os.Bundle
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.EditText
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
-import com.google.firebase.database.IgnoreExtraProperties
-import kotlinx.android.synthetic.main.activity_main.*
+import com.google.firebase.firestore.FieldValue
 import kotlinx.android.synthetic.main.write_req.*
+import com.google.firebase.firestore.FirebaseFirestore
+import java.util.*
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.FirebaseDatabase
 
-@IgnoreExtraProperties
-data class Request(
-    var user_name: String = "",
-    var page_num: Int = 0,
-    var user_tel: String = "",
-    var detail_req: String = "",
-    var pic_addr: String = "",
-    var file_addr: String = ""
-)
+
+
+
 class WriteRequestActivity:AppCompatActivity() {
+    lateinit var request: MutableMap<String, String>
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.write_req)
@@ -34,14 +33,24 @@ class WriteRequestActivity:AppCompatActivity() {
             val username = findViewById<EditText>(R.id.edit_name).text.toString()
             val totalpage = findViewById<EditText>(R.id.edit_page).text.toString()
             val usertel = findViewById<EditText>(R.id.edit_tel).text.toString()
-            val printsreq = findViewById<EditText>(R.id.edit_detail).text.toString()
+            val detailreq = findViewById<EditText>(R.id.edit_detail).text.toString()
             builder.setTitle("프린트 요청 글 작성")
             builder.setMessage("이름 : $username \n" +
                     "페이지 수 : $totalpage \n" +
                     "전화번호 : $usertel \n" +
-                    "요청사항 : $printsreq")
+                    "요청사항 : $detailreq")
 
             builder.setPositiveButton("요청하기") { _, _ ->
+                val database = FirebaseDatabase.getInstance()
+                val myRef = database.getReference("prints_request").child("2")
+                request = mutableMapOf()
+                request.put("user_name","$username")
+                request.put("total_page","$totalpage")
+                request.put("uset_tel","$usertel")
+                request.put("detail_request", "$detailreq")
+
+                myRef.setValue(request)
+
                 Toast.makeText(applicationContext, "프린트 요청글이 등록되었습니다.", Toast.LENGTH_SHORT).show()
             }
             builder.setNegativeButton("취소") { _, _ ->

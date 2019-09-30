@@ -870,7 +870,6 @@ id line1
 id line3
 id listMode
 id list_item
-id main_list
 id main_toolbar
 id message
 id middle
@@ -891,6 +890,7 @@ id profile_pic
 id progress_circular
 id progress_horizontal
 id radio
+id recyclerview_item
 id right
 id right_icon
 id right_side
@@ -947,12 +947,12 @@ id top
 id topPanel
 id total_page
 id txt_name
-id txt_tel
 id unchecked
 id uniform
 id up
 id useLogo
 id user_name
+id user_tel
 id v_map
 id wide
 id withText

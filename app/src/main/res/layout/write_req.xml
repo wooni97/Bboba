@@ -40,30 +40,15 @@
                 android:layout_height="48dp"
                 android:layout_toRightOf="@+id/txt_name"
                 android:textSize="15sp"
+
                 android:textColor="@android:color/black" />
 
             <TextView
-                android:id="@+id/total_page"
+                android:id="@+id/user_tel"
                 android:layout_width="80dp"
                 android:layout_height="48dp"
                 android:layout_below="@+id/txt_name"
                 android:layout_marginTop="0dp"
-                android:text="페이지 수 : "
-                android:textColor="@android:color/black"
-                android:textSize="15sp" />
-            <EditText
-                android:id="@+id/edit_page"
-                android:layout_width="match_parent"
-                android:layout_height="48dp"
-                android:layout_below="@+id/edit_name"
-                android:layout_toEndOf="@+id/total_page"
-                android:textSize="15sp"
-                android:textColor="@android:color/black" />
-            <TextView
-                android:id="@+id/txt_tel"
-                android:layout_width="80dp"
-                android:layout_height="48dp"
-                android:layout_below="@+id/total_page"
                 android:text="전화번호 : "
                 android:textColor="@android:color/black"
                 android:textSize="15sp" />
@@ -71,15 +56,32 @@
                 android:id="@+id/edit_tel"
                 android:layout_width="match_parent"
                 android:layout_height="48dp"
-                android:layout_below="@+id/edit_page"
-                android:layout_toRightOf="@+id/txt_tel"
+                android:layout_below="@+id/edit_name"
+                android:layout_toEndOf="@+id/user_tel"
+                android:textSize="15sp"
+                android:textColor="@android:color/black" />
+            <TextView
+                android:id="@+id/total_page"
+                android:layout_width="80dp"
+                android:layout_height="48dp"
+                android:layout_below="@+id/user_tel"
+                android:text="페이지 수 : "
+                android:textColor="@android:color/black"
+                android:textSize="15sp" />
+            <EditText
+                android:id="@+id/edit_page"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:layout_below="@+id/edit_tel"
+                android:inputType="number"
+                android:layout_toRightOf="@+id/user_tel"
                 android:textSize="15sp"
                 android:textColor="@android:color/black" />
             <TextView
                 android:id="@+id/detail_req"
                 android:layout_width="80dp"
                 android:layout_height="48dp"
-                android:layout_below="@+id/txt_tel"
+                android:layout_below="@+id/total_page"
                 android:text="요청사항 : "
                 android:textColor="@android:color/black"
                 android:textSize="15sp" />
@@ -87,7 +89,7 @@
                 android:id="@+id/edit_detail"
                 android:layout_width="match_parent"
                 android:layout_height="48dp"
-                android:layout_below="@+id/edit_tel"
+                android:layout_below="@+id/edit_page"
                 android:layout_toRightOf="@+id/detail_req"
                 android:textSize="15sp"
                 android:textColor="@android:color/black" />
