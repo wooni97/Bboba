@@ -1,21 +1,21 @@
 {
   "project_info": {
-    "project_number": "1095359077702",
-    "firebase_url": "https://bboba-623f9.firebaseio.com",
-    "project_id": "bboba-623f9",
-    "storage_bucket": "bboba-623f9.appspot.com"
+    "project_number": "1038141279154",
+    "firebase_url": "https://bboba-872c0.firebaseio.com",
+    "project_id": "bboba-872c0",
+    "storage_bucket": "bboba-872c0.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:1095359077702:android:499ec5d37280f931161947",
+        "mobilesdk_app_id": "1:1038141279154:android:82d9658a2cc7dd529ff2ab",
         "android_client_info": {
           "package_name": "com.example.bboba"
         }
       },
       "oauth_client": [
         {
-          "client_id": "1095359077702-8fmvrb032iisc7e5e79c6d5m51pf8edg.apps.googleusercontent.com",
+          "client_id": "1038141279154-379fjqb51roi5qgnescp6avrudv3erfh.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.example.bboba",
@@ -23,20 +23,20 @@
           }
         },
         {
-          "client_id": "1095359077702-jhn6qbq3lflbs8kdgfdivfi4mkvlicnb.apps.googleusercontent.com",
+          "client_id": "1038141279154-nb1ihc5fuq7k0rhip1uvn0af1fkccgc3.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyD9VOR6_E42FLT92NSxXvcBP6RC9E9lOBA"
+          "current_key": "AIzaSyAwmGNBhCUZ017Y1cN5aPOozOTeOt7yTmY"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "1095359077702-jhn6qbq3lflbs8kdgfdivfi4mkvlicnb.apps.googleusercontent.com",
+              "client_id": "1038141279154-nb1ihc5fuq7k0rhip1uvn0af1fkccgc3.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

@@ -1,16 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_height="match_parent" android:layout_width="match_parent">
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <item
-        android:id="@+id/v_map"
-        android:title="map_view"
-        android:icon="@android:drawable/ic_dialog_map"
-        app:showAsAction="ifRoom" /><!--공간 있으면 표시-->
-
-    <item
-        android:id="@+id/setting"
-        android:title="설정"
-        app:showAsAction="never" />
 </menu>
