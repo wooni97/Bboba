@@ -4,7 +4,26 @@
             "outputFile": "C:\\Users\\thkthk97\\AndroidStudioProjects\\Bboba\\app\\build\\intermediates\\incremental\\mergeDebugResources\\merged.dir\\values-v23\\values-v23.xml",
             "map": [
                 {
-                    "source": "C:\\Users\\thkthk97\\.gradle\\caches\\transforms-2\\files-2.1\\98a2ccfa6a9188cf841e3cc3a702beb2\\appcompat-1.1.0\\res\\values-v23\\values-v23.xml",
+                    "source": "C:\\Users\\thkthk97\\.gradle\\caches\\transforms-2\\files-2.1\\7597d490681eb565bf8b7d56163045c1\\cardview-1.0.0\\res\\values-v23\\values-v23.xml",
+                    "from": {
+                        "startLines": "2",
+                        "startColumns": "4",
+                        "startOffsets": "55",
+                        "endLines": "4",
+                        "endColumns": "12",
+                        "endOffsets": "200"
+                    },
+                    "to": {
+                        "startLines": "48",
+                        "startColumns": "4",
+                        "startOffsets": "3407",
+                        "endLines": "50",
+                        "endColumns": "12",
+                        "endOffsets": "3552"
+                    }
+                },
+                {
+                    "source": "C:\\Users\\thkthk97\\.gradle\\caches\\transforms-2\\files-2.1\\03b674dffc632fa702f5b86d5149ed6d\\appcompat-1.1.0\\res\\values-v23\\values-v23.xml",
                     "from": {
                         "startLines": "2,3,4,5,6,20,34,35,36,37,41,42,43,44",
                         "startColumns": "4,4,4,4,4,4,4,4,4,4,4,4,4,4",

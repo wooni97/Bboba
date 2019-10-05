@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">뽀바</string>
+    <string name="app_desc">대학생 프린트물 공유 서비스</string>
 </resources>

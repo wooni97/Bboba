@@ -34,7 +34,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name="com.example.bboba.WriteRequestActivity" />
+        <activity android:name="com.example.bboba.GiveMainActivity" />
 
         <service
             android:name="com.google.firebase.components.ComponentDiscoveryService"
