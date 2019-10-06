@@ -3,10 +3,11 @@ package com.example.bboba
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
+import android.view.Gravity
 import android.view.Menu
 import android.view.MenuItem
-import android.widget.Toast
+import android.view.View
+import android.widget.TextView
 import androidx.core.view.GravityCompat
 import kotlinx.android.synthetic.main.activity_main.*
 import com.google.android.material.navigation.NavigationView
@@ -58,7 +59,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         when(menuItem.itemId) {
             R.id.account -> {
                 Snackbar.make(my_toolbar, "clicked", Snackbar.LENGTH_SHORT).show()
-                Toast.makeText(this, "account", Toast.LENGTH_SHORT).show()
             }
         }
         drawerLayout.closeDrawer(GravityCompat.START)
