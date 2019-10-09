@@ -1204,6 +1204,7 @@ id auto
 id barrier
 id beginning
 id blocking
+id both_side
 id bottom
 id bt_give
 id bt_req
@@ -1254,6 +1255,7 @@ id fill_vertical
 id filled
 id fixed
 id forever
+id gather_print
 id ghost_view
 id give_toolbar
 id gone
@@ -1312,6 +1314,7 @@ id print_main_image
 id profile_email
 id profile_name
 id profile_picture
+id progress
 id progress_circular
 id progress_horizontal
 id radio
@@ -1337,6 +1340,7 @@ id search_mag_icon
 id search_plate
 id search_src_text
 id search_voice_btn
+id seekBar
 id select_dialog_listview
 id selected
 id setting
