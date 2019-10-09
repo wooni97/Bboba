@@ -24,6 +24,10 @@
         "source": "C:\\Users\\uiop5\\.gradle\\caches\\transforms-2\\files-2.1\\03b674dffc632fa702f5b86d5149ed6d\\appcompat-1.1.0\\res\\anim\\abc_tooltip_enter.xml"
     },
     {
+        "merged": "C:\\Users\\uiop5\\AndroidStudioProjects\\BBoba\\app\\build\\intermediates\\res\\merged\\debug\\layout_activity_com_request.xml.flat",
+        "source": "C:\\Users\\uiop5\\AndroidStudioProjects\\BBoba\\app\\src\\main\\res\\layout\\activity_com_request.xml"
+    },
+    {
         "merged": "C:\\Users\\uiop5\\AndroidStudioProjects\\BBoba\\app\\build\\intermediates\\res\\merged\\debug\\anim_abc_tooltip_exit.xml.flat",
         "source": "C:\\Users\\uiop5\\.gradle\\caches\\transforms-2\\files-2.1\\03b674dffc632fa702f5b86d5149ed6d\\appcompat-1.1.0\\res\\anim\\abc_tooltip_exit.xml"
     },
@@ -168,12 +172,12 @@
         "source": "C:\\Users\\uiop5\\.gradle\\caches\\transforms-2\\files-2.1\\03b674dffc632fa702f5b86d5149ed6d\\appcompat-1.1.0\\res\\drawable-xxxhdpi-v4\\abc_btn_switch_to_on_mtrl_00001.9.png"
     },
     {
-        "merged": "C:\\Users\\uiop5\\AndroidStudioProjects\\BBoba\\app\\build\\intermediates\\res\\merged\\debug\\drawable-hdpi-v4_abc_ic_menu_share_mtrl_alpha.png.flat",
-        "source": "C:\\Users\\uiop5\\.gradle\\caches\\transforms-2\\files-2.1\\03b674dffc632fa702f5b86d5149ed6d\\appcompat-1.1.0\\res\\drawable-hdpi-v4\\abc_ic_menu_share_mtrl_alpha.png"
-    },
-    {
         "merged": "C:\\Users\\uiop5\\AndroidStudioProjects\\BBoba\\app\\build\\intermediates\\res\\merged\\debug\\drawable-mdpi-v4_abc_textfield_search_activated_mtrl_alpha.9.png.flat",
         "source": "C:\\Users\\uiop5\\.gradle\\caches\\transforms-2\\files-2.1\\03b674dffc632fa702f5b86d5149ed6d\\appcompat-1.1.0\\res\\drawable-mdpi-v4\\abc_textfield_search_activated_mtrl_alpha.9.png"
+    },
+    {
+        "merged": "C:\\Users\\uiop5\\AndroidStudioProjects\\BBoba\\app\\build\\intermediates\\res\\merged\\debug\\drawable-hdpi-v4_abc_ic_menu_share_mtrl_alpha.png.flat",
+        "source": "C:\\Users\\uiop5\\.gradle\\caches\\transforms-2\\files-2.1\\03b674dffc632fa702f5b86d5149ed6d\\appcompat-1.1.0\\res\\drawable-hdpi-v4\\abc_ic_menu_share_mtrl_alpha.png"
     },
     {
         "merged": "C:\\Users\\uiop5\\AndroidStudioProjects\\BBoba\\app\\build\\intermediates\\res\\merged\\debug\\drawable-xxhdpi-v4_googleg_standard_color_18.png.flat",
@@ -1594,6 +1598,10 @@
     {
         "merged": "C:\\Users\\uiop5\\AndroidStudioProjects\\BBoba\\app\\build\\intermediates\\res\\merged\\debug\\drawable-hdpi-v4_abc_scrubber_control_to_pressed_mtrl_005.png.flat",
         "source": "C:\\Users\\uiop5\\.gradle\\caches\\transforms-2\\files-2.1\\03b674dffc632fa702f5b86d5149ed6d\\appcompat-1.1.0\\res\\drawable-hdpi-v4\\abc_scrubber_control_to_pressed_mtrl_005.png"
+    },
+    {
+        "merged": "C:\\Users\\uiop5\\AndroidStudioProjects\\BBoba\\app\\build\\intermediates\\res\\merged\\debug\\layout_activity_request.xml.flat",
+        "source": "C:\\Users\\uiop5\\AndroidStudioProjects\\BBoba\\app\\src\\main\\res\\layout\\activity_request.xml"
     },
     {
         "merged": "C:\\Users\\uiop5\\AndroidStudioProjects\\BBoba\\app\\build\\intermediates\\res\\merged\\debug\\layout-watch-v20_abc_alert_dialog_button_bar_material.xml.flat",
