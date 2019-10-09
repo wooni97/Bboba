@@ -27,6 +27,8 @@
         android:supportsRtl="true"
         android:testOnly="true"
         android:theme="@style/AppTheme" >
+        <activity android:name="com.example.bboba.ComRequestActivity" />
+        <activity android:name="com.example.bboba.RequestActivity" />
         <activity android:name="com.example.bboba.MainActivity" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
