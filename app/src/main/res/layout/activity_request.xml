@@ -1,0 +1,197 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/main_color">
+
+    <EditText
+        android:id="@+id/Page_input"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="70dp"
+        android:ems="10"
+        android:hint="매수를 입력하시오"
+        android:inputType="textPersonName"
+        android:textColor="#FFFFFF"
+        android:textColorHint="#FFFFFF"
+        app:layout_constraintStart_toEndOf="@+id/Page"
+        app:layout_constraintTop_toBottomOf="@+id/Request" />
+
+    <EditText
+        android:id="@+id/Time_input"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:ems="10"
+        android:hint="시간을 입력하시오"
+        android:inputType="textPersonName"
+        android:textColor="#FFFFFF"
+        android:textColorHint="#FFFFFF"
+        app:layout_constraintEnd_toEndOf="@+id/Page_input"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/Page_input"
+        app:layout_constraintTop_toBottomOf="@+id/Page_input" />
+
+    <EditText
+        android:id="@+id/Location_input"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="12dp"
+        android:ems="10"
+        android:hint="공공 API로 대체할 예정"
+        android:inputType="textPersonName"
+        android:textColor="#FFFFFF"
+        android:textColorHint="#FFFFFF"
+        app:layout_constraintEnd_toEndOf="@+id/Time_input"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toEndOf="@+id/Location"
+        app:layout_constraintTop_toBottomOf="@+id/Time_input" />
+
+    <CheckBox
+        android:id="@+id/Color"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:text="컬러 여부"
+        android:textColor="#FFFFFF"
+        android:textSize="15dp"
+        app:layout_constraintStart_toStartOf="@+id/both_side"
+        app:layout_constraintTop_toBottomOf="@+id/both_side" />
+
+    <TextView
+        android:id="@+id/Page"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="56dp"
+        android:layout_marginTop="70dp"
+        android:text="매수:"
+        android:textColor="#FFFFFF"
+        android:textSize="30dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/Request" />
+
+    <TextView
+        android:id="@+id/Time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="18dp"
+        android:text="시간:"
+        android:textColor="#FFFFFF"
+        android:textSize="30dp"
+        app:layout_constraintStart_toStartOf="@+id/Page"
+        app:layout_constraintTop_toBottomOf="@+id/Page" />
+
+    <TextView
+        android:id="@+id/Location"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="4dp"
+        android:layout_marginTop="24dp"
+        android:text="장소:"
+        android:textColor="#FFFFFF"
+        android:textSize="30dp"
+        app:layout_constraintStart_toStartOf="@+id/Time"
+        app:layout_constraintTop_toBottomOf="@+id/Time" />
+
+    <TextView
+        android:id="@+id/Request"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="50dp"
+        android:text="세부 요청"
+        android:textColor="#FFFFFF"
+        android:textSize="50dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/Done"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="72dp"
+        android:background="#FFFFFF"
+        android:text="요청하기"
+        android:textColor="@color/main_color"
+        android:textSize="16dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <CheckBox
+        android:id="@+id/Select_map"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:text="지도에서 선택"
+        android:textColor="#FFFFFF"
+        android:textSize="15dp"
+        app:layout_constraintStart_toStartOf="@+id/Location"
+        app:layout_constraintTop_toBottomOf="@+id/Location" />
+
+    <CheckBox
+        android:id="@+id/Select_current"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="36dp"
+        android:layout_marginTop="20dp"
+        android:text="현재위치로 선택"
+        android:textColor="#FFFFFF"
+        android:textSize="14dp"
+        app:layout_constraintStart_toEndOf="@+id/Select_map"
+        app:layout_constraintTop_toBottomOf="@+id/Location_input" />
+
+    <CheckBox
+        android:id="@+id/both_side"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="14dp"
+        android:text="양면찍기"
+        android:textColor="#FFFFFF"
+        android:textSize="15dp"
+        app:layout_constraintStart_toStartOf="@+id/Select_map"
+        app:layout_constraintTop_toBottomOf="@+id/Select_map" />
+
+    <SeekBar
+        android:id="@+id/seekBar"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="14dp"
+        android:background="#FFFFFF"
+        android:max="3"
+        android:progressTint="@color/main_color"
+        android:thumbTint="@color/main_color"
+        android:progress="0"
+        app:layout_constraintEnd_toEndOf="@+id/gather_print"
+        app:layout_constraintStart_toStartOf="@+id/gather_print"
+        app:layout_constraintTop_toBottomOf="@+id/gather_print" />
+
+    <TextView
+        android:id="@+id/gather_print"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="14dp"
+        android:text="모아찍기"
+        android:textColor="#FFFFFF"
+        android:textSize="20dp"
+        app:layout_constraintEnd_toEndOf="@+id/Select_current"
+        app:layout_constraintStart_toStartOf="@+id/Select_current"
+        app:layout_constraintTop_toBottomOf="@+id/Select_current" />
+
+    <TextView
+        android:id="@+id/progress"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="20dp"
+        android:text="1"
+        android:textColor="#FFFFFF"
+        app:layout_constraintEnd_toEndOf="@+id/seekBar"
+        app:layout_constraintStart_toStartOf="@+id/seekBar"
+        app:layout_constraintTop_toBottomOf="@+id/seekBar" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

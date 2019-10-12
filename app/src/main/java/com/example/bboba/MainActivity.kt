@@ -3,14 +3,17 @@ package com.example.bboba
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
+import android.view.Gravity
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
+import android.widget.TextView
 import android.widget.Toast
 import androidx.core.view.GravityCompat
 import kotlinx.android.synthetic.main.activity_main.*
 import com.google.android.material.navigation.NavigationView
 import com.google.android.material.snackbar.Snackbar
+//import kotlinx.android.synthetic.main.activity_request.*
 
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -19,9 +22,9 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
         //액티비티 이동
         bt_req.setOnClickListener {
-            //요청하기
-            // val nextIntent = Intent(this, WriteRequestActivity::class.java)
-            //startActivity(nextIntent)
+
+            val nextIntent = Intent(this, RequestActivity::class.java)
+            startActivity(nextIntent)
         }
         bt_give.setOnClickListener {
             //제공하기
@@ -55,10 +58,9 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
     //네비게이션 드로어 메뉴 선택시
     override fun onNavigationItemSelected(menuItem: MenuItem): Boolean {
-        when(menuItem.itemId) {
+        when (menuItem.itemId) {
             R.id.account -> {
                 Snackbar.make(my_toolbar, "clicked", Snackbar.LENGTH_SHORT).show()
-                Toast.makeText(this, "account", Toast.LENGTH_SHORT).show()
             }
         }
         drawerLayout.closeDrawer(GravityCompat.START)
@@ -74,7 +76,8 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         if(drawerLayout.isDrawerOpen(GravityCompat.START)){
             drawerLayout.closeDrawers()
         }else{
-            super.onBackPressed()
+            Toast.makeText(this,"어플을 종료합니다.", Toast.LENGTH_SHORT).show()
+            finishAffinity()
         }
     }
 }
