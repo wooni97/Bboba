@@ -78,6 +78,7 @@ attr alertDialogTheme
 attr allowStacking
 attr alpha
 attr alphabeticModifiers
+attr ambientEnabled
 attr arrowHeadLength
 attr arrowShaftLength
 attr autoCompleteTextViewStyle
@@ -129,6 +130,13 @@ attr buttonStyle
 attr buttonStyleSmall
 attr buttonTint
 attr buttonTintMode
+attr cameraBearing
+attr cameraMaxZoomPreference
+attr cameraMinZoomPreference
+attr cameraTargetLat
+attr cameraTargetLng
+attr cameraTilt
+attr cameraZoom
 attr cardBackgroundColor
 attr cardCornerRadius
 attr cardElevation
@@ -323,6 +331,10 @@ attr itemTextColor
 attr keylines
 attr labelVisibilityMode
 attr lastBaselineToBottomHeight
+attr latLngBoundsNorthEastLatitude
+attr latLngBoundsNorthEastLongitude
+attr latLngBoundsSouthWestLatitude
+attr latLngBoundsSouthWestLongitude
 attr layout
 attr layoutManager
 attr layout_anchor
@@ -403,8 +415,10 @@ attr listPreferredItemPaddingEnd
 attr listPreferredItemPaddingLeft
 attr listPreferredItemPaddingRight
 attr listPreferredItemPaddingStart
+attr liteMode
 attr logo
 attr logoDescription
+attr mapType
 attr materialButtonStyle
 attr materialCardViewStyle
 attr maxActionInlineWidth
@@ -578,7 +592,28 @@ attr track
 attr trackTint
 attr trackTintMode
 attr ttcIndex
+attr uiCompass
+attr uiMapToolbar
+attr uiRotateGestures
+attr uiScrollGestures
+attr uiScrollGesturesDuringRotateOrZoom
+attr uiTiltGestures
+attr uiZoomControls
+attr uiZoomGestures
+attr umanoAnchorPoint
+attr umanoClipPanel
+attr umanoDragView
+attr umanoFadeColor
+attr umanoFlingVelocity
+attr umanoInitialState
+attr umanoOverlay
+attr umanoPanelHeight
+attr umanoParallaxOffset
+attr umanoScrollInterpolator
+attr umanoScrollableView
+attr umanoShadowHeight
 attr useCompatPadding
+attr useViewLifecycle
 attr viewInflaterClass
 attr voiceIcon
 attr windowActionBar
@@ -591,6 +626,7 @@ attr windowFixedWidthMinor
 attr windowMinWidthMajor
 attr windowMinWidthMinor
 attr windowNoTitle
+attr zOrderOnTop
 bool abc_action_bar_embed_tabs
 bool abc_allow_stacked_button_bar
 bool abc_config_actionMenuItemAllCaps
@@ -1050,8 +1086,10 @@ drawable abc_textfield_search_activated_mtrl_alpha
 drawable abc_textfield_search_default_mtrl_alpha
 drawable abc_textfield_search_material
 drawable abc_vector_test
+drawable above_shadow
 drawable avd_hide_password
 drawable avd_show_password
+drawable below_shadow
 drawable btn_checkbox_checked_mtrl
 drawable btn_checkbox_checked_to_unchecked_mtrl_animation
 drawable btn_checkbox_unchecked_mtrl
@@ -1116,6 +1154,7 @@ drawable notify_panel_notification_icon_bg
 drawable printer
 drawable tooltip_frame_dark
 drawable tooltip_frame_light
+drawable transparent
 id ALT
 id CTRL
 id Caution
@@ -1171,6 +1210,7 @@ id accessibility_custom_action_8
 id accessibility_custom_action_9
 id account
 id action0
+id action_anchor
 id action_bar
 id action_bar_activity_content
 id action_bar_container
@@ -1188,6 +1228,7 @@ id action_mode_bar
 id action_mode_bar_stub
 id action_mode_close_button
 id action_text
+id action_toggle
 id actions
 id activity_chooser_view_content
 id add
@@ -1196,6 +1237,7 @@ id adjust_width
 id alertTitle
 id all
 id always
+id anchored
 id appBarLayout
 id app_desc
 id app_name
@@ -1207,6 +1249,7 @@ id blocking
 id both_side
 id bottom
 id bt_give
+id bt_map
 id bt_req
 id bug_report
 id buttonPanel
@@ -1222,6 +1265,7 @@ id chronometer
 id clip_horizontal
 id clip_vertical
 id collapseActionView
+id collapsed
 id container
 id content
 id contentPanel
@@ -1240,6 +1284,7 @@ id dialog_button
 id dimensions
 id direct
 id disableHome
+id dragView
 id drawerLayout
 id edit_query
 id end
@@ -1248,12 +1293,14 @@ id enterAlways
 id enterAlwaysCollapsed
 id exitUntilCollapsed
 id expand_activities_button
+id expanded
 id expanded_menu
 id fill
 id fill_horizontal
 id fill_vertical
 id filled
 id fixed
+id follow
 id forever
 id gather_print
 id ghost_view
@@ -1261,8 +1308,10 @@ id give_toolbar
 id gone
 id group_divider
 id groups
+id hidden
 id home
 id homeAsUp
+id hybrid
 id icon
 id icon_group
 id icon_only
@@ -1279,10 +1328,13 @@ id left
 id light
 id line1
 id line3
+id list
 id listMode
 id list_item
 id logout
 id main_constraint
+id main_toolbar
+id map
 id masked
 id media_actions
 id message
@@ -1292,6 +1344,7 @@ id mtrl_child_content_container
 id mtrl_internal_children_alpha_tag
 id multiply
 id my_toolbar
+id name
 id navigationView
 id navigation_header_container
 id never
@@ -1321,6 +1374,7 @@ id radio
 id right
 id right_icon
 id right_side
+id satellite
 id save_image_matrix
 id save_non_transition_alpha
 id save_scale_type
@@ -1348,6 +1402,7 @@ id shortcut
 id showCustom
 id showHome
 id showTitle
+id sliding_layout
 id smallLabel
 id snackbar_action
 id snackbar_text
@@ -1377,6 +1432,7 @@ id tag_screen_reader_focusable
 id tag_transition_group
 id tag_unhandled_key_event_manager
 id tag_unhandled_key_listeners
+id terrain
 id text
 id text2
 id textSpacerNoButtons
@@ -1468,6 +1524,7 @@ layout abc_tooltip
 layout activity_com_request
 layout activity_givemain
 layout activity_main
+layout activity_map
 layout activity_request
 layout custom_dialog
 layout design_bottom_navigation_item
@@ -1508,6 +1565,7 @@ layout select_dialog_item_material
 layout select_dialog_multichoice_material
 layout select_dialog_singlechoice_material
 layout support_simple_spinner_dropdown_item
+menu demo
 menu main_menu
 menu main_navigation_menu
 mipmap ic_launcher
@@ -1539,6 +1597,11 @@ string abc_searchview_description_voice
 string abc_shareactionprovider_share_with
 string abc_shareactionprovider_share_with_application
 string abc_toolbar_collapse_description
+string action_anchor_disable
+string action_anchor_enable
+string action_hide
+string action_settings
+string action_show
 string app_desc
 string app_name
 string appbar_scrolling_view_behavior
@@ -1567,11 +1630,14 @@ string default_web_client_id
 string fab_transformation_scrim_behavior
 string fab_transformation_sheet_behavior
 string firebase_database_url
+string follow
 string gcm_defaultSenderId
 string google_api_key
 string google_app_id
 string google_crash_reporting_api_key
+string google_maps_key
 string google_storage_bucket
+string hello
 string hello_blank_fragment
 string hide_bottom_view_on_scroll_behavior
 string mtrl_chip_close_icon_content_description
@@ -1583,6 +1649,8 @@ string path_password_strike_through
 string project_id
 string search_menu_title
 string status_bar_notification_info_overflow
+string title_activity_maps
+style ActionBar
 style AlertDialog_AppCompat
 style AlertDialog_AppCompat_Light
 style Animation_AppCompat_Dialog
@@ -2137,6 +2205,7 @@ styleable LinearLayoutCompat android_gravity android_orientation android_baselin
 styleable LinearLayoutCompat_Layout android_layout_gravity android_layout_width android_layout_height android_layout_weight
 styleable ListPopupWindow android_dropDownHorizontalOffset android_dropDownVerticalOffset
 styleable LoadingImageView circleCrop imageAspectRatio imageAspectRatioAdjust
+styleable MapAttrs ambientEnabled cameraBearing cameraMaxZoomPreference cameraMinZoomPreference cameraTargetLat cameraTargetLng cameraTilt cameraZoom latLngBoundsNorthEastLatitude latLngBoundsNorthEastLongitude latLngBoundsSouthWestLatitude latLngBoundsSouthWestLongitude liteMode mapType uiCompass uiMapToolbar uiRotateGestures uiScrollGestures uiScrollGesturesDuringRotateOrZoom uiTiltGestures uiZoomControls uiZoomGestures useViewLifecycle zOrderOnTop
 styleable MaterialButton android_insetLeft android_insetRight android_insetTop android_insetBottom backgroundTint backgroundTintMode cornerRadius icon iconGravity iconPadding iconSize iconTint iconTintMode rippleColor strokeColor strokeWidth
 styleable MaterialCardView strokeColor strokeWidth
 styleable MaterialComponentsTheme bottomSheetDialogTheme bottomSheetStyle chipGroupStyle chipStandaloneStyle chipStyle colorAccent colorBackgroundFloating colorPrimary colorPrimaryDark colorSecondary editTextStyle floatingActionButtonStyle materialButtonStyle materialCardViewStyle navigationViewStyle scrimBackground snackbarButtonStyle tabStyle textAppearanceBody1 textAppearanceBody2 textAppearanceButton textAppearanceCaption textAppearanceHeadline1 textAppearanceHeadline2 textAppearanceHeadline3 textAppearanceHeadline4 textAppearanceHeadline5 textAppearanceHeadline6 textAppearanceOverline textAppearanceSubtitle1 textAppearanceSubtitle2 textInputStyle
@@ -2152,6 +2221,7 @@ styleable ScrimInsetsFrameLayout insetForeground
 styleable ScrollingViewBehavior_Layout behavior_overlapTop
 styleable SearchView android_focusable android_maxWidth android_inputType android_imeOptions closeIcon commitIcon defaultQueryHint goIcon iconifiedByDefault layout queryBackground queryHint searchHintIcon searchIcon submitBackground suggestionRowLayout voiceIcon
 styleable SignInButton buttonSize colorScheme scopeUris
+styleable SlidingUpPanelLayout umanoAnchorPoint umanoClipPanel umanoDragView umanoFadeColor umanoFlingVelocity umanoInitialState umanoOverlay umanoPanelHeight umanoParallaxOffset umanoScrollInterpolator umanoScrollableView umanoShadowHeight
 styleable Snackbar snackbarButtonStyle snackbarStyle
 styleable SnackbarLayout android_maxWidth elevation maxActionInlineWidth
 styleable Spinner android_entries android_popupBackground android_prompt android_dropDownWidth popupTheme
