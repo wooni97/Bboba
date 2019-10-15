@@ -4,6 +4,7 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import com.google.android.gms.maps.MapFragment
 import kotlinx.android.synthetic.main.activity_givemain.*
 import kotlinx.android.synthetic.main.activity_main.*
 
@@ -29,8 +30,12 @@ class GiveMainActivity : AppCompatActivity() {
             val nextIntent = Intent(this, MapActivity::class.java)
             startActivity(nextIntent)
         }
+
+        adapter.addFragment(ListFragment(), "시간순 보기")
+
         viewPager.adapter = adapter
         tabs.setupWithViewPager(viewPager)
 
     }
 }
+data class RequestList(val user_name: String="", val total_page: String="", val user_tel: String="", val detail_req: String="")

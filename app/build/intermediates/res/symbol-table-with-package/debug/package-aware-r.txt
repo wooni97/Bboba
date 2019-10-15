@@ -1131,6 +1131,7 @@ drawable ic_exit_to_app_black_24dp
 drawable ic_launcher_background
 drawable ic_launcher_foreground
 drawable ic_menu_black_24dp
+drawable ic_mood_black_24dp
 drawable ic_mtrl_chip_checked_black
 drawable ic_mtrl_chip_checked_circle
 drawable ic_mtrl_chip_close_circle
@@ -1239,6 +1240,7 @@ id all
 id always
 id anchored
 id appBarLayout
+id appImage
 id app_desc
 id app_name
 id async
@@ -1252,8 +1254,14 @@ id bt_give
 id bt_map
 id bt_req
 id bug_report
+id button
 id buttonPanel
 id cancel_action
+id cardButton
+id cardSubTitle
+id cardText
+id cardTitle
+id cardView
 id cart
 id center
 id center_horizontal
@@ -1330,7 +1338,9 @@ id line1
 id line3
 id list
 id listMode
+id list_constaint1
 id list_item
+id list_recyclerview
 id logout
 id main_constraint
 id main_toolbar
@@ -1544,6 +1554,7 @@ layout design_text_input_password_icon
 layout fragment_list
 layout fragment_map
 layout main_nav_header
+layout material_cardview
 layout mtrl_layout_snackbar
 layout mtrl_layout_snackbar_include
 layout notification_action

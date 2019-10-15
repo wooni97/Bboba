@@ -28,7 +28,7 @@ fun main(args: Array<String>){
 
 class RequestActivity : AppCompatActivity(),SeekBar.OnSeekBarChangeListener {
     override fun onProgressChanged(seekBar: SeekBar, progress: Int,fromUser: Boolean) {
-        progressView!!.text = progress.toString()
+        progressView!!.text = (progress+1).toString()
     }
     override fun onStartTrackingTouch(seekBar: SeekBar) {
     }

@@ -163,10 +163,10 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="14dp"
         android:background="#FFFFFF"
-        android:max="4"
+        android:max="3"
         android:progressTint="@color/main_color"
         android:thumbTint="@color/main_color"
-        android:progress="1"
+        android:progress="0"
         app:layout_constraintEnd_toEndOf="@+id/gather_print"
         app:layout_constraintStart_toStartOf="@+id/gather_print"
         app:layout_constraintTop_toBottomOf="@+id/gather_print" />
