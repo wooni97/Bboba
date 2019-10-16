@@ -1,6 +1,7 @@
 package com.example.bboba
 
 
+import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -27,7 +28,6 @@ class ListFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         retainInstance = true
-
         reqRef.addValueEventListener(object: ValueEventListener {
             override fun onDataChange(p0: DataSnapshot) {
                 reqData.clear()
@@ -35,11 +35,11 @@ class ListFragment : Fragment() {
                     reqData.add(0,RequestList(h.child("user_name").value as String,
                         h.child("total_page").value as String,
                     h.child("user_tel").value as String,
-                    h.child("detail_request").value as String))
+                    h.child("detail_req").value as String))
                 }
                 Log.d("example", "value=complete")
                 list_recyclerview.apply { //데이터 뽑은 후 출력
-                    layoutManager = LinearLayoutManager(activity)
+                    layoutManager = LinearLayoutManager(activity?:return)
                     adapter = Rec_CardAdapter(reqData)
                 }
             }
