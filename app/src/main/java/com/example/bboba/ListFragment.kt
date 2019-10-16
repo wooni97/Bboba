@@ -35,7 +35,7 @@ class ListFragment : Fragment() {
                     reqData.add(0,RequestList(h.child("user_name").value as String,
                         h.child("total_page").value as String,
                     h.child("user_tel").value as String,
-                    h.child("detail_request").value as String))
+                    h.child("detail_req").value as String))
                 }
                 Log.d("example", "value=complete")
                 list_recyclerview.apply { //데이터 뽑은 후 출력
