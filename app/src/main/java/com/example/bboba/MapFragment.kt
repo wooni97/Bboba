@@ -3,10 +3,12 @@ package com.example.bboba
 import android.content.Context
 import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.MapView
@@ -14,6 +16,11 @@ import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.MarkerOptions
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ValueEventListener
+import kotlinx.android.synthetic.main.fragment_list.*
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -35,12 +42,37 @@ class MapFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnMarkerClickListe
     private var listener: OnFragmentInteractionListener? = null
     private lateinit var mapView: MapView
 
+    //Firebase 변수
+    private val reqData = ArrayList<Prints_Request>()
+    private val database = FirebaseDatabase.getInstance()
+    private val reqRef = database.getReference("PRINTS_REQUEST")
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
             param1 = it.getString(ARG_PARAM1)
             param2 = it.getString(ARG_PARAM2)
         }
+
+        //FIrebase 값 읽기
+        reqRef.addValueEventListener(object: ValueEventListener {
+            override fun onDataChange(p0: DataSnapshot) {
+                reqData.clear()
+                for(h in p0.children) {
+                    reqData.add(0,
+                        Prints_Request(h.child("name").value as String, h.child("id").value as String,
+                            h.child("total_page").value as String, h.child("detail_request").value as String,
+                            h.child("date").value as String, h.child("time").value as String,
+                            h.child("locationx").value as String, h.child("locationy").value as String,
+                            h.child("location_name").value as String, h.child("per_page").value as String,
+                            h.child("print_fb").value as String, h.child("print_color").value as String,
+                            h.child("picture_location").value as String))
+                }
+            }
+            override fun onCancelled(p0: DatabaseError) {
+            }
+        })
+        //데이터들은 reqData 배열 안에 들어있다
     }
 
     //onCreateView에서 View와 GoogleMap 초기화
@@ -115,13 +147,10 @@ class MapFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnMarkerClickListe
         listener = null
     }
 
+    //액티비티가 처음 생성될 때 실행되는 함수
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-
-//        액티비티가 처음 생성될 때 실행되는 함수
-//        if(mapView != null) {
-//            mapView.onCreate(savedInstanceState)
-//        }
+        mapView.onCreate(savedInstanceState)
     }
 
     override fun onMarkerClick(p0: Marker?) = false
@@ -131,9 +160,9 @@ class MapFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnMarkerClickListe
         val PLACE2: LatLng = LatLng(37.600061, 126.864668) // 학생회관
         val PLACE3: LatLng = LatLng(37.601341, 126.864493) // 기계관
         googleMap.setOnMarkerClickListener(this)
-        googleMap.addMarker(MarkerOptions().position(PLACE1).title("과학관").snippet("권태형이 방문함"))
-        googleMap.addMarker(MarkerOptions().position(PLACE2).title("학생회관").snippet("권태형이 방문함"))
-        googleMap.addMarker(MarkerOptions().position(PLACE3).title("기계관").snippet("권태형이 방문함"))
+        googleMap.addMarker(MarkerOptions().position(PLACE1).title("7건").snippet("흑백 4건 / 컬러 3건"))
+        googleMap.addMarker(MarkerOptions().position(PLACE2).title("3건").snippet("흑백 3건"))
+        googleMap.addMarker(MarkerOptions().position(PLACE3).title("2건").snippet("흑백 1건 / 컬러 1건"))
         googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(PLACE2, 17.0f))
     }
     /**

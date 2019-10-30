@@ -19,13 +19,12 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <EditText
+    <TextView
         android:id="@+id/Caution"
         android:layout_width="230dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="3dp"
         android:ems="10"
-        android:inputType="textPersonName"
         android:text="요청을 수락할 때까지 기다려주세요!"
         android:textSize="15dp"
         android:textColor="#FFFFFF"

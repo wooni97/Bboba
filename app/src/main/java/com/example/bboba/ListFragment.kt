@@ -1,29 +1,22 @@
 package com.example.bboba
 
 
-import android.content.Context
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.LinearLayout
-import android.widget.RelativeLayout
-import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.database.*
 import kotlinx.android.synthetic.main.fragment_list.*
-import kotlinx.android.synthetic.main.material_cardview.*
 
 /**
  * A simple [Fragment] subclass.
  */
 class ListFragment : Fragment() {
-    private val reqData = ArrayList<RequestList>()
+    private val reqData = ArrayList<Prints_Request>()
     private val database = FirebaseDatabase.getInstance()
-    private val reqRef = database.getReference("prints_request")
+    private val reqRef = database.getReference("PRINTS_REQUEST")
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -32,15 +25,18 @@ class ListFragment : Fragment() {
             override fun onDataChange(p0: DataSnapshot) {
                 reqData.clear()
                 for(h in p0.children) {
-                    reqData.add(0,RequestList(h.child("user_name").value as String,
-                        h.child("total_page").value as String,
-                    h.child("user_tel").value as String,
-                    h.child("detail_req").value as String))
+                    reqData.add(0,
+                        Prints_Request(h.child("name").value as String, h.child("id").value as String,
+                            h.child("total_page").value as String, h.child("detail_request").value as String,
+                            h.child("date").value as String, h.child("time").value as String,
+                            h.child("locationx").value as String, h.child("locationy").value as String,
+                            h.child("location_name").value as String, h.child("per_page").value as String,
+                            h.child("print_fb").value as String, h.child("print_color").value as String,
+                            h.child("picture_location").value as String))
                 }
-                Log.d("example", "value=complete")
                 list_recyclerview.apply { //데이터 뽑은 후 출력
                     layoutManager = LinearLayoutManager(activity?:return)
-                    adapter = Rec_CardAdapter(reqData)
+                    adapter = ReqCardAdapter(reqData)
                 }
             }
 
@@ -59,7 +55,7 @@ class ListFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         list_recyclerview.apply {
             layoutManager = LinearLayoutManager(activity)
-            adapter = Rec_CardAdapter(reqData)
+            adapter = ReqCardAdapter(reqData)
         }
     }
 

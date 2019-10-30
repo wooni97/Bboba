@@ -13,6 +13,9 @@ import androidx.core.view.GravityCompat
 import kotlinx.android.synthetic.main.activity_main.*
 import com.google.android.material.navigation.NavigationView
 import com.google.android.material.snackbar.Snackbar
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.FirebaseDatabase
+
 //import kotlinx.android.synthetic.main.activity_request.*
 
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
@@ -61,6 +64,9 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         when (menuItem.itemId) {
             R.id.account -> {
                 Snackbar.make(my_toolbar, "clicked", Snackbar.LENGTH_SHORT).show()
+            }
+            R.id.cart -> {
+
             }
         }
         drawerLayout.closeDrawer(GravityCompat.START)

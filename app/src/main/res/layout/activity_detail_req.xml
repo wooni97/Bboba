@@ -88,13 +88,12 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <EditText
+        <TextView
             android:id="@+id/edit_total"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:ems="10"
-            android:hint="매수를 입력하세요"
-            android:inputType="numberDecimal"
+            android:textSize="18sp"
             app:layout_constraintBaseline_toBaselineOf="@id/total_page"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_chainStyle="spread"
@@ -110,15 +109,14 @@
             app:layout_constraintStart_toStartOf="@+id/total_page"
             app:layout_constraintTop_toBottomOf="@+id/total_page" />
 
-        <EditText
+        <TextView
             android:id="@+id/edit_request"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:ems="10"
             android:gravity="start|top"
-            android:hint="세부요청사항을 입력하세요"
-            android:inputType="textMultiLine"
             android:maxLines="3"
+            android:textSize="18sp"
             app:layout_constraintBaseline_toBaselineOf="@id/detail_request"
             app:layout_constraintBottom_toTopOf="@id/time"
             app:layout_constraintStart_toStartOf="@+id/edit_total" />
@@ -136,7 +134,6 @@
             android:id="@+id/edit_date"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:hint="날짜를 선택하세요"
             android:textSize="18sp"
             app:layout_constraintBaseline_toBaselineOf="@id/time"
             app:layout_constraintStart_toStartOf="@+id/edit_request" />
@@ -146,7 +143,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="3dp"
-            android:hint="시간을 선택하세요"
             android:textSize="18sp"
             app:layout_constraintStart_toStartOf="@+id/edit_date"
             app:layout_constraintTop_toBottomOf="@+id/edit_date" />
@@ -162,32 +158,21 @@
             app:layout_constraintStart_toStartOf="@+id/time"
             app:layout_constraintTop_toBottomOf="@+id/edit_time" />
 
-        <Spinner
+        <TextView
             android:id="@+id/spinner_location"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:hint="장소를 입력하세요"
-            android:spinnerMode="dialog"
+            android:textSize="18sp"
+            app:layout_constraintBaseline_toBaselineOf="@id/location"
             app:layout_constraintStart_toStartOf="@+id/edit_time"
             app:layout_constraintTop_toBottomOf="@id/edit_time" />
-
-        <SeekBar
-            android:id="@+id/page_seekbar"
-            android:layout_width="100dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:max="3"
-            android:progress="0"
-            android:progressTint="@color/main_color"
-            android:thumbTint="@color/main_color"
-            app:layout_constraintStart_toStartOf="@+id/location"
-            app:layout_constraintTop_toBottomOf="@id/location" />
 
         <TextView
             android:id="@+id/text_pageper"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="모아찍기"
+            android:textSize="18sp"
             app:layout_constraintBaseline_toBaselineOf="@id/per_page"
             app:layout_constraintStart_toEndOf="@+id/per_page" />
 
@@ -197,7 +182,8 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
             android:text="1 장 "
-            app:layout_constraintStart_toEndOf="@+id/page_seekbar"
+            android:textSize="18sp"
+            app:layout_constraintStart_toStartOf="@+id/location"
             app:layout_constraintTop_toBottomOf="@id/location" />
 
         <CheckBox
@@ -205,15 +191,19 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
+            android:clickable="false"
             android:text="양면 인쇄"
-            app:layout_constraintStart_toStartOf="@+id/location"
-            app:layout_constraintTop_toBottomOf="@+id/page_seekbar" />
+            android:textSize="18sp"
+            app:layout_constraintStart_toStartOf="@+id/per_page"
+            app:layout_constraintTop_toBottomOf="@+id/text_pageper" />
 
         <CheckBox
             android:id="@+id/color_print"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:clickable="false"
             android:text="컬러 인쇄"
+            android:textSize="18sp"
             app:layout_constraintBaseline_toBaselineOf="@id/print_fb"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/print_fb" />
@@ -223,9 +213,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@drawable/button_outline"
-            android:text="요청하기"
+            android:text="매칭하기"
             android:textColor="@color/main_color"
-            android:textSize="15sp"
+            android:textSize="17sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

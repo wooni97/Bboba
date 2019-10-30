@@ -24,11 +24,11 @@
             android:id="@+id/appImage"
             android:layout_width="72dp"
             android:layout_height="72dp"
-            android:background="@drawable/ic_mood_black_24dp"
+            android:background="@drawable/man"
             android:scaleType="centerCrop"
             card_view:layout_constraintStart_toStartOf="parent"
             card_view:layout_constraintTop_toTopOf="parent"
-            tools:ignore="ContentDescription" />
+            tools:ignore="ContentDescription" /><!--ic_mood_black_24dp-->
 
         <TextView
             android:id="@+id/cardTitle"
@@ -46,7 +46,7 @@
             tools:ignore="RtlHardcoded" />
 
         <TextView
-            android:id="@+id/cardSubTitle"
+            android:id="@+id/total_page"
             style="@style/Base.TextAppearance.AppCompat.Subhead"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -92,6 +92,15 @@
             android:textStyle="bold"
             card_view:layout_constraintBottom_toBottomOf="parent"
             card_view:layout_constraintTop_toBottomOf="@id/cardText" />
+
+        <TextView
+            android:id="@+id/location"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="TextView"
+            android:textSize="16sp"
+            card_view:layout_constraintBaseline_toBaselineOf="@id/total_page"
+            card_view:layout_constraintStart_toEndOf="@+id/total_page" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </com.google.android.material.card.MaterialCardView>

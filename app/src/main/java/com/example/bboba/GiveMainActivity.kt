@@ -25,4 +25,3 @@ class GiveMainActivity : AppCompatActivity(),MapFragment.OnFragmentInteractionLi
         tabs.setupWithViewPager(viewPager)
     }
 }
-data class RequestList(val user_name: String="", val total_page: String="", val user_tel: String="", val detail_req: String="")
