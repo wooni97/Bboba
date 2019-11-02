@@ -11,6 +11,7 @@ import android.widget.*
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import kotlinx.android.synthetic.main.activity_request.*
+import java.text.SimpleDateFormat
 import java.util.*
 
 class RequestActivity : AppCompatActivity(),SeekBar.OnSeekBarChangeListener {
@@ -55,17 +56,32 @@ class RequestActivity : AppCompatActivity(),SeekBar.OnSeekBarChangeListener {
         //수령시간 선택
         //날짜
         val edit_date = findViewById<TextView>(R.id.edit_date)
-        //edit_date.text = SimpleDateFormat("yyyy.MM.dd").format(System.currentTimeMillis())
         edit_date.setOnClickListener { view ->
             val calendar = Calendar.getInstance()
             val year = calendar.get(Calendar.YEAR)
             val month = calendar.get(Calendar.MONTH)
             val day = calendar.get(Calendar.DAY_OF_MONTH)
+            var day_name = "일"
+            val format = SimpleDateFormat("yyyy-MM-dd")
 
             val date_listener = object: DatePickerDialog.OnDateSetListener {
                 override fun onDateSet(view: DatePicker?, year: Int, month: Int, dayOfMonth: Int) {
-                    edit_date.text = "$year/${month+1}/$dayOfMonth"
-                    date = "$year/${month+1}/$dayOfMonth"
+                    val str_date = "$year-${month+1}-$dayOfMonth"
+                    val dt_date = format.parse(str_date)
+                    val st_date = format.format(dt_date)
+                    calendar.set(year, month, dayOfMonth)
+                    val day_num = calendar.get(Calendar.DAY_OF_WEEK)
+                    day_name = when(day_num) {
+                        1->"일"
+                        2->"월"
+                        3->"화"
+                        4->"수"
+                        5->"목"
+                        6->"금"
+                        else->"토"
+                    }
+                    edit_date.text = "$st_date ($day_name)"
+                    date = st_date
                     return
                 }
             }
@@ -135,7 +151,6 @@ class RequestActivity : AppCompatActivity(),SeekBar.OnSeekBarChangeListener {
             id = findViewById<TextView>(R.id.profile_id).text.toString()
             total_page = findViewById<EditText>(R.id.edit_total).text.toString()
             detail_request = findViewById<EditText>(R.id.edit_request).text.toString()
-            date = findViewById<TextView>(R.id.edit_date).text.toString()
             time = findViewById<TextView>(R.id.edit_time).text.toString()
             print_fb = findViewById<CheckBox>(R.id.print_fb).isChecked.toString()
             color_print = findViewById<CheckBox>(R.id.color_print).isChecked.toString()

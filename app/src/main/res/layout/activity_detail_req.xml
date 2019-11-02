@@ -125,6 +125,7 @@
             android:id="@+id/time"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
             android:text="수령시간"
             android:textSize="23sp"
             app:layout_constraintStart_toStartOf="@+id/detail_request"
