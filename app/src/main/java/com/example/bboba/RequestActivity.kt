@@ -2,19 +2,34 @@ package com.example.bboba
 
 import android.app.DatePickerDialog
 import android.app.TimePickerDialog
+import android.content.Context
 import android.content.Intent
+import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.*
+import com.bumptech.glide.Glide
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
+import com.kakao.auth.ApiResponseCallback
+import com.kakao.auth.network.response.AccessTokenInfoResponse
+import com.kakao.network.ErrorResult
+import com.kakao.usermgmt.UserManagement
+import com.kakao.usermgmt.callback.MeV2ResponseCallback
+import com.kakao.usermgmt.response.MeV2Response
+import com.kakao.util.helper.log.Logger
 import kotlinx.android.synthetic.main.activity_request.*
+import kotlinx.android.synthetic.main.main_nav_header.*
+import org.w3c.dom.Text
+import java.io.InputStream
 import java.text.SimpleDateFormat
 import java.util.*
 
 class RequestActivity : AppCompatActivity(),SeekBar.OnSeekBarChangeListener {
+    val context = this
     //Seekbar
     override fun onProgressChanged(seekBar: SeekBar, progress: Int,fromUser: Boolean) {
         val d_page = progress+1
@@ -35,7 +50,6 @@ class RequestActivity : AppCompatActivity(),SeekBar.OnSeekBarChangeListener {
     //변수
     val locations = arrayOf("과학관", "전자관", "기계관", "강의동", "학생회관")
     lateinit var name: String
-    lateinit var id: String
     lateinit var total_page: String
     lateinit var detail_request: String
     lateinit var date: String
@@ -46,12 +60,34 @@ class RequestActivity : AppCompatActivity(),SeekBar.OnSeekBarChangeListener {
     var div_page: String = "1"
     lateinit var print_fb: String
     lateinit var color_print: String
+    lateinit var userEmail: String
     var picture_location: String = ""//"고치기" 추후 입력
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_request)
         seekbarView.setOnSeekBarChangeListener(this)
+
+        //카카오 api에서 정보 받아오기
+        UserManagement.getInstance().me(object: MeV2ResponseCallback() {
+            override fun onFailure(errorResult: ErrorResult?) {
+                Log.d("example", "aaabb=실패")
+            }
+            override fun onSessionClosed(errorResult: ErrorResult?) {
+                Log.d("example", "aaabb=세션 닫힘")
+            }
+            override fun onSuccess(result: MeV2Response?) {
+                if(result!=null) {
+                    picture_location = result.kakaoAccount.profile.profileImageUrl?:"" //프로필 이미지가 없으면 null이 들어감
+                    name = result.kakaoAccount.profile.nickname
+                    userEmail = result.kakaoAccount.email?:""
+                    if(picture_location!="") Glide.with(context).load(picture_location).transform(RoundedCorners(20)).into(request_profile)
+                    else Glide.with(context).load(R.drawable.blank_profile).transform(RoundedCorners(20)).into(request_profile)
+                    req_profile_name.text = name
+                    req_profile_email.text = userEmail
+                }
+            }
+        })
 
         //수령시간 선택
         //날짜
@@ -98,7 +134,7 @@ class RequestActivity : AppCompatActivity(),SeekBar.OnSeekBarChangeListener {
             val timeListener = object: TimePickerDialog.OnTimeSetListener{
                 override fun onTimeSet(view: TimePicker?, hourOfDay: Int, minute: Int) {
                     edit_time.text = "$hourOfDay 시 $minute 분"
-                    time = "$hourOfDay:$minute"
+                    time = edit_time.text.toString()
                     return
                 }
             }
@@ -147,19 +183,19 @@ class RequestActivity : AppCompatActivity(),SeekBar.OnSeekBarChangeListener {
 
 
         request_button.setOnClickListener { //요청하기 버튼 클릭
-            name = findViewById<TextView>(R.id.profile_name).text.toString()
-            id = findViewById<TextView>(R.id.profile_id).text.toString()
             total_page = findViewById<EditText>(R.id.edit_total).text.toString()
             detail_request = findViewById<EditText>(R.id.edit_request).text.toString()
-            time = findViewById<TextView>(R.id.edit_time).text.toString()
             print_fb = findViewById<CheckBox>(R.id.print_fb).isChecked.toString()
             color_print = findViewById<CheckBox>(R.id.color_print).isChecked.toString()
-            val pr = Prints_Request(name, id, total_page, detail_request, date, time, locationx, locationy, location_name, div_page, print_fb, color_print, picture_location)
+            val pr = Prints_Request(name, userEmail, total_page, detail_request, date, time, locationx, locationy, location_name, div_page, print_fb, color_print, picture_location)
             //Firebase 데이터 삽입
             //Firebase 변수
             val database = FirebaseDatabase.getInstance()
-            val myRef = database.getReference("PRINTS_REQUEST")
+            userEmail = userEmail.substring(0,userEmail.indexOf('.'))//파이어베이스에서는 제목에 .이 들어갈 수 없다
+            val myRef = database.getReference("PRINTS_REQUEST").child("email").child("$userEmail")//유저정보로 저장
+            val dateRef = database.getReference("PRINTS_REQUEST").child("date").child("$date")//날짜정보로 저장
             myRef.push().setValue(pr)
+            dateRef.push().setValue(pr)
             val nextIntent = Intent(this, ComRequestActivity::class.java)
             startActivity(nextIntent)
         }

@@ -32,8 +32,8 @@
         app:layout_constraintTop_toBottomOf="@+id/request_title">
 
         <ImageView
-            android:id="@+id/profile_picture"
-            android:layout_width="80dp"
+            android:id="@+id/detail_req_profile"
+            android:layout_width="100dp"
             android:layout_height="100dp"
             android:layout_marginStart="24dp"
             android:layout_marginTop="8dp"
@@ -52,11 +52,11 @@
             android:text="Charlie Park"
             android:textColor="#fff"
             android:textSize="20sp"
-            app:layout_constraintStart_toEndOf="@+id/profile_picture"
+            app:layout_constraintStart_toEndOf="@id/detail_req_profile"
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/profile_id"
+            android:id="@+id/detail_user_email"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="20dp"
@@ -64,7 +64,7 @@
             android:text="ChalieparkID"
             android:textColor="#fff"
             android:textSize="15sp"
-            app:layout_constraintStart_toEndOf="@+id/profile_picture"
+            app:layout_constraintStart_toEndOf="@id/detail_req_profile"
             app:layout_constraintTop_toBottomOf="@+id/profile_name" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 

@@ -17,10 +17,7 @@ import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.MarkerOptions
-import com.google.firebase.database.DataSnapshot
-import com.google.firebase.database.DatabaseError
-import com.google.firebase.database.FirebaseDatabase
-import com.google.firebase.database.ValueEventListener
+import com.google.firebase.database.*
 import com.sothree.slidinguppanel.SlidingUpPanelLayout
 import kotlinx.android.synthetic.main.fragment_list.*
 
@@ -56,6 +53,8 @@ class MapFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnMarkerClickListe
     private val reqData = ArrayList<Prints_Request>()
     private val database = FirebaseDatabase.getInstance()
     private val reqRef = database.getReference("PRINTS_REQUEST")
+    private val dateRef = reqRef.child("date")
+    lateinit var myFbPath: DatabaseReference
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -65,18 +64,30 @@ class MapFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnMarkerClickListe
         }
 
         //FIrebase 값 읽기
-        reqRef.addValueEventListener(object: ValueEventListener {
-            override fun onDataChange(p0: DataSnapshot) {
+        dateRef.addValueEventListener(object: ValueEventListener {
+            override fun onDataChange(eachUserData: DataSnapshot) {
                 reqData.clear()
-                for(h in p0.children) {
-                    reqData.add(0,
-                        Prints_Request(h.child("name").value as String, h.child("id").value as String,
-                            h.child("total_page").value as String, h.child("detail_request").value as String,
-                            h.child("date").value as String, h.child("time").value as String,
-                            h.child("locationx").value as String, h.child("locationy").value as String,
-                            h.child("location_name").value as String, h.child("per_page").value as String,
-                            h.child("print_fb").value as String, h.child("print_color").value as String,
-                            h.child("picture_location").value as String))
+                for(eud in eachUserData.children) {
+                    for(h in eud.children) {
+                        reqData.add(
+                            0,
+                            Prints_Request(
+                                h.child("name").value as String,
+                                h.child("email").value as String,
+                                h.child("total_page").value as String,
+                                h.child("detail_request").value as String,
+                                h.child("date").value as String,
+                                h.child("time").value as String,
+                                h.child("locationx").value as String,
+                                h.child("locationy").value as String,
+                                h.child("location_name").value as String,
+                                h.child("per_page").value as String,
+                                h.child("print_fb").value as String,
+                                h.child("print_color").value as String,
+                                h.child("picture_location").value as String
+                            )
+                        )
+                    }
                 }
                 list_recyclerview.apply { //데이터 뽑은 후 출력
                     layoutManager = LinearLayoutManager(activity?:return)
@@ -232,6 +243,5 @@ class MapFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnMarkerClickListe
                     putString(ARG_PARAM2, param2)
                 }
             }
-        fun newInstance(): ListFragment = ListFragment()
     }
 }

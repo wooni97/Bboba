@@ -9,14 +9,9 @@
     </group>
     <group android:checkableBehavior="single">
         <item
-            android:id="@+id/bug_report"
-            android:icon="@drawable/ic_bug_report_black_24dp"
-            android:title="버그 리포트"
-            />
-        <item
             android:id="@+id/setting"
             android:icon="@drawable/ic_settings_black_24dp"
-            android:title="설정"
+            android:title="계정 탈퇴"
             />
         <item
             android:id="@+id/logout"

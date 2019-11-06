@@ -16,8 +16,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".ReqCardAdapterInMap"></activity>
-        <activity android:name=".ReqCardAdapterMap" /> <!-- 카카오 앱 키 사용 -->
+        <!-- 카카오 앱 키 사용 -->
         <meta-data
             android:name="com.kakao.sdk.AppKey"
             android:value="@string/kakao_app_key" />
@@ -36,7 +35,8 @@
             </intent-filter>
         </activity>
         <activity android:name=".GiveMainActivity" />
-        <activity android:name=".DetailViewActivity" /> <!-- 카카오 로그인 시 웹 뷰를 띄우기 위한 코드 -->
+        <activity android:name=".DetailViewActivity" />
+        <!-- 카카오 로그인 시 웹 뷰를 띄우기 위한 코드 -->
         <activity
             android:name="com.kakao.auth.authorization.authcode.KakaoWebViewActivity"
             android:launchMode="singleTop"

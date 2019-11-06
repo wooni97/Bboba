@@ -4,7 +4,7 @@ import android.os.Parcel
 import android.os.Parcelable
 
 class Prints_Request(
-    val name: String, val id: String, val total_page: String,
+    val name: String, val email: String, val total_page: String,
     val detail_request: String, val date: String, val time: String,
     val locationx: String, val locationy: String, val location_name: String,
     val per_page: String, val print_fb: String, val print_color: String,
@@ -30,7 +30,7 @@ class Prints_Request(
 
     override fun writeToParcel(dest: Parcel, flags: Int) = with(dest) {
         writeString(name)
-        writeString(id)
+        writeString(email)
         writeString(total_page)
         writeString(detail_request)
         writeString(date)
