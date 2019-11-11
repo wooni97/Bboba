@@ -41,13 +41,13 @@ class RequestActivity : AppCompatActivity(),SeekBar.OnSeekBarChangeListener {
     //변수
     val locations = arrayOf("과학관", "전자관", "기계관", "강의동", "학생회관")
     lateinit var name: String
-    lateinit var total_page: String
-    lateinit var detail_request: String
-    lateinit var date: String
-    lateinit var time: String
-    lateinit var locationx: String
-    lateinit var locationy: String
-    lateinit var location_name: String
+    var total_page: String? = null
+    var detail_request: String? = null
+    var date: String? = null
+    var time: String? = null
+    var locationx: String? = null
+    var locationy: String? = null
+    var location_name: String = "한국항공대학교"
     var div_page: String = "1" //모아찍기
     lateinit var print_fb: String //양면인쇄
     lateinit var color_print: String //컬러인쇄
@@ -145,7 +145,11 @@ class RequestActivity : AppCompatActivity(),SeekBar.OnSeekBarChangeListener {
             detail_request = findViewById<EditText>(R.id.edit_request).text.toString()
             print_fb = findViewById<CheckBox>(R.id.print_fb).isChecked.toString()
             color_print = findViewById<CheckBox>(R.id.color_print).isChecked.toString()
-            val pr = Prints_Request(name, userEmail, total_page, detail_request, date, time, locationx, locationy, location_name, div_page, print_fb, color_print, picture_location)
+            if(total_page==null || detail_request==null || date==null ||  time==null || locationx==null){ //빈 칸이 있으면 멈춘다
+                Toast.makeText(this, "내용을 모두 채워주세요", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
+            val pr = Prints_Request(name, userEmail, total_page!!, detail_request!!, date!!, time!!, locationx!!, locationy!!, location_name, div_page, print_fb, color_print, picture_location)
             //Firebase 데이터 삽입
             //Firebase 변수
             val database = FirebaseDatabase.getInstance()

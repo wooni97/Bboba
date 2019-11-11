@@ -166,6 +166,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="수령 장소 선택"
+            android:textSize="15sp"
+            app:layout_constraintBottom_toBottomOf="@+id/location"
             app:layout_constraintStart_toStartOf="@+id/edit_time"
             app:layout_constraintTop_toTopOf="@+id/location" />
 

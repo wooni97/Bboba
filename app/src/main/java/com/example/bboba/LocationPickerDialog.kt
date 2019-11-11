@@ -52,6 +52,7 @@ class LocationPickerDialog(private val req_activity: RequestActivity, private va
                     override fun onClick(dialog: DialogInterface?, which: Int) {
                         req_activity.locationx = selected_position.latitude.toString()
                         req_activity.locationy = selected_position.longitude.toString()
+                        req_activity.location_select.text = "장소 선택 완료"
                     }
                 })
             .setNegativeButton("취소", null)
