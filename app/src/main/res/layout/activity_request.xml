@@ -37,11 +37,10 @@
             android:layout_height="100dp"
             android:layout_marginStart="24dp"
             android:layout_marginTop="8dp"
-            android:background="@drawable/photo_outline"
+            android:adjustViewBounds="true"
             android:src="@drawable/man"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:srcCompat="@tools:sample/avatars" />
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/req_profile_name"
@@ -162,14 +161,13 @@
             app:layout_constraintStart_toStartOf="@+id/time"
             app:layout_constraintTop_toBottomOf="@+id/edit_time" />
 
-        <Spinner
-            android:id="@+id/spinner_location"
+        <TextView
+            android:id="@+id/location_select"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:hint="장소를 입력하세요"
-            android:spinnerMode="dialog"
+            android:text="수령 장소 선택"
             app:layout_constraintStart_toStartOf="@+id/edit_time"
-            app:layout_constraintTop_toBottomOf="@id/edit_time" />
+            app:layout_constraintTop_toTopOf="@+id/location" />
 
         <SeekBar
             android:id="@+id/page_seekbar"

@@ -7,14 +7,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.bumptech.glide.Glide
-import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.google.firebase.database.*
 import com.kakao.network.ErrorResult
 import com.kakao.usermgmt.UserManagement
 import com.kakao.usermgmt.callback.MeV2ResponseCallback
 import com.kakao.usermgmt.response.MeV2Response
-import kotlinx.android.synthetic.main.activity_request.*
 import kotlinx.android.synthetic.main.fragment_list.*
 
 /**
@@ -41,6 +38,10 @@ class ListFragment : Fragment() {
                 val userEmail = result.kakaoAccount.email
 
                 //파이어베이스에서 데이터 받아오기
+                //파이어베이스 데이터를 받아오는 부분을 카카오api정보 받아오는 곳 속에 넣음
+                //카카오api 받아오는 속도가 느려서 파이어베이스 데이터를 받는 부분에서 자신의 글을 필터링 할 때
+                //정보를 받아오지 못함(널 값이 들어감)
+                //따라서 카카오에서 정보를 받은 이후에 파이어베이스 데이터 받는 것을 진행하기 위해서 이렇게 함
                 dateRef.addValueEventListener(object: ValueEventListener {
                     override fun onDataChange(eachUserData: DataSnapshot) {
                         reqData.clear()

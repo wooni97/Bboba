@@ -166,7 +166,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                                     override fun onSuccess(result: Long?) {
                                         val snackbar: Snackbar = Snackbar.make(my_toolbar, "회원탈퇴가 처리완료 되었습니다.", Snackbar.LENGTH_SHORT)
                                         snackbar.show()
-                                        val nextIntent = Intent(context, RequestActivity::class.java)
+                                        val nextIntent = Intent(context, LoginActivity::class.java)
                                         startActivity(nextIntent)
                                     }
                                 })

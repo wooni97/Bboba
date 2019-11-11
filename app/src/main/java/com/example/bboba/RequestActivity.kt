@@ -2,29 +2,20 @@ package com.example.bboba
 
 import android.app.DatePickerDialog
 import android.app.TimePickerDialog
-import android.content.Context
 import android.content.Intent
-import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
-import android.view.View
 import android.widget.*
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
-import com.google.firebase.database.DatabaseReference
+import com.google.android.gms.maps.model.LatLng
 import com.google.firebase.database.FirebaseDatabase
-import com.kakao.auth.ApiResponseCallback
-import com.kakao.auth.network.response.AccessTokenInfoResponse
 import com.kakao.network.ErrorResult
 import com.kakao.usermgmt.UserManagement
 import com.kakao.usermgmt.callback.MeV2ResponseCallback
 import com.kakao.usermgmt.response.MeV2Response
-import com.kakao.util.helper.log.Logger
 import kotlinx.android.synthetic.main.activity_request.*
-import kotlinx.android.synthetic.main.main_nav_header.*
-import org.w3c.dom.Text
-import java.io.InputStream
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -57,11 +48,12 @@ class RequestActivity : AppCompatActivity(),SeekBar.OnSeekBarChangeListener {
     lateinit var locationx: String
     lateinit var locationy: String
     lateinit var location_name: String
-    var div_page: String = "1"
-    lateinit var print_fb: String
-    lateinit var color_print: String
-    lateinit var userEmail: String
-    var picture_location: String = ""//"고치기" 추후 입력
+    var div_page: String = "1" //모아찍기
+    lateinit var print_fb: String //양면인쇄
+    lateinit var color_print: String //컬러인쇄
+    lateinit var userEmail: String //유저 카카오 계정 이메일
+    lateinit var userRealId: String //이메일에서 아이디 추출
+    var picture_location: String = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -141,46 +133,12 @@ class RequestActivity : AppCompatActivity(),SeekBar.OnSeekBarChangeListener {
             val builder = TimePickerDialog(this, timeListener, hour, minute, false)
             builder.show()
         }
-
-        //spinner(장소선택)에 대한 어댑터 선언
-        val spinnerAdapter = ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item, locations)
-        spinner_location.adapter = spinnerAdapter
-        spinner_location.prompt = "수령 장소 선택"
-        spinner_location.onItemSelectedListener = object: AdapterView.OnItemSelectedListener {
-            override fun onNothingSelected(parent: AdapterView<*>?) {
-            }
-            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-                when(position) {
-                    0 -> { //과학관
-                        locationx = "37.601536"
-                        locationy = "126.865027"
-                        location_name = "과학관"
-                    }
-                    1 -> { //전자관
-                        locationx = "37.6005286"
-                        locationy = "126.862713"
-                        location_name = "전자관"
-                    }
-                    2 -> { //기계관
-                        locationx = "37.601341"
-                        locationy = "126.864493"
-                        location_name = "기계관"
-                    }
-                    3 -> { //강의동
-                        locationx = "37.5997893"
-                        locationy = "126.8633706"
-                        location_name = "강의동"
-                    }
-                    4 -> { //학생회관
-                        locationx = "37.6001817"
-                        locationy = "126.8659652"
-                        location_name = "학생회관"
-                    }
-                }
-            }
+        location_select.setOnClickListener {//지도 선택 버튼 클릭
+            val dialogFragment = LocationPickerDialog(context)
+            val fragmentManager = supportFragmentManager
+            dialogFragment.show(fragmentManager, null)
+            location_name="한국항공대학교"
         }
-
-
 
         request_button.setOnClickListener { //요청하기 버튼 클릭
             total_page = findViewById<EditText>(R.id.edit_total).text.toString()
@@ -191,8 +149,8 @@ class RequestActivity : AppCompatActivity(),SeekBar.OnSeekBarChangeListener {
             //Firebase 데이터 삽입
             //Firebase 변수
             val database = FirebaseDatabase.getInstance()
-            userEmail = userEmail.substring(0,userEmail.indexOf('.'))//파이어베이스에서는 제목에 .이 들어갈 수 없다
-            val myRef = database.getReference("PRINTS_REQUEST").child("email").child("$userEmail")//유저정보로 저장
+            userRealId = userEmail.substring(0,userEmail.indexOf('@'))//아이디 추출
+            val myRef = database.getReference("PRINTS_REQUEST").child("id").child("$userRealId")//유저정보로 저장
             val dateRef = database.getReference("PRINTS_REQUEST").child("date").child("$date")//날짜정보로 저장
             myRef.push().setValue(pr)
             dateRef.push().setValue(pr)
