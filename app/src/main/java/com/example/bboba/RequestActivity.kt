@@ -95,7 +95,7 @@ class RequestActivity : AppCompatActivity(),SeekBar.OnSeekBarChangeListener {
             val date_listener = object: DatePickerDialog.OnDateSetListener {
                 override fun onDateSet(view: DatePicker?, year: Int, month: Int, dayOfMonth: Int) {
                     val str_date = "$year-${month+1}-$dayOfMonth"
-                    val dt_date = format.parse(str_date)
+                    val dt_date: Date = format.parse(str_date)!! //널이 들어갈 수 없다
                     val st_date = format.format(dt_date)
                     calendar.set(year, month, dayOfMonth)
                     val day_num = calendar.get(Calendar.DAY_OF_WEEK)
