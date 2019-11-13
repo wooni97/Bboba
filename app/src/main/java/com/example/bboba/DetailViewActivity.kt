@@ -1,36 +1,28 @@
 package com.example.bboba
 
+import android.content.DialogInterface
 import android.os.Bundle
 import android.util.Log
-import android.widget.ImageView
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
-import com.google.firebase.database.FirebaseDatabase
 import com.kakao.network.ErrorResult
 import com.kakao.usermgmt.UserManagement
 import com.kakao.usermgmt.callback.MeV2ResponseCallback
 import com.kakao.usermgmt.response.MeV2Response
-import kotlinx.android.synthetic.main.activity_detail_req.*
-import kotlinx.android.synthetic.main.activity_detail_req.color_print
-import kotlinx.android.synthetic.main.activity_detail_req.edit_date
-import kotlinx.android.synthetic.main.activity_detail_req.edit_request
-import kotlinx.android.synthetic.main.activity_detail_req.edit_time
-import kotlinx.android.synthetic.main.activity_detail_req.edit_total
-import kotlinx.android.synthetic.main.activity_detail_req.print_fb
-import kotlinx.android.synthetic.main.activity_detail_req.spinner_location
-import kotlinx.android.synthetic.main.activity_request.*
+import kotlinx.android.synthetic.main.activity_detail_view.*
 import java.util.*
 
 class DetailViewActivity: AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_detail_req)
+        setContentView(R.layout.activity_detail_view)
         val context = this
         //각 뷰들에 대한 데이터 채워넣기
-        val request_data = intent.getParcelableExtra<Prints_Request>("request_data")
+        val requestData = intent.getParcelableExtra<Prints_Request>("request_data")
         val calendar = Calendar.getInstance()
-        val date = request_data.date
+        val date = requestData.date
         calendar.set(date.substring(0,4).toInt(), date.substring(5,7).toInt(),date.substring(8,10).toInt()) //DB의 date에 저장된 문자열을 쪼개서 달력 날짜 설정(요일을 구하기 위해)
         val day_num = calendar.get(Calendar.DAY_OF_WEEK)
         val day_name = when(day_num) {
@@ -42,20 +34,20 @@ class DetailViewActivity: AppCompatActivity() {
             6->"금"
             else->"토"
         }
-        profile_name.text = request_data.name
-        detail_user_email.text = request_data.email
-        edit_total.text = request_data.total_page
-        edit_request.text = request_data.detail_request
-        edit_date.text = "${request_data.date} ($day_name)"
-        edit_time.text = request_data.time
-        spinner_location.text = request_data.location_name
-        if(request_data.picture_location!="") Glide.with(context).load(request_data.picture_location).transform(RoundedCorners(20)).into(detail_req_profile)
+        detail_profile_name.text = requestData.name
+        detail_user_email.text = requestData.email
+        detail_edit_total.text = requestData.total_page
+        detail_edit_request.text = requestData.detail_request
+        detail_edit_date.text = "${requestData.date} ($day_name)"
+        detail_edit_time.text = requestData.time
+        detail_spinner_location.text = requestData.location_name
+        if(requestData.picture_location!="") Glide.with(context).load(requestData.picture_location).transform(RoundedCorners(20)).into(detail_req_profile)
         else Glide.with(context).load(R.drawable.blank_profile).transform(RoundedCorners(20)).into(detail_req_profile)
-        if(request_data.print_fb == "true") {
-            print_fb.isChecked = true
+        if(requestData.print_fb == "true") {
+            detail_print_fb.isChecked = true
         }
-        if(request_data.print_color == "true") {
-            color_print.isChecked = true
+        if(requestData.print_color == "true") {
+            detail_color_print.isChecked = true
         }
         UserManagement.getInstance().me(object: MeV2ResponseCallback() {
             override fun onFailure(errorResult: ErrorResult?) {
@@ -68,5 +60,17 @@ class DetailViewActivity: AppCompatActivity() {
             override fun onSuccess(result: MeV2Response?) {
             }
         })
+
+        request_button.setOnClickListener {
+            val builder = AlertDialog.Builder(this)
+            builder.setTitle("매칭 선택")
+                .setMessage("이 요청글과 매칭하시겠습니까?")
+                .setPositiveButton("매칭하기", DialogInterface.OnClickListener { dialog, id ->
+                })
+                .setNegativeButton("취소", DialogInterface.OnClickListener { dialog, id ->
+                })
+            builder.create()
+            builder.show()
+        }
     }
 }

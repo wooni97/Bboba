@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
     <TextView
-        android:id="@+id/request_title"
+        android:id="@+id/detail_request_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/main_color"
@@ -21,7 +20,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/profile_layout"
+        android:id="@+id/detail_profile_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="3dp"
@@ -29,7 +28,7 @@
         android:paddingBottom="10dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/request_title">
+        app:layout_constraintTop_toBottomOf="@+id/detail_request_title">
 
         <ImageView
             android:id="@+id/detail_req_profile"
@@ -43,7 +42,7 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/profile_name"
+            android:id="@+id/detail_profile_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="20dp"
@@ -64,39 +63,35 @@
             android:textColor="#fff"
             android:textSize="15sp"
             app:layout_constraintStart_toEndOf="@id/detail_req_profile"
-            app:layout_constraintTop_toBottomOf="@+id/profile_name" />
+            app:layout_constraintTop_toBottomOf="@+id/detail_profile_name" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/request_form"
+        android:id="@+id/detail_request_form"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:background="@drawable/button_outline"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/profile_layout">
+        app:layout_constraintTop_toBottomOf="@id/detail_profile_layout">
 
         <TextView
-            android:id="@+id/total_page"
+            android:id="@+id/detail_total_page"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="30dp"
-            android:layout_marginTop="30dp"
+            android:layout_marginTop="15dp"
             android:text="매수"
             android:textSize="23sp"
-            app:layout_constraintBottom_toTopOf="@id/detail_request"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/detail_request"
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/edit_total"
+            android:id="@+id/detail_edit_total"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:ems="10"
             android:textSize="18sp"
-            app:layout_constraintBaseline_toBaselineOf="@id/total_page"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_chainStyle="spread"
-            app:layout_constraintStart_toEndOf="@+id/total_page" />
+            app:layout_constraintBaseline_toBaselineOf="@id/detail_total_page"
+            app:layout_constraintStart_toStartOf="@+id/detail_edit_request" />
 
         <TextView
             android:id="@+id/detail_request"
@@ -105,108 +100,109 @@
             android:layout_marginTop="20dp"
             android:text="세부요청"
             android:textSize="23sp"
-            app:layout_constraintStart_toStartOf="@+id/total_page"
-            app:layout_constraintTop_toBottomOf="@+id/total_page" />
+            app:layout_constraintEnd_toStartOf="@+id/detail_edit_request"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/detail_total_page" />
 
         <TextView
-            android:id="@+id/edit_request"
+            android:id="@+id/detail_edit_request"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:ems="10"
             android:gravity="start|top"
             android:maxLines="3"
             android:textSize="18sp"
-            app:layout_constraintBaseline_toBaselineOf="@id/detail_request"
-            app:layout_constraintBottom_toTopOf="@id/time"
-            app:layout_constraintStart_toStartOf="@+id/edit_total" />
+            app:layout_constraintBottom_toBottomOf="@+id/detail_request"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/detail_request"
+            app:layout_constraintTop_toTopOf="@+id/detail_request" />
 
         <TextView
-            android:id="@+id/time"
+            android:id="@+id/detail_time"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
             android:text="수령시간"
             android:textSize="23sp"
             app:layout_constraintStart_toStartOf="@+id/detail_request"
-            app:layout_constraintTop_toBottomOf="@+id/edit_request" />
+            app:layout_constraintTop_toBottomOf="@+id/detail_edit_request" />
 
         <TextView
-            android:id="@+id/edit_date"
+            android:id="@+id/detail_edit_date"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="18sp"
-            app:layout_constraintBaseline_toBaselineOf="@id/time"
-            app:layout_constraintStart_toStartOf="@+id/edit_request" />
+            app:layout_constraintBaseline_toBaselineOf="@id/detail_time"
+            app:layout_constraintStart_toStartOf="@+id/detail_edit_request" />
 
         <TextView
-            android:id="@+id/edit_time"
+            android:id="@+id/detail_edit_time"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="3dp"
             android:textSize="18sp"
-            app:layout_constraintStart_toStartOf="@+id/edit_date"
-            app:layout_constraintTop_toBottomOf="@+id/edit_date" />
+            app:layout_constraintStart_toStartOf="@+id/detail_edit_date"
+            app:layout_constraintTop_toBottomOf="@+id/detail_edit_date" />
 
         <TextView
-            android:id="@+id/location"
+            android:id="@+id/detail_location"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:text="장소"
             android:textSize="23sp"
-            app:layout_constraintBottom_toTopOf="@id/per_page"
-            app:layout_constraintStart_toStartOf="@+id/time"
-            app:layout_constraintTop_toBottomOf="@+id/edit_time" />
+            app:layout_constraintBottom_toTopOf="@id/detail_per_page"
+            app:layout_constraintStart_toStartOf="@+id/detail_time"
+            app:layout_constraintTop_toBottomOf="@+id/detail_edit_time" />
 
         <TextView
-            android:id="@+id/spinner_location"
+            android:id="@+id/detail_spinner_location"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="18sp"
-            app:layout_constraintBaseline_toBaselineOf="@id/location"
-            app:layout_constraintStart_toStartOf="@+id/edit_time"
-            app:layout_constraintTop_toBottomOf="@id/edit_time" />
+            app:layout_constraintBaseline_toBaselineOf="@id/detail_location"
+            app:layout_constraintStart_toStartOf="@+id/detail_edit_time" />
 
         <TextView
-            android:id="@+id/text_pageper"
+            android:id="@+id/detail_text_pageper"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="모아찍기"
             android:textSize="18sp"
-            app:layout_constraintBaseline_toBaselineOf="@id/per_page"
-            app:layout_constraintStart_toEndOf="@+id/per_page" />
+            app:layout_constraintBaseline_toBaselineOf="@id/detail_per_page"
+            app:layout_constraintStart_toStartOf="@+id/detail_location" />
 
         <TextView
-            android:id="@+id/per_page"
+            android:id="@+id/detail_per_page"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
             android:text="1 장 "
             android:textSize="18sp"
-            app:layout_constraintStart_toStartOf="@+id/location"
-            app:layout_constraintTop_toBottomOf="@id/location" />
+            app:layout_constraintStart_toStartOf="@+id/detail_spinner_location"
+            app:layout_constraintTop_toBottomOf="@id/detail_location" />
 
         <CheckBox
-            android:id="@+id/print_fb"
+            android:id="@+id/detail_print_fb"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
             android:clickable="false"
             android:text="양면 인쇄"
             android:textSize="18sp"
-            app:layout_constraintStart_toStartOf="@+id/per_page"
-            app:layout_constraintTop_toBottomOf="@+id/text_pageper" />
+            app:layout_constraintStart_toStartOf="@+id/detail_text_pageper"
+            app:layout_constraintTop_toBottomOf="@+id/detail_text_pageper" />
 
         <CheckBox
-            android:id="@+id/color_print"
+            android:id="@+id/detail_color_print"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:clickable="false"
             android:text="컬러 인쇄"
             android:textSize="18sp"
-            app:layout_constraintBaseline_toBaselineOf="@id/print_fb"
+            app:layout_constraintBaseline_toBaselineOf="@id/detail_print_fb"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/print_fb" />
+            app:layout_constraintStart_toEndOf="@+id/detail_print_fb" />
 
         <Button
             android:id="@+id/request_button"
@@ -219,7 +215,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/print_fb" />
+            app:layout_constraintTop_toBottomOf="@+id/detail_print_fb" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

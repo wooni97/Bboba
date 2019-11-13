@@ -79,12 +79,10 @@
             android:id="@+id/total_page"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="30dp"
-            android:layout_marginTop="30dp"
+            android:layout_marginTop="15dp"
             android:text="매수"
             android:textSize="23sp"
-            app:layout_constraintBottom_toTopOf="@id/detail_request"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/detail_request"
             app:layout_constraintTop_toTopOf="parent" />
 
         <EditText
@@ -95,9 +93,7 @@
             android:hint="매수를 입력하세요"
             android:inputType="numberDecimal"
             app:layout_constraintBaseline_toBaselineOf="@id/total_page"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_chainStyle="spread"
-            app:layout_constraintStart_toEndOf="@+id/total_page" />
+            app:layout_constraintStart_toStartOf="@+id/edit_request" />
 
         <TextView
             android:id="@+id/detail_request"
@@ -106,7 +102,8 @@
             android:layout_marginTop="20dp"
             android:text="세부요청"
             android:textSize="23sp"
-            app:layout_constraintStart_toStartOf="@+id/total_page"
+            app:layout_constraintEnd_toStartOf="@id/edit_request"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/total_page" />
 
         <EditText
@@ -120,7 +117,8 @@
             android:maxLines="3"
             app:layout_constraintBaseline_toBaselineOf="@id/detail_request"
             app:layout_constraintBottom_toTopOf="@id/time"
-            app:layout_constraintStart_toStartOf="@+id/edit_total" />
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/detail_request" />
 
         <TextView
             android:id="@+id/time"
