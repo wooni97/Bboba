@@ -26,10 +26,27 @@ class ListFragment : Fragment() {
         super.onCreate(savedInstanceState)
         retainInstance = true
 
+<<<<<<< HEAD
         //카카오 api에서 정보 받아오기
         UserManagement.getInstance().me(object: MeV2ResponseCallback() {
             override fun onFailure(errorResult: ErrorResult?) {
                 Log.d("example", "aaabb=실패")
+=======
+        reqRef.addValueEventListener(object: ValueEventListener {
+            override fun onDataChange(p0: DataSnapshot) {
+                reqData.clear()
+                for(h in p0.children) {
+                    reqData.add(0,RequestList(h.child("user_name").value as String,
+                        h.child("total_page").value as String,
+                    h.child("user_tel").value as String,
+                    h.child("detail_req").value as String))
+                }
+                Log.d("example", "value=complete")
+                list_recyclerview.apply { //데이터 뽑은 후 출력
+                    layoutManager = LinearLayoutManager(activity)
+                    adapter = Rec_CardAdapter(reqData)
+                }
+>>>>>>> 0e08667bd103ff4da57bffa39b5509347feb7e6b
             }
             override fun onSessionClosed(errorResult: ErrorResult?) {
                 Log.d("example", "aaabb=세션 닫힘")
