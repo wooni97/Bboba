@@ -46,8 +46,9 @@ class ListFragment : Fragment() {
                     override fun onDataChange(eachUserData: DataSnapshot) {
                         reqData.clear()
                         for(eud in eachUserData.children) {//eud : 날짜 별 유저 데이터
-                            for(h in eud.children) {//한 날짜 대한 유저의 요청 정보
+                            for(h in eud.children) {//한 날짜에 대한 유저의 요청 정보
                                 if(h.child("email").value==userEmail) continue //자신이 올린 요청은 보여주지 않는다
+                                if(h.child("is_selected").value=="1") continue //매칭된 글은 보여주지 않는다
                                 reqData.add(
                                     0,
                                     Prints_Request(

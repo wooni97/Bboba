@@ -32,6 +32,7 @@ class LoginActivity : AppCompatActivity() {
         setContentView(R.layout.activity_login)
 
         Session.getCurrentSession().addCallback(callback)
+        Log.d("example", "hash::"+getHashKey(this))
     }
 
     override fun onDestroy() {

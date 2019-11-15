@@ -33,7 +33,7 @@
             android:layout_height="match_parent"
             android:background="#FAF5F3"
             android:orientation="vertical"
-            android:paddingTop="20dp">
+            android:paddingTop="15dp">
 
             <androidx.recyclerview.widget.RecyclerView xmlns:android="http://schemas.android.com/apk/res/android"
                 android:id="@+id/list_recyclerview"

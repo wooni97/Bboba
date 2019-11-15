@@ -2,16 +2,26 @@ package com.example.bboba
 
 import android.content.DialogInterface
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.util.Log
+import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
+import com.google.android.material.snackbar.Snackbar
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ValueEventListener
 import com.kakao.network.ErrorResult
 import com.kakao.usermgmt.UserManagement
 import com.kakao.usermgmt.callback.MeV2ResponseCallback
 import com.kakao.usermgmt.response.MeV2Response
 import kotlinx.android.synthetic.main.activity_detail_view.*
+import kotlinx.android.synthetic.main.fragment_list.*
 import java.util.*
 
 class DetailViewActivity: AppCompatActivity() {
@@ -34,7 +44,7 @@ class DetailViewActivity: AppCompatActivity() {
             6->"금"
             else->"토"
         }
-        detail_profile_name.text = requestData.name
+        detail_profile_name.text = requestData!!.name
         detail_user_email.text = requestData.email
         detail_edit_total.text = requestData.total_page
         detail_edit_request.text = requestData.detail_request
@@ -58,14 +68,66 @@ class DetailViewActivity: AppCompatActivity() {
             }
 
             override fun onSuccess(result: MeV2Response?) {
+
             }
         })
 
-        request_button.setOnClickListener {
+        detail_request_button.setOnClickListener {
             val builder = AlertDialog.Builder(this)
             builder.setTitle("매칭 선택")
                 .setMessage("이 요청글과 매칭하시겠습니까?")
-                .setPositiveButton("매칭하기", DialogInterface.OnClickListener { dialog, id ->
+                .setPositiveButton("선택하기", DialogInterface.OnClickListener { dialog, id ->
+                    val database = FirebaseDatabase.getInstance()
+                    val ref = database.getReference("PRINTS_REQUEST")
+                    val dateRef = ref.child("date")
+                    val idRef = ref.child("id")
+                    dateRef.addListenerForSingleValueEvent(object: ValueEventListener {
+                        override fun onCancelled(p0: DatabaseError) {
+                        }
+                        override fun onDataChange(eachDateData: DataSnapshot) {
+                            val oneDateData = eachDateData.child(requestData.date)
+                            for(data in oneDateData.children){
+                                if(data.child("email").value==requestData.email && data.child("detail_request").value == requestData.detail_request
+                                    && data.child("per_page").value == requestData.per_page && data.child("print_fb").value == requestData.print_fb
+                                    && data.child("print_color").value == requestData.print_color && data.child("is_selected").value!=1) { //요청글 찾음
+                                    val childUpdates = HashMap<String, Any>()
+                                    childUpdates["/is_selected"] = "1" //매칭 되었음
+                                    //매칭자 정보 추가하기
+                                    data.ref.updateChildren(childUpdates)
+                                    break
+                                }
+                            }
+                            detail_request_button.text = "매칭중"
+                            detail_request_button.isEnabled = false
+                            Toast.makeText(this@DetailViewActivity, "10초 안에 인증을 완료해주세요", Toast.LENGTH_SHORT).show()
+                        }
+                    })
+                    val handler = Handler()
+                    handler.postDelayed(object: Runnable {
+                        override fun run() {
+                            dateRef.addListenerForSingleValueEvent(object: ValueEventListener {
+                                override fun onCancelled(p0: DatabaseError) {
+                                }
+                                override fun onDataChange(eachDateData: DataSnapshot) {
+                                    val oneDateData = eachDateData.child(requestData.date)
+                                    for(data in oneDateData.children){
+                                        if(data.child("email").value==requestData.email && data.child("detail_request").value == requestData.detail_request
+                                            && data.child("per_page").value == requestData.per_page && data.child("print_fb").value == requestData.print_fb
+                                            && data.child("print_color").value == requestData.print_color && data.child("is_selected").value!=1) { //요청글 찾음
+                                            val childUpdates = HashMap<String, Any?>()
+                                            childUpdates["/is_selected"] = null //매칭 풀림. null집어넣으면 db에서 사라진다
+                                            //매칭자 정보 추가하기
+                                            data.ref.updateChildren(childUpdates)
+                                            break
+                                        }
+                                    }
+                                    detail_request_button.text = "매칭하기"
+                                    detail_request_button.isEnabled = true
+                                    Toast.makeText(this@DetailViewActivity, "인증시간이 초과되어서 매칭이 해제되었습니다.", Toast.LENGTH_SHORT).show()
+                                }
+                            })
+                        }
+                    }, 10000)//10초  (디버깅 편하게 일단 10초로 설정)
                 })
                 .setNegativeButton("취소", DialogInterface.OnClickListener { dialog, id ->
                 })
