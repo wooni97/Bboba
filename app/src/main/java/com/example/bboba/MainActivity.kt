@@ -124,10 +124,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     //네비게이션 드로어 메뉴 선택시
     override fun onNavigationItemSelected(menuItem: MenuItem): Boolean {
         when (menuItem.itemId) {
-            R.id.cart -> {
-                val intent = Intent(context, MyTrade::class.java)
-                startActivity(intent)
-            }
             R.id.logout -> {
                 UserManagement.getInstance().requestLogout(object:LogoutResponseCallback(){
                     override fun onCompleteLogout() {

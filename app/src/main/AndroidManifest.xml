@@ -25,7 +25,6 @@
             android:value="AIzaSyD_y7LcmR_RBzMaUm4-xlRVVLCqpnW2zWc" />
 
         <activity android:name=".ComRequestActivity" />
-        <activity android:name=".MyTrade" />
         <activity android:name=".LoginActivity" />
         <activity android:name=".RequestActivity" />
         <activity android:name=".MainActivity">
