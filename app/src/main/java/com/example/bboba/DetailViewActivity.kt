@@ -72,6 +72,12 @@ class DetailViewActivity: AppCompatActivity() {
             }
         })
 
+        detail_spinner_location.setOnClickListener {//장소를 클릭하면 장소에 대한 지도가 나온다
+            val dialogFragment = LocationViewrDialog(this, requestData.locationx.toDouble(), requestData.locationy.toDouble())
+            val fragmentManager = supportFragmentManager
+            dialogFragment.show(fragmentManager, null)
+        }
+
         detail_request_button.setOnClickListener {
             val builder = AlertDialog.Builder(this)
             builder.setTitle("매칭 선택")
