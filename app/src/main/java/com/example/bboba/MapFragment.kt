@@ -1,7 +1,6 @@
 package com.example.bboba
 
 import android.content.Context
-import android.location.Location
 import android.net.Uri
 import android.os.Bundle
 import android.util.Log
@@ -25,10 +24,8 @@ import com.kakao.usermgmt.callback.MeV2ResponseCallback
 import com.kakao.usermgmt.response.MeV2Response
 import com.sothree.slidinguppanel.SlidingUpPanelLayout
 import kotlinx.android.synthetic.main.fragment_list.*
-
-
-
-
+import kotlinx.android.synthetic.main.fragment_list.list_recyclerview
+import kotlinx.android.synthetic.main.fragment_map.*
 
 
 // TODO: Rename parameter arguments, choose names that match
@@ -51,21 +48,16 @@ class MapFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnMarkerClickListe
     private var listener: OnFragmentInteractionListener? = null
     private lateinit var mapView: MapView
     private lateinit var lv : RecyclerView
-
+    private lateinit var mapFmap: GoogleMap
     private var mLayout : SlidingUpPanelLayout? = null
 
     //Firebase 변수
     private val reqData = ArrayList<Prints_Request>()
-    private val locationData = ArrayList<String>()
+    private var tempreqData = ArrayList<Prints_Request>()//슬라이드바
     private val database = FirebaseDatabase.getInstance()
     private val reqRef = database.getReference("PRINTS_REQUEST")
     private val dateRef = reqRef.child("date")
     lateinit var myFbPath: DatabaseReference
-
-
-
-
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -73,43 +65,6 @@ class MapFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnMarkerClickListe
             param1 = it.getString(ARG_PARAM1)
             param2 = it.getString(ARG_PARAM2)
         }
-
-        //FIrebase 값 읽기
-        dateRef.addValueEventListener(object: ValueEventListener {
-            override fun onDataChange(eachUserData: DataSnapshot) {
-                reqData.clear()
-                for(eud in eachUserData.children) {
-                    for(h in eud.children) {
-                        reqData.add(
-                            0,
-                            Prints_Request(
-                                h.child("name").value as String,
-                                h.child("email").value as String,
-                                h.child("total_page").value as String,
-                                h.child("detail_request").value as String,
-                                h.child("date").value as String,
-                                h.child("time").value as String,
-                                h.child("locationx").value as String,
-                                h.child("locationy").value as String,
-                                h.child("location_name").value as String,
-                                h.child("per_page").value as String,
-                                h.child("print_fb").value as String,
-                                h.child("print_color").value as String,
-                                h.child("picture_location").value as String
-                            )
-                        )
-                    }
-                }
-                list_recyclerview.apply { //데이터 뽑은 후 출력
-                    layoutManager = LinearLayoutManager(activity?:return)
-                    adapter = ReqCardAdapterInMap(reqData)
-                }
-
-            }
-            override fun onCancelled(p0: DatabaseError) {
-            }
-        })
-        //데이터들은 reqData 배열 안에 들어있다
     }
 
     //onCreateView에서 View와 GoogleMap 초기화
@@ -138,7 +93,7 @@ class MapFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnMarkerClickListe
         super.onViewCreated(view, savedInstanceState)
         list_recyclerview.apply {
             layoutManager = LinearLayoutManager(activity)
-            adapter = ReqCardAdapterInMap(reqData)
+            adapter = ReqCardAdapterInMap(tempreqData)
         }
 
 
@@ -208,9 +163,32 @@ class MapFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnMarkerClickListe
         mapView.onCreate(savedInstanceState)
     }
 
-    override fun onMarkerClick(p0: Marker?) = false
+    override fun onMarkerClick(p0: Marker):Boolean {
+        //마커를 클릭했을 때, 가까운 거리에 있는 마커에 대해서 슬라이드뷰에 보여준다
+        tempreqData.clear()
+        for(each_data in reqData) {
+            //자신이 클릭한 마커를 가장 위에 표시함
+            if(each_data.locationx.toDouble() == p0.position.latitude && each_data.locationy.toDouble() == p0.position.longitude) {
+                tempreqData.add(0,each_data)
+                continue
+            }
+            if(each_data.locationx.toDouble() > p0.position.latitude-0.0002 && each_data.locationx.toDouble() < p0.position.latitude+0.0002 &&
+                each_data.locationy.toDouble() > p0.position.longitude-0.0002 && each_data.locationy.toDouble() < p0.position.longitude+0.0002) {
+                tempreqData.add(each_data)
+            }
+        }
+        list_recyclerview.layoutManager = LinearLayoutManager(activity)
+        list_recyclerview.adapter = ReqCardAdapterInMap(tempreqData)
+        return false
+    }
 
     override fun onMapReady(googleMap: GoogleMap) { //?뺌
+        mapFmap = googleMap
+        //val PLACE1: LatLng = LatLng(37.601536, 126.865027) //과학관
+        val PLACE2: LatLng = LatLng(37.600061, 126.864668) // 학생회관
+        //val PLACE3: LatLng = LatLng(37.601341, 126.864493) // 기계관
+        googleMap.setOnMarkerClickListener(this)
+        //FIrebase 값 읽기, kakao 값 읽기
         UserManagement.getInstance().me(object: MeV2ResponseCallback() {
             override fun onFailure(errorResult: ErrorResult?) {
                 Log.d("example", "aaabb=실패")
@@ -222,53 +200,57 @@ class MapFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnMarkerClickListe
 
             override fun onSuccess(result: MeV2Response) {
                 val userEmail = result.kakaoAccount.email
-
                 dateRef.addValueEventListener(object : ValueEventListener {
-
-
                     override fun onDataChange(eachUserData: DataSnapshot) {
-
-                        for (eud in eachUserData.children) {//eud : 날짜 별 유저 데이터
-                            for (h in eud.children) {//한 날짜에 대한 유저의 요청 정보
+                        reqData.clear()
+                        for (eud in eachUserData.children) {
+                            for (h in eud.children) {
                                 if (h.child("email").value == userEmail) continue //자신이 올린 요청은 보여주지 않는다
                                 if (h.child("is_selected").value == "1") continue //매칭된 글은 보여주지 않는다
-
-
-
-                                locationData!!.add(
+                                reqData.add(
                                     0,
-                                    h.child("locationx").value as String)
-                                locationData!!.add(
-                                    h.child("locationy").value as String
+                                    Prints_Request(
+                                        h.child("name").value as String,
+                                        h.child("email").value as String,
+                                        h.child("total_page").value as String,
+                                        h.child("detail_request").value as String,
+                                        h.child("date").value as String,
+                                        h.child("time").value as String,
+                                        h.child("locationx").value as String,
+                                        h.child("locationy").value as String,
+                                        h.child("location_name").value as String,
+                                        h.child("per_page").value as String,
+                                        h.child("print_fb").value as String,
+                                        h.child("print_color").value as String,
+                                        h.child("picture_location").value as String
+                                    )
                                 )
-                                var markerLocation_x = locationData[0].toDouble()
-                                var markerLocation_y = locationData[1].toDouble()
-
-                                var PLACE: LatLng = LatLng(markerLocation_x, markerLocation_y)
-                                googleMap.addMarker(MarkerOptions().position((PLACE)))
-                                locationData.clear()
-
+                                val place = LatLng(
+                                    (h.child("locationx").value as String).toDouble(),
+                                    (h.child("locationy").value as String).toDouble()
+                                )
+                                googleMap.addMarker(MarkerOptions().position(place))
                             }
                         }
+                        list_recyclerview.apply {
+                            //데이터 뽑은 후 출력
+                            layoutManager = LinearLayoutManager(activity ?: return)
+                            adapter = ReqCardAdapterInMap(tempreqData)
+                        }
+
                     }
 
                     override fun onCancelled(p0: DatabaseError) {
                     }
                 })
-
+                //데이터들은 reqData 배열 안에 들어있다
+                //        googleMap.addMarker(MarkerOptions().position(PLACE1).title("7건").snippet("흑백 4건 / 컬러 3건"))
+                //        googleMap.addMarker(MarkerOptions().position(PLACE2).title("3건").snippet("흑백 3건"))
+                //        googleMap.addMarker(MarkerOptions().position(PLACE3).title("2건").snippet("흑백 1건 / 컬러 1건"))
+                googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(PLACE2, 17.0f))
             }
         })
-
-        val PLACE2: LatLng = LatLng(37.600061, 126.864668)
-        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(PLACE2, 17.0f))
     }
-
-
-
-
-    /* val PLACE2: LatLng = LatLng(37.600061, 126.864668)
-     googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(PLACE2, 17.0f))*/
-
     /**
      * This interface must be implemented by activities that contain this
      * fragment to allow an interaction in this fragment to be communicated
@@ -305,7 +287,3 @@ class MapFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnMarkerClickListe
             }
     }
 }
-
-
-
-

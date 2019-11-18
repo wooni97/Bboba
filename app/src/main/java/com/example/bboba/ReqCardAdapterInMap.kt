@@ -29,10 +29,10 @@ class ReqCardAdapterInMap(val requestLists:ArrayList<Prints_Request>): RecyclerV
     class ViewHolder(inflater: LayoutInflater, parent: ViewGroup, val context: Context) :
         RecyclerView.ViewHolder(inflater.inflate(R.layout.material_cardview_map, parent, false)) {
         fun bind(data: Prints_Request) {
-            itemView.total_page.text = data.total_page + " page"
-            itemView.location.text = data.location_name
-            itemView.date.text = data.date
-            itemView.cardButton.setOnClickListener {
+            itemView.map_cardview_total_page.text = data.total_page + " page"
+            itemView.map_cardview_location.text = data.location_name
+            itemView.map_cardview_date.text = data.date
+            itemView.map_cardview_cardButton.setOnClickListener {
                 val detailIntent = Intent(context, DetailViewActivity::class.java)
                 detailIntent.putExtra("request_data", data)
                 context.startActivity(detailIntent)
