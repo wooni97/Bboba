@@ -22,15 +22,31 @@ open class MyTradeActivity : AppCompatActivity(){
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_my_trade)
-        setSupportActionBar(toolbar_in_mytrade)
-
-        //supportActionBar!!.setDisplayShowTitleEnabled(false) // 타이틀 안보이게 하기
-        supportActionBar!!.title = "나의 거래"
 
         val adapter = ViewPagerAdapter(supportFragmentManager)
         adapter.addFragment(myRequestFragment, "나의 요청")
         adapter.addFragment(myGivingFragment, "제공")
         viewPager_in_mytrade.adapter = adapter
         tabs_in_mytrade.setupWithViewPager(viewPager_in_mytrade)
+
+        UserManagement.getInstance().me(object: MeV2ResponseCallback() {
+            override fun onFailure(errorResult: ErrorResult?) {
+                Log.d("example", "aaabb=실패")
+            }
+            override fun onSessionClosed(errorResult: ErrorResult?) {
+                Log.d("example", "aaabb=세션 닫힘")
+            }
+            override fun onSuccess(result: MeV2Response?) {
+                if(result!=null) {
+                    val picture_location = result.kakaoAccount.profile.profileImageUrl?:"" //프로필 이미지가 없으면 null이 들어감
+                    val name = result.kakaoAccount.profile.nickname
+                    val userEmail = result.kakaoAccount.email?:""
+                    if(picture_location!="") Glide.with(this@MyTradeActivity).load(picture_location).transform(RoundedCorners(20)).into(nav_header_profile_in_mytrade)
+                    else Glide.with(this@MyTradeActivity).load(R.drawable.blank_profile).transform(RoundedCorners(20)).into(request_profile)
+                    nav_profile_name_in_mytrade.text = name
+                    nav_profile_email_in_mytrade.text = userEmail
+                }
+            }
+        })
     }
 }

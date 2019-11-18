@@ -203,6 +203,7 @@ class MapFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnMarkerClickListe
                 dateRef.addValueEventListener(object : ValueEventListener {
                     override fun onDataChange(eachUserData: DataSnapshot) {
                         reqData.clear()
+                        googleMap.clear()
                         for (eud in eachUserData.children) {
                             for (h in eud.children) {
                                 if (h.child("email").value == userEmail) continue //자신이 올린 요청은 보여주지 않는다
