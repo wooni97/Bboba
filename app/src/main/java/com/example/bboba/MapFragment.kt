@@ -1,6 +1,7 @@
 package com.example.bboba
 
 import android.content.Context
+import android.location.Location
 import android.net.Uri
 import android.os.Bundle
 import android.util.Log
@@ -18,6 +19,10 @@ import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.MarkerOptions
 import com.google.firebase.database.*
+import com.kakao.network.ErrorResult
+import com.kakao.usermgmt.UserManagement
+import com.kakao.usermgmt.callback.MeV2ResponseCallback
+import com.kakao.usermgmt.response.MeV2Response
 import com.sothree.slidinguppanel.SlidingUpPanelLayout
 import kotlinx.android.synthetic.main.fragment_list.*
 
@@ -51,10 +56,16 @@ class MapFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnMarkerClickListe
 
     //Firebase 변수
     private val reqData = ArrayList<Prints_Request>()
+    private val locationData = ArrayList<String>()
     private val database = FirebaseDatabase.getInstance()
     private val reqRef = database.getReference("PRINTS_REQUEST")
     private val dateRef = reqRef.child("date")
     lateinit var myFbPath: DatabaseReference
+
+
+
+
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -200,15 +211,64 @@ class MapFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnMarkerClickListe
     override fun onMarkerClick(p0: Marker?) = false
 
     override fun onMapReady(googleMap: GoogleMap) { //?뺌
-        val PLACE1: LatLng = LatLng(37.601536, 126.865027) //과학관
-        val PLACE2: LatLng = LatLng(37.600061, 126.864668) // 학생회관
-        val PLACE3: LatLng = LatLng(37.601341, 126.864493) // 기계관
-        googleMap.setOnMarkerClickListener(this)
-        googleMap.addMarker(MarkerOptions().position(PLACE1).title("7건").snippet("흑백 4건 / 컬러 3건"))
-        googleMap.addMarker(MarkerOptions().position(PLACE2).title("3건").snippet("흑백 3건"))
-        googleMap.addMarker(MarkerOptions().position(PLACE3).title("2건").snippet("흑백 1건 / 컬러 1건"))
+        UserManagement.getInstance().me(object: MeV2ResponseCallback() {
+            override fun onFailure(errorResult: ErrorResult?) {
+                Log.d("example", "aaabb=실패")
+            }
+
+            override fun onSessionClosed(errorResult: ErrorResult?) {
+                Log.d("example", "aaabb=세션 닫힘")
+            }
+
+            override fun onSuccess(result: MeV2Response) {
+                val userEmail = result.kakaoAccount.email
+
+                dateRef.addValueEventListener(object : ValueEventListener {
+
+
+                    override fun onDataChange(eachUserData: DataSnapshot) {
+
+                        for (eud in eachUserData.children) {//eud : 날짜 별 유저 데이터
+                            for (h in eud.children) {//한 날짜에 대한 유저의 요청 정보
+                                if (h.child("email").value == userEmail) continue //자신이 올린 요청은 보여주지 않는다
+                                if (h.child("is_selected").value == "1") continue //매칭된 글은 보여주지 않는다
+
+
+
+                                locationData!!.add(
+                                    0,
+                                    h.child("locationx").value as String)
+                                locationData!!.add(
+                                    h.child("locationy").value as String
+                                )
+                                var markerLocation_x = locationData[0].toDouble()
+                                var markerLocation_y = locationData[1].toDouble()
+
+                                var PLACE: LatLng = LatLng(markerLocation_x, markerLocation_y)
+                                googleMap.addMarker(MarkerOptions().position((PLACE)))
+                                locationData.clear()
+
+                            }
+                        }
+                    }
+
+                    override fun onCancelled(p0: DatabaseError) {
+                    }
+                })
+
+            }
+        })
+
+        val PLACE2: LatLng = LatLng(37.600061, 126.864668)
         googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(PLACE2, 17.0f))
     }
+
+
+
+
+    /* val PLACE2: LatLng = LatLng(37.600061, 126.864668)
+     googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(PLACE2, 17.0f))*/
+
     /**
      * This interface must be implemented by activities that contain this
      * fragment to allow an interaction in this fragment to be communicated
@@ -245,3 +305,7 @@ class MapFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnMarkerClickListe
             }
     }
 }
+
+
+
+
