@@ -43,6 +43,7 @@ class LoginActivity : AppCompatActivity() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         if (Session.getCurrentSession().handleActivityResult(requestCode, resultCode, data)) {
             Log.d("session","session get current session")
+            getHashKey(this)
             return
         }
 
@@ -110,6 +111,7 @@ class LoginActivity : AppCompatActivity() {
         if(drawerLayout.isDrawerOpen(GravityCompat.START)){
             drawerLayout.closeDrawers()
         }else{
+            Log.d("example", "hash!!!"+getHashKey(this)!!)
             Toast.makeText(this,"어플을 종료합니다.", Toast.LENGTH_SHORT).show()
             finishAffinity()
         }
