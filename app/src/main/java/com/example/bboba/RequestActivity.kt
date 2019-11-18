@@ -9,7 +9,6 @@ import android.util.Log
 import android.widget.*
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
-import com.google.android.gms.maps.model.LatLng
 import com.google.firebase.database.FirebaseDatabase
 import com.kakao.network.ErrorResult
 import com.kakao.usermgmt.UserManagement
