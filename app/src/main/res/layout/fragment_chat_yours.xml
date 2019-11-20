@@ -8,7 +8,7 @@
     android:background="@color/main_color">
 
     <ImageView
-        android:id="@+id/imageView"
+        android:id="@+id/partner_image"
         android:layout_width="50dp"
         android:layout_height="50dp"
         app:layout_constraintStart_toStartOf="parent"
@@ -23,9 +23,10 @@
         android:text="안녕하세요"
         android:maxWidth="250dp"
         android:textColor="@color/main_color"
-        android:background="@drawable/ic_rounded_shape"
+        android:background="@drawable/rounded_shape"
         android:textSize="15dp"
         app:layout_constraintBottom_toBottomOf="@+id/imageView"
         app:layout_constraintStart_toEndOf="@+id/imageView"
         app:layout_constraintTop_toTopOf="@+id/imageView" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -7,19 +7,18 @@
     tools:context=".ChatActivity">
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/profile_layout"
+        android:id="@+id/activity_partner_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="3dp"
         android:background="@color/main_color"
         android:paddingBottom="10dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/request_title">
+        app:layout_constraintTop_toTopOf="parent" >
 
         <ImageView
-            android:id="@+id/request_profile"
+            android:id="@+id/activity_partner_image"
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:layout_marginStart="24dp"
@@ -30,7 +29,7 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/req_profile_name"
+            android:id="@+id/activity_partner_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="20dp"
@@ -38,14 +37,14 @@
             android:text="Charlie Park"
             android:textColor="#fff"
             android:textSize="30sp"
-            app:layout_constraintStart_toEndOf="@id/request_profile"
+            app:layout_constraintStart_toEndOf="@id/activity_partner_image"
             app:layout_constraintTop_toTopOf="parent" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <Button
-        android:id="@+id/send"
+        android:id="@+id/activity_send"
         android:layout_width="wrap_content"
         android:layout_height="50dp"
         android:text="전송"
@@ -56,22 +55,23 @@
         app:layout_constraintEnd_toEndOf="parent" />
 
     <EditText
-        android:id="@+id/editText"
+        android:id="@+id/activity_input_message"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:ems="10"
-        android:text="Enter the message"
+        android:hint="Enter the message"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/send"
+        app:layout_constraintEnd_toStartOf="@+id/activity_send"
         app:layout_constraintStart_toStartOf="parent" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        android:layout_marginTop="3dp"
         android:background="@color/main_color"
-        app:layout_constraintBottom_toTopOf="@+id/send"
+        app:layout_constraintBottom_toTopOf="@+id/activity_send"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/profile_layout" />
+        app:layout_constraintTop_toBottomOf="@+id/activity_partner_layout" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
