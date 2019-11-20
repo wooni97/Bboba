@@ -105,29 +105,27 @@ class LocationPickerDialog(private val req_activity: RequestActivity, private va
                     selected_position = it
                     placeMarker(it)
 
-                    //여기부터
+                    //주소 받아오기
                     var list = mutableListOf<Address>()
-                    try {
-                        list = geocoder.getFromLocation(it.latitude,it.longitude,1)//주소 가져오기
-
-                    } catch (e: Exception) {
-                        Log.d("example", "ddee주소 변환 에러")
-                    }
-                    if(list.size==0) {
-                        Log.d("example", "ddee주소가 없음")
-                    }
-                    else {
-                        Log.d("example", "ddee"+ list[0].toString())
-                    }
+//                    try {
+//                        list = geocoder.getFromLocation(it.latitude,it.longitude,1)//주소 가져오기
+//
+//                    } catch (e: Exception) {
+//                        Log.d("example", "ddee주소 변환 에러")
+//                    }
+//                    if(list.size==0) {
+//                        Log.d("example", "ddee주소가 없음")
+//                    }
+//                    else {
+//                        Log.d("example", "ddee"+ list[0].toString())
+//                    }
+                    //api사용해서 웹에서 json형식으로 받아와서 이를 파싱하여 가까운 영업점(건물)의 이름을 받아온다
                     val strlink = "https://maps.googleapis.com/maps/api/place/nearbysearch/json?location="+it.latitude+"%2C"+it.longitude+"&rankby=distance&key=AIzaSyAwmGNBhCUZ017Y1cN5aPOozOTeOt7yTmY"
-                    //여기까지
-                    if(isNetworkAvailable()) {
+                    if(isNetworkAvailable()) { //메인쓰레드에서 불가하므로, 쓰레드를 만들어서 진행한다.
                         val myRunnable = Conn(mHandler, URL(strlink))
                         val myThread = Thread(myRunnable)
                         myThread.start()
                     }
-
-
                 }
 
                 map.setOnMapLoadedCallback {
@@ -141,18 +139,20 @@ class LocationPickerDialog(private val req_activity: RequestActivity, private va
         }
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-    }
-    private val mHandler: Handler = object : Handler(Looper.getMainLooper()) {
+    private val mHandler: Handler = object : Handler(Looper.getMainLooper()) { //만든 쓰레드에서 얻는 값을 받는 핸들러를 선언한다
         override fun handleMessage(inputMessage: Message) {
-            if (inputMessage.what == 1) {
-                val locationText = inputMessage.obj.toString()
-                Toast.makeText(context, locationText+" 선택", Toast.LENGTH_SHORT).show()
-                this@LocationPickerDialog.req_activity.location_select.text=locationText
-            }
-            if(inputMessage.what == 2) {
-                Toast.makeText(context, "기준 건물이 없습니다.", Toast.LENGTH_SHORT).show()
+            try{
+                if (inputMessage.what == 1) { //건물 선택
+                    val locationText = inputMessage.obj.toString()
+                    Toast.makeText(context, locationText+" 선택", Toast.LENGTH_SHORT).show()
+                    this@LocationPickerDialog.req_activity.location_select.text=locationText
+                }
+                if(inputMessage.what == 2) {
+                    Toast.makeText(context, "기준 건물이 없습니다. 다시 선택해주세요", Toast.LENGTH_SHORT).show()
+                }
+            } catch(e: Exception) { //예외가 발생하면 장소명을 한국 항공대학교 로 설정
+                this@LocationPickerDialog.req_activity.location_select.text="한국항공대학교"
+                Toast.makeText(context, "한국 항공대학교 선택", Toast.LENGTH_SHORT).show()
             }
 
         }
@@ -179,10 +179,7 @@ class LocationPickerDialog(private val req_activity: RequestActivity, private va
                 val allText = inputStream.bufferedReader().use { it.readText() }
                 content.append(allText)
                 val str = content.toString()
-                Log.d("example", str)
-                Log.d("example", "url: "+link)
-                locationName = JSONObject(str).getJSONArray("results").getJSONObject(0).get("name").toString()
-                Log.d("example", "aabb= "+locationName)
+                locationName = JSONObject(str).getJSONArray("results").getJSONObject(0).get("name").toString() //0번쨰 인덱스 정보(가장 가까운 건물)의 정보를 받아온다
                 var msg: Message = myHandler.obtainMessage()
                 msg.what = 1
                 msg.obj = locationName
