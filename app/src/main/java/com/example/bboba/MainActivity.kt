@@ -150,6 +150,11 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 //                startActivity(nextIntent)
 //            }
             R.id.setting -> { //회원탈퇴
+                //chat test
+                val nextintent = Intent(context,ChatActivity::class.java)
+                startActivity(nextintent)
+
+                /*
                 val appendMessage: String = "회원탈퇴 하시겠습니까?"
                 AlertDialog.Builder(this).setMessage(appendMessage)
                     .setPositiveButton(getString(R.string.com_kakao_ok_button),
@@ -183,7 +188,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                             override fun onClick(dialog: DialogInterface?, which: Int) {
                                 dialog!!.dismiss()
                             }
-                        }).show()
+                        }).show()*/
             }
         }
         drawerLayout.closeDrawer(GravityCompat.START)
