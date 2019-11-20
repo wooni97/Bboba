@@ -35,6 +35,7 @@ class ReqCardAdapterInMap(val requestLists:ArrayList<Prints_Request>): RecyclerV
             itemView.map_cardview_cardButton.setOnClickListener {
                 val detailIntent = Intent(context, DetailViewActivity::class.java)
                 detailIntent.putExtra("request_data", data)
+                detailIntent.putExtra("fragmentNumber", 2)
                 context.startActivity(detailIntent)
             }
         }

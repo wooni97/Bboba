@@ -59,7 +59,8 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        requestAccessTokenInfo(this)
+        requestAccessTokenInfo(this)//카카오 로그인 여부 검사 후 인텐트로 화면 전환
+
 
         //액티비티 이동
         bt_req.setOnClickListener {

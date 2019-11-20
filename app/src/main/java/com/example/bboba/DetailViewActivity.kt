@@ -1,6 +1,7 @@
 package com.example.bboba
 
 import android.content.DialogInterface
+import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
@@ -8,6 +9,7 @@ import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.FragmentTransaction
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
@@ -29,6 +31,7 @@ class DetailViewActivity: AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_detail_view)
         val context = this
+        val fragmentNumber = intent.getIntExtra("fragmentNumber", 1) // 맵에서 넘어온 것이면 맵을, 리스트에서 넘어온 것이면 리스트를 띄우기 위해서 만듦
         //각 뷰들에 대한 데이터 채워넣기
         val requestData = intent.getParcelableExtra<Prints_Request>("request_data")
         val calendar = Calendar.getInstance()
@@ -134,6 +137,12 @@ class DetailViewActivity: AppCompatActivity() {
                             })
                         }
                     }, 10000)//10초  (디버깅 편하게 일단 10초로 설정)
+                    //val ft: FragmentTransaction = supportFragmentManager.beginTransaction()
+                    //화면전환
+                    val nextIntent = Intent(context, GiveMainActivity::class.java)
+                    nextIntent.putExtra("fragmentNumber", fragmentNumber)
+                    nextIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP) // 뒤로가기 버튼 눌렀을때 액티비티 스택에 쌓여있는 전의 화면을 불러오는데 이를 없애서 뒤로가기를 계속 눌렀을 때 중복 화면을 없앤다.
+                    startActivity(nextIntent)
                 })
                 .setNegativeButton("취소", DialogInterface.OnClickListener { dialog, id ->
                 })

@@ -22,7 +22,7 @@
             android:value="@string/kakao_app_key" />
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="AIzaSyD_y7LcmR_RBzMaUm4-xlRVVLCqpnW2zWc" />
+            android:value="AIzaSyAwmGNBhCUZ017Y1cN5aPOozOTeOt7yTmY" />
 
         <activity android:name=".ComRequestActivity" />
         <activity android:name=".LoginActivity" />

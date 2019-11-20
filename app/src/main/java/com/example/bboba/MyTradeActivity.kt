@@ -42,7 +42,7 @@ open class MyTradeActivity : AppCompatActivity(){
                     val name = result.kakaoAccount.profile.nickname
                     val userEmail = result.kakaoAccount.email?:""
                     if(picture_location!="") Glide.with(this@MyTradeActivity).load(picture_location).transform(RoundedCorners(20)).into(nav_header_profile_in_mytrade)
-                    else Glide.with(this@MyTradeActivity).load(R.drawable.blank_profile).transform(RoundedCorners(20)).into(request_profile)
+                    else Glide.with(this@MyTradeActivity).load(R.drawable.blank_profile).transform(RoundedCorners(20)).into(nav_header_profile_in_mytrade)
                     nav_profile_name_in_mytrade.text = name
                     nav_profile_email_in_mytrade.text = userEmail
                 }

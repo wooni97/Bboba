@@ -46,7 +46,7 @@ class RequestActivity : AppCompatActivity(),SeekBar.OnSeekBarChangeListener {
     var time: String? = null
     var locationx: String? = null
     var locationy: String? = null
-    var location_name: String = "한국항공대학교"
+    lateinit var location_name: String
     var div_page: String = "1" //모아찍기
     lateinit var print_fb: String //양면인쇄
     lateinit var color_print: String //컬러인쇄
@@ -136,7 +136,6 @@ class RequestActivity : AppCompatActivity(),SeekBar.OnSeekBarChangeListener {
             val dialogFragment = LocationPickerDialog(context)
             val fragmentManager = supportFragmentManager
             dialogFragment.show(fragmentManager, null)
-            location_name="한국항공대학교"
         }
 
         request_button.setOnClickListener { //요청하기 버튼 클릭
@@ -148,6 +147,7 @@ class RequestActivity : AppCompatActivity(),SeekBar.OnSeekBarChangeListener {
                 Toast.makeText(this, "내용을 모두 채워주세요", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
+            location_name = findViewById<TextView>(R.id.location_select).text.toString()
             val pr = Prints_Request(name, userEmail, total_page!!, detail_request!!, date!!, time!!, locationx!!, locationy!!, location_name, div_page, print_fb, color_print, picture_location)
             //Firebase 데이터 삽입
             //Firebase 변수
