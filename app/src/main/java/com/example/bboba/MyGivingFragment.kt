@@ -13,11 +13,13 @@ import com.kakao.usermgmt.UserManagement
 import com.kakao.usermgmt.callback.MeV2ResponseCallback
 import com.kakao.usermgmt.response.MeV2Response
 import kotlinx.android.synthetic.main.fragment_list.*
+import kotlinx.android.synthetic.main.fragment_my_giving.*
+import kotlinx.android.synthetic.main.fragment_my_request.*
 
 /**
  * A simple [Fragment] subclass.
  */
-class ListFragment : Fragment() {
+class MyGivingFragment : Fragment() {
     private val reqData = ArrayList<Prints_Request>()
     private val database = FirebaseDatabase.getInstance()
     private val reqRef = database.getReference("PRINTS_REQUEST")
@@ -46,30 +48,30 @@ class ListFragment : Fragment() {
                     override fun onDataChange(eachUserData: DataSnapshot) {
                         reqData.clear()
                         for(eud in eachUserData.children) {//eud : 날짜 별 유저 데이터
-                            for(h in eud.children) {//한 날짜에 대한 유저의 요청 정보
-                                if(h.child("email").value==userEmail) continue //자신이 올린 요청은 보여주지 않는다
-                                if(h.child("is_selected").value=="1") continue //매칭된 글은 보여주지 않는다
-                                reqData.add(
-                                    0,
-                                    Prints_Request(
-                                        h.child("name").value as String,
-                                        h.child("email").value as String,
-                                        h.child("total_page").value as String,
-                                        h.child("detail_request").value as String,
-                                        h.child("date").value as String,
-                                        h.child("time").value as String,
-                                        h.child("locationx").value as String,
-                                        h.child("locationy").value as String,
-                                        h.child("location_name").value as String,
-                                        h.child("per_page").value as String,
-                                        h.child("print_fb").value as String,
-                                        h.child("print_color").value as String,
-                                        h.child("picture_location").value as String
+                            for(h in eud.children) {//한 날짜 대한 유저의 요청 정보
+                                if(h.child("email").value==userEmail) {
+                                    reqData.add(
+                                        0,
+                                        Prints_Request(
+                                            h.child("name").value as String,
+                                            h.child("email").value as String,
+                                            h.child("total_page").value as String,
+                                            h.child("detail_request").value as String,
+                                            h.child("date").value as String,
+                                            h.child("time").value as String,
+                                            h.child("locationx").value as String,
+                                            h.child("locationy").value as String,
+                                            h.child("location_name").value as String,
+                                            h.child("per_page").value as String,
+                                            h.child("print_fb").value as String,
+                                            h.child("print_color").value as String,
+                                            h.child("picture_location").value as String
+                                        )
                                     )
-                                )
+                                }
                             }
                         }
-                        list_recyclerview.apply { //데이터 뽑은 후 출력
+                        list_mygiving.apply { //데이터 뽑은 후 출력
                             layoutManager = LinearLayoutManager(activity?:return)
                             adapter = ReqCardAdapter(reqData)
                         }
@@ -86,12 +88,12 @@ class ListFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.fragment_list, container, false)
+        return inflater.inflate(R.layout.fragment_my_giving, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        list_recyclerview.apply {
+        list_mygiving.apply {
             layoutManager = LinearLayoutManager(activity)
             adapter = ReqCardAdapter(reqData)
         }

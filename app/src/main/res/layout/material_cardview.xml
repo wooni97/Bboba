@@ -24,18 +24,16 @@
             android:id="@+id/appImage"
             android:layout_width="72dp"
             android:layout_height="72dp"
-            android:background="@drawable/ic_mood_black_24dp"
-            android:scaleType="centerCrop"
+            android:adjustViewBounds="true"
             card_view:layout_constraintStart_toStartOf="parent"
-            card_view:layout_constraintTop_toTopOf="parent"
-            tools:ignore="ContentDescription" />
+            card_view:layout_constraintTop_toTopOf="parent" /><!--ic_mood_black_24dp-->
 
         <TextView
             android:id="@+id/cardTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_toRightOf="@+id/appImage"
-            android:paddingLeft="16sp"
+            android:paddingLeft="16dp"
             android:paddingTop="5dp"
             android:paddingRight="16dp"
             android:text="Title"
@@ -46,20 +44,16 @@
             tools:ignore="RtlHardcoded" />
 
         <TextView
-            android:id="@+id/cardSubTitle"
+            android:id="@+id/total_page"
             style="@style/Base.TextAppearance.AppCompat.Subhead"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/cardTitle"
-            android:layout_toEndOf="@+id/appImage"
-            android:paddingLeft="16dp"
-            android:paddingRight="16dp"
+            android:paddingLeft="5dp"
             android:text="SubTiltle"
             android:textColor="#000"
             android:textSize="16sp"
-            card_view:layout_constraintBottom_toTopOf="@id/cardText"
-            card_view:layout_constraintStart_toEndOf="@id/appImage"
-            card_view:layout_constraintTop_toBottomOf="@id/cardTitle" />
+            card_view:layout_constraintBaseline_toBaselineOf="@id/date"
+            card_view:layout_constraintStart_toEndOf="@+id/location" />
 
         <TextView
             android:id="@+id/cardText"
@@ -92,6 +86,27 @@
             android:textStyle="bold"
             card_view:layout_constraintBottom_toBottomOf="parent"
             card_view:layout_constraintTop_toBottomOf="@id/cardText" />
+
+        <TextView
+            android:id="@+id/location"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingLeft="5dp"
+            android:text="TextView"
+            android:textSize="16sp"
+            card_view:layout_constraintBaseline_toBaselineOf="@id/date"
+            card_view:layout_constraintStart_toEndOf="@+id/date" />
+
+        <TextView
+            android:id="@+id/date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingLeft="16dp"
+            android:text="TextView"
+            android:textSize="16sp"
+            card_view:layout_constraintBottom_toTopOf="@+id/cardText"
+            card_view:layout_constraintStart_toEndOf="@+id/appImage"
+            card_view:layout_constraintTop_toBottomOf="@+id/cardTitle" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </com.google.android.material.card.MaterialCardView>

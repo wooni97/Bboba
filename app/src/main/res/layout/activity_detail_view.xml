@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
     <TextView
-        android:id="@+id/request_title"
+        android:id="@+id/detail_request_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/main_color"
@@ -21,7 +20,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/profile_layout"
+        android:id="@+id/detail_profile_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="3dp"
@@ -29,10 +28,10 @@
         android:paddingBottom="10dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/request_title">
+        app:layout_constraintTop_toBottomOf="@+id/detail_request_title">
 
         <ImageView
-            android:id="@+id/request_profile"
+            android:id="@+id/detail_req_profile"
             android:layout_width="100dp"
             android:layout_height="100dp"
             android:layout_marginStart="24dp"
@@ -43,7 +42,7 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/req_profile_name"
+            android:id="@+id/detail_profile_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="20dp"
@@ -51,11 +50,11 @@
             android:text="Charlie Park"
             android:textColor="#fff"
             android:textSize="20sp"
-            app:layout_constraintStart_toEndOf="@id/request_profile"
+            app:layout_constraintStart_toEndOf="@id/detail_req_profile"
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/req_profile_email"
+            android:id="@+id/detail_user_email"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="20dp"
@@ -63,20 +62,20 @@
             android:text="ChalieparkID"
             android:textColor="#fff"
             android:textSize="15sp"
-            app:layout_constraintStart_toEndOf="@id/request_profile"
-            app:layout_constraintTop_toBottomOf="@id/req_profile_name" />
+            app:layout_constraintStart_toEndOf="@id/detail_req_profile"
+            app:layout_constraintTop_toBottomOf="@+id/detail_profile_name" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/request_form"
+        android:id="@+id/detail_request_form"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:background="@drawable/button_outline"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/profile_layout">
+        app:layout_constraintTop_toBottomOf="@id/detail_profile_layout">
 
         <TextView
-            android:id="@+id/total_page"
+            android:id="@+id/detail_total_page"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="15dp"
@@ -85,15 +84,14 @@
             app:layout_constraintStart_toStartOf="@+id/detail_request"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <EditText
-            android:id="@+id/edit_total"
+        <TextView
+            android:id="@+id/detail_edit_total"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:ems="10"
-            android:hint="매수를 입력하세요"
-            android:inputType="numberDecimal"
-            app:layout_constraintBaseline_toBaselineOf="@id/total_page"
-            app:layout_constraintStart_toStartOf="@+id/edit_request" />
+            android:textSize="18sp"
+            app:layout_constraintBaseline_toBaselineOf="@id/detail_total_page"
+            app:layout_constraintStart_toStartOf="@+id/detail_edit_request" />
 
         <TextView
             android:id="@+id/detail_request"
@@ -102,132 +100,122 @@
             android:layout_marginTop="20dp"
             android:text="세부요청"
             android:textSize="23sp"
-            app:layout_constraintEnd_toStartOf="@id/edit_request"
+            app:layout_constraintEnd_toStartOf="@+id/detail_edit_request"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/total_page" />
+            app:layout_constraintTop_toBottomOf="@+id/detail_total_page" />
 
-        <EditText
-            android:id="@+id/edit_request"
+        <TextView
+            android:id="@+id/detail_edit_request"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:ems="10"
             android:gravity="start|top"
-            android:hint="세부요청사항을 입력하세요"
-            android:inputType="textMultiLine"
             android:maxLines="3"
-            app:layout_constraintBaseline_toBaselineOf="@id/detail_request"
-            app:layout_constraintBottom_toTopOf="@id/time"
+            android:textSize="18sp"
+            app:layout_constraintBottom_toBottomOf="@+id/detail_request"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/detail_request" />
+            app:layout_constraintStart_toEndOf="@id/detail_request"
+            app:layout_constraintTop_toTopOf="@+id/detail_request" />
 
         <TextView
-            android:id="@+id/time"
+            android:id="@+id/detail_time"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
             android:text="수령시간"
             android:textSize="23sp"
             app:layout_constraintStart_toStartOf="@+id/detail_request"
-            app:layout_constraintTop_toBottomOf="@+id/edit_request" />
+            app:layout_constraintTop_toBottomOf="@+id/detail_edit_request" />
 
         <TextView
-            android:id="@+id/edit_date"
+            android:id="@+id/detail_edit_date"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:hint="날짜를 선택하세요"
             android:textSize="18sp"
-            app:layout_constraintBaseline_toBaselineOf="@id/time"
-            app:layout_constraintStart_toStartOf="@+id/edit_request" />
+            app:layout_constraintBaseline_toBaselineOf="@id/detail_time"
+            app:layout_constraintStart_toStartOf="@+id/detail_edit_request" />
 
         <TextView
-            android:id="@+id/edit_time"
+            android:id="@+id/detail_edit_time"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="3dp"
-            android:hint="시간을 선택하세요"
             android:textSize="18sp"
-            app:layout_constraintStart_toStartOf="@+id/edit_date"
-            app:layout_constraintTop_toBottomOf="@+id/edit_date" />
+            app:layout_constraintStart_toStartOf="@+id/detail_edit_date"
+            app:layout_constraintTop_toBottomOf="@+id/detail_edit_date" />
 
         <TextView
-            android:id="@+id/location"
+            android:id="@+id/detail_location"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:text="장소"
             android:textSize="23sp"
-            app:layout_constraintBottom_toTopOf="@id/per_page"
-            app:layout_constraintStart_toStartOf="@+id/time"
-            app:layout_constraintTop_toBottomOf="@+id/edit_time" />
+            app:layout_constraintBottom_toTopOf="@id/detail_per_page"
+            app:layout_constraintStart_toStartOf="@+id/detail_time"
+            app:layout_constraintTop_toBottomOf="@+id/detail_edit_time" />
 
         <TextView
-            android:id="@+id/location_select"
+            android:id="@+id/detail_spinner_location"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="수령 장소 선택"
-            android:textSize="15sp"
-            app:layout_constraintBottom_toBottomOf="@+id/location"
-            app:layout_constraintStart_toStartOf="@+id/edit_time"
-            app:layout_constraintTop_toTopOf="@+id/location" />
-
-        <SeekBar
-            android:id="@+id/page_seekbar"
-            android:layout_width="100dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:max="3"
-            android:progress="0"
-            android:progressTint="@color/main_color"
-            android:thumbTint="@color/main_color"
-            app:layout_constraintStart_toStartOf="@+id/location"
-            app:layout_constraintTop_toBottomOf="@id/location" />
+            android:textSize="18sp"
+            app:layout_constraintBaseline_toBaselineOf="@id/detail_location"
+            app:layout_constraintStart_toStartOf="@+id/detail_edit_time" />
 
         <TextView
-            android:id="@+id/text_pageper"
+            android:id="@+id/detail_text_pageper"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="모아찍기"
-            app:layout_constraintBaseline_toBaselineOf="@id/per_page"
-            app:layout_constraintStart_toEndOf="@+id/per_page" />
+            android:textSize="18sp"
+            app:layout_constraintBaseline_toBaselineOf="@id/detail_per_page"
+            app:layout_constraintStart_toStartOf="@+id/detail_location" />
 
         <TextView
-            android:id="@+id/per_page"
+            android:id="@+id/detail_per_page"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
             android:text="1 장 "
-            app:layout_constraintStart_toEndOf="@+id/page_seekbar"
-            app:layout_constraintTop_toBottomOf="@id/location" />
+            android:textSize="18sp"
+            app:layout_constraintStart_toStartOf="@+id/detail_spinner_location"
+            app:layout_constraintTop_toBottomOf="@id/detail_location" />
 
         <CheckBox
-            android:id="@+id/print_fb"
+            android:id="@+id/detail_print_fb"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
+            android:clickable="false"
             android:text="양면 인쇄"
-            app:layout_constraintStart_toStartOf="@+id/location"
-            app:layout_constraintTop_toBottomOf="@+id/page_seekbar" />
+            android:textSize="18sp"
+            app:layout_constraintStart_toStartOf="@+id/detail_text_pageper"
+            app:layout_constraintTop_toBottomOf="@+id/detail_text_pageper" />
 
         <CheckBox
-            android:id="@+id/color_print"
+            android:id="@+id/detail_color_print"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:clickable="false"
             android:text="컬러 인쇄"
-            app:layout_constraintBaseline_toBaselineOf="@id/print_fb"
+            android:textSize="18sp"
+            app:layout_constraintBaseline_toBaselineOf="@id/detail_print_fb"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/print_fb" />
+            app:layout_constraintStart_toEndOf="@+id/detail_print_fb" />
 
         <Button
-            android:id="@+id/request_button"
+            android:id="@+id/detail_request_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@drawable/button_outline"
-            android:text="요청하기"
+            android:text="매칭하기"
             android:textColor="@color/main_color"
-            android:textSize="15sp"
+            android:textSize="17sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/print_fb" />
+            app:layout_constraintTop_toBottomOf="@+id/detail_print_fb" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
