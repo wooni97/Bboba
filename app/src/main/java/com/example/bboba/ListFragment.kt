@@ -14,14 +14,12 @@ import com.kakao.usermgmt.callback.MeV2ResponseCallback
 import com.kakao.usermgmt.response.MeV2Response
 import kotlinx.android.synthetic.main.fragment_list.*
 
-/**
- * A simple [Fragment] subclass.
- */
 class ListFragment : Fragment() {
     private val reqData = ArrayList<Prints_Request>()
     private val database = FirebaseDatabase.getInstance()
     private val reqRef = database.getReference("PRINTS_REQUEST")
     private val dateRef = reqRef.child("date")
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         retainInstance = true

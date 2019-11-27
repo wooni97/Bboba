@@ -25,8 +25,10 @@ class DetailViewActivity: AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_detail_view)
+
         val context = this
         val fragmentNumber = intent.getIntExtra("fragmentNumber", 1) // 맵에서 넘어온 것이면 맵을, 리스트에서 넘어온 것이면 리스트를 띄우기 위해서 만듦
+
         //각 뷰들에 대한 데이터 채워넣기
         val requestData = intent.getParcelableExtra<Prints_Request>("request_data")
         val calendar = Calendar.getInstance()
@@ -57,18 +59,6 @@ class DetailViewActivity: AppCompatActivity() {
         if(requestData.print_color == "true") {
             detail_color_print.isChecked = true
         }
-        UserManagement.getInstance().me(object: MeV2ResponseCallback() {
-            override fun onFailure(errorResult: ErrorResult?) {
-                Log.d("example", "aaabb=실패")
-            }
-            override fun onSessionClosed(errorResult: ErrorResult?) {
-                Log.d("example", "aaabb=세션 닫힘")
-            }
-
-            override fun onSuccess(result: MeV2Response?) {
-
-            }
-        })
 
         detail_spinner_location.setOnClickListener {//장소를 클릭하면 장소에 대한 지도가 나온다
             val dialogFragment = LocationViewrDialog(this, requestData.locationx.toDouble(), requestData.locationy.toDouble())
@@ -76,6 +66,7 @@ class DetailViewActivity: AppCompatActivity() {
             dialogFragment.show(fragmentManager, null)
         }
 
+        //매칭하기 버튼 클릭
         detail_request_button.setOnClickListener {
             val builder = AlertDialog.Builder(this)
             builder.setTitle("매칭 선택")
@@ -132,7 +123,7 @@ class DetailViewActivity: AppCompatActivity() {
                             })
                         }
                     }, 10000)//10초  (디버깅 편하게 일단 10초로 설정)
-                    //val ft: FragmentTransaction = supportFragmentManager.beginTransaction()
+
                     //화면전환
                     val nextIntent = Intent(context, MainActivity::class.java)
                     nextIntent.putExtra("fragmentNumber", fragmentNumber)

@@ -35,11 +35,11 @@ import kotlinx.android.synthetic.main.main_nav_header.*
 open class MainActivity : AppCompatActivity(),MapFragment.OnFragmentInteractionListener, NavigationView.OnNavigationItemSelectedListener {
     val listFragment = ListFragment() // 하나의 프레그먼트를 계속 이용하기 위해 생성자로 생성후 변수에 저장
     val mapFragment = MapFragment()
-    val context: Context = this
+    val context: Context = this // MainActivity context
 
-    //카카오 계정에 로그인 되어있는지를 검사하여 로그인 정보가 없으면 바로 로그인 페이지로 이동
+    //카카오 계정에 로그인 되어있는지를 검사하여 로그인 정보가 없으면 바로 로그인 페이지로 이동하는 함수
     //토큰이 있으면 메인액티비티가 나온다
-    fun requestAccessTokenInfo(context: Context) { //context를 매개변수에 넣어줘야한다
+    private fun requestAccessTokenInfo(context: Context) { //context를 매개변수에 넣어줘야한다
         com.kakao.auth.AuthService.getInstance().requestAccessTokenInfo(object:
             ApiResponseCallback<AccessTokenInfoResponse>() {
             override fun onSessionClosed(errorResult: ErrorResult?) {
@@ -61,9 +61,6 @@ open class MainActivity : AppCompatActivity(),MapFragment.OnFragmentInteractionL
         })
     }
 
-    override fun onFragmentInteraction(uri: Uri) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -72,7 +69,7 @@ open class MainActivity : AppCompatActivity(),MapFragment.OnFragmentInteractionL
 
         val adapter = ViewPagerAdapter(supportFragmentManager)
         adapter.addFragment(listFragment, "시간순 보기")
-        adapter.addFragment(mapFragment, "위치로 보기")
+        adapter.addFragment(mapFragment, "지도로 보기")
         viewPager.adapter = adapter
         tabs.setupWithViewPager(viewPager)
 
@@ -85,6 +82,12 @@ open class MainActivity : AppCompatActivity(),MapFragment.OnFragmentInteractionL
 
         //네비게이션뷰 리스너 등록
         navigationView.setNavigationItemSelectedListener(this)
+
+        //요청글 작성 버튼 등록
+        add_request_button.setOnClickListener {
+            val nextIntent = Intent(this, RequestActivity::class.java)
+            startActivity(nextIntent)
+        }
     }
 
     // 3.툴바 메뉴 버튼을 설정
@@ -97,10 +100,10 @@ open class MainActivity : AppCompatActivity(),MapFragment.OnFragmentInteractionL
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
         // 클릭된 메뉴 아이템의 아이디 마다 when 구절로 클릭시 동작을 설정한다.
         when(item!!.itemId){
-            // 네비게이션 드로어 열기
             android.R.id.home -> {
                 val profileview = nav_header_profile //네비게이션뷰의 프로필 사진
-                drawerLayout.openDrawer(GravityCompat.START)
+                drawerLayout.openDrawer(GravityCompat.START) //메뉴버튼을 누르면 네비게이션 드로어를 연다
+
                 //카카오api에서 유저정보 받아오기
                 UserManagement.getInstance().me(object: MeV2ResponseCallback() {
                     override fun onFailure(errorResult: ErrorResult?) {
@@ -110,7 +113,7 @@ open class MainActivity : AppCompatActivity(),MapFragment.OnFragmentInteractionL
                         Log.d("example", "aaabb=세션 닫힘")
                     }
 
-                    override fun onSuccess(result: MeV2Response?) {
+                    override fun onSuccess(result: MeV2Response?) {//세션정보를 잘 받아왔으면, 정보들을 채워넣는다
                         if(result!=null) {
                             val profileImage = result.kakaoAccount.profile.profileImageUrl
                             val userName = result.kakaoAccount.profile.nickname
@@ -129,11 +132,11 @@ open class MainActivity : AppCompatActivity(),MapFragment.OnFragmentInteractionL
     //네비게이션 드로어 메뉴 선택시
     override fun onNavigationItemSelected(menuItem: MenuItem): Boolean {
         when (menuItem.itemId) {
-            R.id.cart -> {
+            R.id.cart -> { //나의 거래목록
                 val intent = Intent(context,MyTradeActivity::class.java)
                 startActivity(intent)
             }
-            R.id.logout -> {
+            R.id.logout -> { //로그아웃
                 UserManagement.getInstance().requestLogout(object: LogoutResponseCallback(){
                     override fun onCompleteLogout() {
                         //로그아웃 메세지 띄우기
@@ -149,7 +152,7 @@ open class MainActivity : AppCompatActivity(),MapFragment.OnFragmentInteractionL
 
                 })
             }
-            R.id.chat -> {
+            R.id.chat -> { //채팅
                 val nextintent = Intent(context,ChatActivity::class.java)
                 startActivity(nextintent)
             }
@@ -209,12 +212,15 @@ open class MainActivity : AppCompatActivity(),MapFragment.OnFragmentInteractionL
     override fun onResume() {
         super.onResume()
         //교수님이 말씀하신 매칭 선택 후 뒤로가기를 통해 map화면으로 오는 것이 아닌 자동으로 map 화면 띄우기 구현
-
         var fragmentnumber = this.intent.getIntExtra("fragmentNumber", 1)
         if(fragmentnumber==2) {
             val tabhost: TabLayout = this.findViewById(R.id.tabs)
             tabhost.getTabAt(1)!!.select()
         }
+    }
+
+    override fun onFragmentInteraction(uri: Uri) {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
 

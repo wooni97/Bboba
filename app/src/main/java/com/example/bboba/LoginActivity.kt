@@ -32,7 +32,7 @@ class LoginActivity : AppCompatActivity() {
         setContentView(R.layout.activity_login)
 
         Session.getCurrentSession().addCallback(callback)
-        Log.d("example", "hash::"+getHashKey(this))
+        //Log.d("example", "hash::"+getHashKey(this))
     }
 
     override fun onDestroy() {
@@ -50,7 +50,7 @@ class LoginActivity : AppCompatActivity() {
         super.onActivityResult(requestCode, resultCode, data)
     }
 
-    private class SessionCallback(val context: Context) : ISessionCallback {
+    private class SessionCallback(val context: Context) : ISessionCallback { //세션 콜백 함수->로그인 성공시 메인액티비티로 이동한다
         override fun onSessionOpenFailed(exception: KakaoException?) {
             Log.e("session","Session Call back :: onSessionOpenFailed: ${exception?.message}")
         }
@@ -74,7 +74,7 @@ class LoginActivity : AppCompatActivity() {
             })
         }
     }
-    fun getHashKey(context: Context): String? {
+    fun getHashKey(context: Context): String? { //카카오 api에 해쉬키를 등록할 때 사용하는 함수
         try {
             if (Build.VERSION.SDK_INT >= 28) {
                 val packageInfo = getPackageInfo(context, PackageManager.GET_SIGNING_CERTIFICATES)
@@ -107,7 +107,7 @@ class LoginActivity : AppCompatActivity() {
         }
         return null
     }
-    override fun onBackPressed() {
+    override fun onBackPressed() { //뒤로가기 버튼을 누르면 어플을 종료한다
         if(drawerLayout.isDrawerOpen(GravityCompat.START)){
             drawerLayout.closeDrawers()
         }else{

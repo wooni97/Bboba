@@ -20,7 +20,7 @@ import java.util.*
 
 class RequestActivity : AppCompatActivity(),SeekBar.OnSeekBarChangeListener {
     val context = this
-    //Seekbar
+    //Seekbar 관련 함수
     override fun onProgressChanged(seekBar: SeekBar, progress: Int,fromUser: Boolean) {
         val d_page = progress+1
         this.div_page = d_page.toString()
@@ -38,7 +38,6 @@ class RequestActivity : AppCompatActivity(),SeekBar.OnSeekBarChangeListener {
     }
 
     //변수
-    val locations = arrayOf("과학관", "전자관", "기계관", "강의동", "학생회관")
     lateinit var name: String
     var total_page: String? = null
     var detail_request: String? = null
