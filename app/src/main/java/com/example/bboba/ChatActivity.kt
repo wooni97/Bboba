@@ -124,7 +124,7 @@ class Message_to_giving(val from_message : String, val user : String): ClipData.
     }
 }
 
-class Message_to_requesting(val to_message : String, val user : String): Item<ViewHolder>() {
+class Message_to_requesting(val to_message : String, val user : String): ClipData.Item<ViewHolder>() {
 
     override fun bind(viewHolder: ViewHolder, position : Int){
 
