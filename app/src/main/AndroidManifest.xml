@@ -6,6 +6,7 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.WAKE_LOCK"/>
 
     <application
         android:name=".GlobalApplication"
@@ -19,10 +20,14 @@
 
         <meta-data
             android:name="com.kakao.sdk.AppKey"
-            android:value="@string/kakao_app_key" />
+            android:value="e68962e0e76d91fb67e1b91a528a0f92" />
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyAwmGNBhCUZ017Y1cN5aPOozOTeOt7yTmY" />
+
+        <meta-data
+            android:name="com.google.firebase.messaging.default_notification_color"
+            android:resource="@color/colorAccent" />
 
         <activity android:name=".ComRequestActivity" />
         <activity android:name=".LoginActivity" />
@@ -48,6 +53,23 @@
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
+        <service
+            android:name="MyFirebaseMessagingService"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+            </intent-filter>
+        </service>
+        <service android:name="com.kakao.push.KakaoFirebaseInstanceIdService">
+            <intent-filter>
+                <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />
+            </intent-filter>
+        </service>
+        <service android:name=".NotificationService"
+            android:enabled="true"/>
+        <receiver android:name=".NotificationReceiver"/>
+
+
     </application>
 
 </manifest>

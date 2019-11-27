@@ -15,9 +15,11 @@ import androidx.appcompat.app.AlertDialog
 import androidx.core.view.GravityCompat
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
+import com.google.android.gms.tasks.OnCompleteListener
 import kotlinx.android.synthetic.main.activity_main.*
 import com.google.android.material.navigation.NavigationView
 import com.google.android.material.snackbar.Snackbar
+import com.google.firebase.iid.FirebaseInstanceId
 import com.kakao.auth.ApiResponseCallback
 import com.kakao.auth.network.response.AccessTokenInfoResponse
 import com.kakao.network.ErrorResult
@@ -31,6 +33,8 @@ import kotlinx.android.synthetic.main.main_nav_header.*
 
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
     val context: Context = this
+
+
 
     //카카오 계정에 로그인 되어있는지를 검사하여 로그인 정보가 없으면 바로 로그인 페이지로 이동
     //토큰이 있으면 메인액티비티가 나온다
@@ -59,6 +63,10 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+
+
+
+
         requestAccessTokenInfo(this)//카카오 로그인 여부 검사 후 인텐트로 화면 전환
 
 
@@ -67,6 +75,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             //요청하기
             val nextIntent = Intent(this, RequestActivity::class.java)
             startActivity(nextIntent)
+
         }
         bt_give.setOnClickListener {
             //제공하기
@@ -207,4 +216,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             finishAffinity()
         }
     }
+
+
 }

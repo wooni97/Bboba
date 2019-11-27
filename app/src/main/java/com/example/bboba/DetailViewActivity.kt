@@ -109,6 +109,7 @@ class DetailViewActivity: AppCompatActivity() {
                             detail_request_button.text = "매칭중"
                             detail_request_button.isEnabled = false
                             Toast.makeText(this@DetailViewActivity, "10초 안에 인증을 완료해주세요", Toast.LENGTH_SHORT).show()
+
                         }
                     })
                     val handler = Handler()
@@ -133,7 +134,7 @@ class DetailViewActivity: AppCompatActivity() {
                                     detail_request_button.text = "매칭하기"
                                     detail_request_button.isEnabled = true
                                     Toast.makeText(this@DetailViewActivity, "인증시간이 초과되어서 매칭이 해제되었습니다.", Toast.LENGTH_SHORT).show()
-                                }
+                            }
                             })
                         }
                     }, 10000)//10초  (디버깅 편하게 일단 10초로 설정)
