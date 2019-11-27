@@ -29,12 +29,14 @@
         <activity android:name=".ChatActivity" />
         <activity android:name=".MyTradeActivity" />
         <activity android:name=".RequestActivity" />
-        <activity android:name=".MainActivity">
+        <activity android:name=".SplashActivity"
+            android:theme="@style/SplashTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".MainActivity" />
         <activity android:name=".DetailViewActivity" /> <!-- 카카오 로그인 시 웹 뷰를 띄우기 위한 코드 -->
         <activity
             android:name="com.kakao.auth.authorization.authcode.KakaoWebViewActivity"

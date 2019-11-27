@@ -11,7 +11,6 @@ import android.util.Base64.NO_WRAP
 import android.util.Log
 import android.widget.Toast
 import androidx.core.content.ContextCompat.startActivity
-import androidx.core.view.GravityCompat
 import com.kakao.auth.ISessionCallback
 import com.kakao.auth.Session
 import com.kakao.network.ErrorResult
@@ -20,7 +19,6 @@ import com.kakao.usermgmt.callback.MeV2ResponseCallback
 import com.kakao.usermgmt.response.MeV2Response
 import com.kakao.util.exception.KakaoException
 import com.kakao.util.helper.Utility.getPackageInfo
-import kotlinx.android.synthetic.main.activity_main2.*
 import java.security.MessageDigest
 import java.security.NoSuchAlgorithmException
 
@@ -108,12 +106,7 @@ class LoginActivity : AppCompatActivity() {
         return null
     }
     override fun onBackPressed() { //뒤로가기 버튼을 누르면 어플을 종료한다
-        if(drawerLayout.isDrawerOpen(GravityCompat.START)){
-            drawerLayout.closeDrawers()
-        }else{
-            Log.d("example", "hash!!!"+getHashKey(this)!!)
-            Toast.makeText(this,"어플을 종료합니다.", Toast.LENGTH_SHORT).show()
-            finishAffinity()
-        }
+        Toast.makeText(this,"어플을 종료합니다.", Toast.LENGTH_SHORT).show()
+        finishAffinity()
     }
 }
