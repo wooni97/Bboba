@@ -1,5 +1,6 @@
 package com.example.bboba
 
+import android.content.ClipData
 import android.content.Context
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -111,7 +112,7 @@ class ChatActivity : AppCompatActivity() {
     }
 }
 
-class Message_to_giving(val from_message : String, val user : String): Item<ViewHolder>() {
+class Message_to_giving(val from_message : String, val user : String): ClipData.Item<ViewHolder>() {
 
     override fun bind(viewHolder: ViewHolder, position : Int){
 
