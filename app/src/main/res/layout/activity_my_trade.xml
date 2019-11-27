@@ -70,6 +70,7 @@
             android:layout_height="wrap_content"
             app:layout_constraintTop_toBottomOf="@+id/nav_profile_email_in_mytrade"
             app:tabBackground="@color/main_color"
+            app:tabIndicatorColor="#ff3939"
             app:tabGravity="fill"
             app:tabMode="fixed"
             app:tabTextColor="@android:color/white" />

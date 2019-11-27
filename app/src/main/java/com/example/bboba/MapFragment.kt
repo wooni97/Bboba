@@ -206,6 +206,7 @@ class MapFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnMarkerClickListe
                             for (h in eud.children) {
                                 if (h.child("email").value == userEmail) continue //자신이 올린 요청은 보여주지 않는다
                                 if (h.child("is_selected").value == "1") continue //매칭된 글은 보여주지 않는다
+                                if(h.child("matcher").child("email").value == result.kakaoAccount.email) continue
                                 reqData.add(
                                     0,
                                     Prints_Request(
