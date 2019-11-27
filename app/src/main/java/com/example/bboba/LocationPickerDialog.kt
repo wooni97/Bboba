@@ -2,15 +2,12 @@ package com.example.bboba
 
 
 import android.app.Dialog
-import android.app.ProgressDialog
 import android.content.Context
 import android.content.DialogInterface
 import android.location.Address
 import android.location.Geocoder
-import android.location.LocationManager
 import android.net.ConnectivityManager
 import android.os.*
-import android.provider.Settings
 import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -25,17 +22,11 @@ import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import kotlinx.android.synthetic.main.activity_request.*
-import org.json.JSONArray
-import org.json.JSONException
 import org.json.JSONObject
-import java.io.BufferedReader
-import java.io.InputStream
-import java.io.InputStreamReader
 import java.lang.Exception
 import java.net.HttpURLConnection
 import java.net.URL
 import java.util.*
-import kotlin.collections.HashMap
 
 /**
  * A simple [Fragment] subclass.
@@ -151,7 +142,6 @@ class LocationPickerDialog(private val req_activity: RequestActivity, private va
                     Toast.makeText(context, "기준 건물이 없습니다. 다시 선택해주세요", Toast.LENGTH_SHORT).show()
                 }
             } catch(e: Exception) { //예외가 발생하면 장소명을 한국 항공대학교 로 설정
-                this@LocationPickerDialog.req_activity.location_select.text="한국항공대학교"
                 Toast.makeText(context, "한국 항공대학교 선택", Toast.LENGTH_SHORT).show()
             }
 

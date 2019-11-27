@@ -133,6 +133,7 @@ class RequestActivity : AppCompatActivity(),SeekBar.OnSeekBarChangeListener {
             builder.show()
         }
         location_select.setOnClickListener {//지도 선택 버튼 클릭
+            location_select.text = "한국항공대학교"
             val dialogFragment = LocationPickerDialog(context)
             val fragmentManager = supportFragmentManager
             dialogFragment.show(fragmentManager, null)

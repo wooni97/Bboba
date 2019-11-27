@@ -10,9 +10,7 @@ import com.kakao.network.ErrorResult
 import com.kakao.usermgmt.UserManagement
 import com.kakao.usermgmt.callback.MeV2ResponseCallback
 import com.kakao.usermgmt.response.MeV2Response
-import kotlinx.android.synthetic.main.activity_givemain.*
 import kotlinx.android.synthetic.main.activity_my_trade.*
-import kotlinx.android.synthetic.main.activity_request.*
 
 
 open class MyTradeActivity : AppCompatActivity(){

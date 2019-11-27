@@ -23,9 +23,7 @@ import com.kakao.usermgmt.UserManagement
 import com.kakao.usermgmt.callback.MeV2ResponseCallback
 import com.kakao.usermgmt.response.MeV2Response
 import com.sothree.slidinguppanel.SlidingUpPanelLayout
-import kotlinx.android.synthetic.main.fragment_list.*
 import kotlinx.android.synthetic.main.fragment_list.list_recyclerview
-import kotlinx.android.synthetic.main.fragment_map.*
 
 
 // TODO: Rename parameter arguments, choose names that match
