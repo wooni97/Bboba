@@ -73,7 +73,6 @@
             app:tabIndicatorColor="#ff3939"
             app:tabGravity="fill"
             app:tabMode="fixed"
-            app:tabIndicatorColor="#ff3939"
             app:tabTextColor="@android:color/white" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
