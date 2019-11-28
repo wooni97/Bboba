@@ -66,7 +66,7 @@ class LocationPickerDialog(private val req_activity: RequestActivity, private va
         super.onActivityCreated(savedInstanceState)
 
         mapFragment =
-            childFragmentManager.findFragmentByTag("select_map_view") as SupportMapFragment
+            childFragmentManager.findFragmentByTag("select_map_view") as? SupportMapFragment
         if (mapFragment == null) {
             mapFragment = SupportMapFragment.newInstance()
             childFragmentManager.beginTransaction()

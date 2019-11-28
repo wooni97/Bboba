@@ -1,13 +1,23 @@
 package com.example.bboba
 
+import android.app.NotificationChannel
+import android.app.NotificationManager
+import android.app.PendingIntent
+import android.content.BroadcastReceiver
+import android.content.Context
 import android.content.DialogInterface
 import android.content.Intent
+import android.graphics.Color
 import android.os.Bundle
 import android.os.Handler
 import android.util.Log
+import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.NotificationCompat
+import androidx.core.app.NotificationManagerCompat
+import androidx.core.content.ContextCompat
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.google.firebase.database.DataSnapshot
@@ -23,9 +33,12 @@ import java.util.*
 
 class DetailViewActivity: AppCompatActivity() {
     var setting = 1
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_detail_view)
+
+
 
         val context = this
         val fragmentNumber = intent.getIntExtra("fragmentNumber", 1) // 맵에서 넘어온 것이면 맵을, 리스트에서 넘어온 것이면 리스트를 띄우기 위해서 만듦
@@ -127,6 +140,9 @@ class DetailViewActivity: AppCompatActivity() {
                                 override fun onSessionClosed(errorResult: ErrorResult?) {
                                     Log.d("example", "aaabb=세션 닫힘")
                                 }
+
+
+
 
                                 override fun onSuccess(result: MeV2Response?) {
                                     if(result!=null){

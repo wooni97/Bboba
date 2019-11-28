@@ -135,4 +135,3 @@ class Message_to_requesting(val to_message : String, val user : String): ClipDat
         return R.layout.material_chat_yours
     }
 }
-
