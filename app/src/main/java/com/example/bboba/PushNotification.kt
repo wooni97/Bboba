@@ -26,10 +26,7 @@ class PushNotification(private val ctx : Context) {
     private val NOTIFICATION_ID: Int = 0
     private val ACTION_UPDATE_NOTIFICATION: String = "com.android.segunfrancis.notifymekotlin.ACTION_UPDATE_NOTIFICATION"
 
-    private val reqData = ArrayList<Prints_Request>()
-    private val database = FirebaseDatabase.getInstance()
-    private val reqRef = database.getReference("PRINTS_REQUEST")
-    private val dateRef = reqRef.child("date")
+
 
 
 
