@@ -58,7 +58,6 @@ class LocationPickerDialog(private val req_activity: RequestActivity, private va
                     }
                 })
             .setNegativeButton("취소", null)
-
         return builder.create()
     }
 
@@ -91,6 +90,7 @@ class LocationPickerDialog(private val req_activity: RequestActivity, private va
                     selected_position = it
                     placeMarker(it)
 /*
+역지오코딩 : 좌표를 통해 주소를 받아오는 코드
                     //주소 받아오기
                     var list = mutableListOf<Address>()
                     try {
@@ -115,7 +115,6 @@ class LocationPickerDialog(private val req_activity: RequestActivity, private va
                         myThread.start()
                     }
                 }
-
                 map.setOnMapLoadedCallback {
                     val latLng = LatLng(lat, lng)
                     map.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, DEFAULT_ZOOM))
@@ -154,12 +153,10 @@ class LocationPickerDialog(private val req_activity: RequestActivity, private va
         override fun run() {
             var content = StringBuilder()
             try {
-                // declare URL to text file, create a connection to it and put into stream.
-                val myUrl = link  // or URL to txt file
+                val myUrl = link
                 val urlConnection = myUrl.openConnection() as HttpURLConnection
                 val inputStream = urlConnection.inputStream
 
-                // get text from stream, convert to string and send to main thread.
                 val allText = inputStream.bufferedReader().use { it.readText() }
                 content.append(allText)
                 val str = content.toString()
@@ -173,7 +170,6 @@ class LocationPickerDialog(private val req_activity: RequestActivity, private va
                 msg.what = 2
                 msg.arg1=2
                 myHandler.sendMessage(msg)
-                Log.d("Error", "qqqqq"+e.toString())
             }
         }
     }

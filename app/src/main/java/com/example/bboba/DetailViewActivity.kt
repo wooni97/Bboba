@@ -1,10 +1,9 @@
 package com.example.bboba
 
-
 import android.content.DialogInterface
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
+import android.view.View
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import com.bumptech.glide.Glide
@@ -21,13 +20,10 @@ import kotlinx.android.synthetic.main.activity_detail_view.*
 import java.util.*
 
 class DetailViewActivity: AppCompatActivity() {
-    var setting = 1
-
+    var listenerNum = 1
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_detail_view)
-
-
 
         val context = this
         val fragmentNumber = intent.getIntExtra("fragmentNumber", 1) // 맵에서 넘어온 것이면 맵을, 리스트에서 넘어온 것이면 리스트를 띄우기 위해서 만듦
@@ -54,15 +50,17 @@ class DetailViewActivity: AppCompatActivity() {
         detail_edit_date.text = "${requestData.date} ($day_name)"
         detail_edit_time.text = requestData.time
         detail_spinner_location.text = requestData.location_name
+        //사진 채우기
         if(requestData.picture_location!="") Glide.with(context).load(requestData.picture_location).transform(RoundedCorners(20)).into(detail_req_profile)
         else Glide.with(context).load(R.drawable.blank_profile).transform(RoundedCorners(20)).into(detail_req_profile)
+        //체크박스
         if(requestData.print_fb == "true") {
             detail_print_fb.isChecked = true
         }
         if(requestData.print_color == "true") {
             detail_color_print.isChecked = true
         }
-
+        //여러장 찍기
         detail_spinner_location.setOnClickListener {//장소를 클릭하면 장소에 대한 지도가 나온다
             val dialogFragment = LocationViewrDialog(this, requestData.locationx.toDouble(), requestData.locationy.toDouble())
             val fragmentManager = supportFragmentManager
@@ -71,21 +69,18 @@ class DetailViewActivity: AppCompatActivity() {
 
         UserManagement.getInstance().me(object: MeV2ResponseCallback() {
             override fun onFailure(errorResult: ErrorResult?) {
-                Log.d("example", "aaabb=실패")
             }
-
             override fun onSessionClosed(errorResult: ErrorResult?) {
-                Log.d("example", "aaabb=세션 닫힘")
             }
-
             override fun onSuccess(result: MeV2Response) {
                 if (requestData.email == result.kakaoAccount.email) {
                     detail_request_button.text = "매칭 대기중"
-                    detail_request_button.isEnabled = false
+                    detail_request_button.isEnabled = false //자신의 게시글 && 매칭 전 -> 클릭 불가하게 함
                 }
                 val database = FirebaseDatabase.getInstance()
                 val ref = database.getReference("PRINTS_REQUEST")
                 val dateRef = ref.child("date").child(requestData.date)
+
                 dateRef.addListenerForSingleValueEvent(object : ValueEventListener {
                     override fun onCancelled(p0: DatabaseError) {
                     }
@@ -93,10 +88,10 @@ class DetailViewActivity: AppCompatActivity() {
                         for(data in DateData.children) {
                             if(data.child("email").value==requestData.email && data.child("detail_request").value == requestData.detail_request
                                 && data.child("per_page").value == requestData.per_page && data.child("print_fb").value == requestData.print_fb
-                                && data.child("print_color").value == requestData.print_color && requestData.email == result.kakaoAccount.email && data.child("is_selected").value==1L) { //내 글 && 매칭된 글
+                                && data.child("print_color").value == requestData.print_color && requestData.email == result.kakaoAccount.email && data.child("is_selected").value=="1") { //내 글 && 매칭된 글
                                 detail_request_button.text = "매칭 취소"
                                 detail_request_button.isEnabled = true
-                                setting=2
+                                listenerNum=2 //리스너를 다르게 하기 위해서 설정
                             }
                         }
                     }
@@ -105,108 +100,186 @@ class DetailViewActivity: AppCompatActivity() {
             }
         })
 
-        //매칭하기 버튼 클릭
-        detail_request_button.setOnClickListener {
-            val builder = AlertDialog.Builder(this)
-            builder.setTitle("매칭 선택")
-                .setMessage("이 요청글과 매칭하시겠습니까?")
-                .setPositiveButton("선택하기", DialogInterface.OnClickListener { dialog, id ->
-                    val database = FirebaseDatabase.getInstance()
-                    val ref = database.getReference("PRINTS_REQUEST")
-                    val dateRef = ref.child("date").child(requestData.date)
-                    val idRef = ref.child("id").child(requestData.email.substring(0,requestData.email.indexOf('@')))
-                    var matcher_id = ""
-                    idRef.addListenerForSingleValueEvent(object: ValueEventListener {
-                        override fun onCancelled(p0: DatabaseError) {
-                        }
-
-                        override fun onDataChange(IdData: DataSnapshot) {
-                            //카카오 세션
-                            UserManagement.getInstance().me(object: MeV2ResponseCallback() {
-                                override fun onFailure(errorResult: ErrorResult?) {
-                                    Log.d("example", "aaabb=실패")
+        class DetReqClickListener: View.OnClickListener {
+            val builder = AlertDialog.Builder(context)
+            var matcherEmail = ""
+            fun check(data: DataSnapshot):Boolean{ //글이 일치하는지를 판단해주는 함수
+                if(data.child("email").value==requestData.email && data.child("detail_request").value == requestData.detail_request
+                    && data.child("per_page").value == requestData.per_page && data.child("print_fb").value == requestData.print_fb
+                    && data.child("print_color").value == requestData.print_color) return true
+                return false
+            }
+            override fun onClick(v: View) {
+                if(listenerNum==1){
+                    builder.setTitle("매칭 선택")
+                        .setMessage("이 요청글과 매칭하시겠습니까?")
+                        .setPositiveButton("선택하기", DialogInterface.OnClickListener { dialog, id ->
+                            val database = FirebaseDatabase.getInstance()
+                            val ref = database.getReference("PRINTS_REQUEST")
+                            val dateRef = ref.child("date").child(requestData.date)
+                            val idRef = ref.child("id").child(requestData.email.substring(0,requestData.email.indexOf('@')))
+                            //id로 넣기
+                            idRef.addListenerForSingleValueEvent(object: ValueEventListener {
+                                override fun onCancelled(p0: DatabaseError) {
                                 }
-                                override fun onSessionClosed(errorResult: ErrorResult?) {
-                                    Log.d("example", "aaabb=세션 닫힘")
-                                }
+                                override fun onDataChange(IdData: DataSnapshot) {
+                                    //카카오 세션
+                                    UserManagement.getInstance().me(object: MeV2ResponseCallback() {
+                                        override fun onFailure(errorResult: ErrorResult?) {
+                                        }
+                                        override fun onSessionClosed(errorResult: ErrorResult?) {
+                                        }
+                                        override fun onSuccess(result: MeV2Response?) {
+                                            if(result!=null){
+                                                matcherEmail = result.kakaoAccount.email
+                                                for(data in IdData.children) {
+                                                    if(check(data) && data.child("is_selected").value!=1) { //요청글 찾음
+                                                        val childUpdates = HashMap<String, Any>()
+                                                        val matcher_info = HashMap<String, Any>()
+                                                        matcher_info["/matcher/user_email"] = matcherEmail
+                                                        matcher_info["/matcher/user_name"] = result.kakaoAccount.profile.nickname
+                                                        childUpdates["/is_selected"] = "1" //매칭 되었음
+                                                        //매칭자 정보 추가하기
+                                                        data.ref.updateChildren(childUpdates)
+                                                        data.ref.updateChildren(matcher_info)
 
-
-
-
-                                override fun onSuccess(result: MeV2Response?) {
-                                    if(result!=null){
-                                        matcher_id = result.kakaoAccount.email
-                                        for(data in IdData.children) {
-                                            if(data.child("email").value==requestData.email && data.child("detail_request").value == requestData.detail_request
-                                                && data.child("per_page").value == requestData.per_page && data.child("print_fb").value == requestData.print_fb
-                                                && data.child("print_color").value == requestData.print_color && data.child("is_selected").value!=1) { //요청글 찾음
-                                                val childUpdates = HashMap<String, Any>()
-                                                val matcher_info = HashMap<String, Any>()
-                                                matcher_info["/matcher/user_email"] = matcher_id
-                                                matcher_info["/matcher/user_name"] = result.kakaoAccount.profile.nickname
-                                                childUpdates["/is_selected"] = "1" //매칭 되었음
-                                                //매칭자 정보 추가하기
-                                                data.ref.updateChildren(childUpdates)
-                                                data.ref.updateChildren(matcher_info)
-                                                break
+                                                        //나의 제공에 쓸 데이터 파이어베이스에 저장하기
+                                                        val matRef = database.getReference("Matching_Info")
+                                                        val userRealId = matcherEmail.substring(0,matcherEmail.indexOf('@'))//아이디 추출
+                                                        val req_Info = Prints_Request(data.child("name").value as String, data.child("email").value as String,data.child("total_page").value as String,
+                                                            data.child("detail_request").value as String,data.child("date").value as String,data.child("time").value as String,
+                                                            data.child("locationx").value as String,data.child("locationy").value as String,data.child("location_name").value as String,
+                                                            data.child("per_page").value as String,data.child("print_fb").value as String,data.child("print_color").value as String,
+                                                            data.child("picture_location").value as String)
+                                                        matRef.child(userRealId).push().setValue(req_Info)
+                                                        break
+                                                    }
+                                                }
                                             }
                                         }
+                                    })
+                                }
+                            })
+                            //날짜로 넣기
+                            dateRef.addListenerForSingleValueEvent(object: ValueEventListener {
+                                override fun onCancelled(p0: DatabaseError) {
+                                }
+                                override fun onDataChange(DateData: DataSnapshot) {
+                                    //카카오 세션
+                                    UserManagement.getInstance().me(object: MeV2ResponseCallback() {
+                                        override fun onFailure(errorResult: ErrorResult?) {
+                                        }
+                                        override fun onSessionClosed(errorResult: ErrorResult?) {
+                                        }
+                                        override fun onSuccess(result: MeV2Response?) {
+                                            if(result!=null) {
+                                                matcherEmail = result.kakaoAccount.email
+                                                //카카오 세션정보 받는 시간이 있어서 안에다 써주어야 한다. 아니면 정보를 받지 못한 채로 실행된다
+                                                for(data in DateData.children){
+                                                    if(check(data) && data.child("is_selected").value!=1) { //요청글 찾음
+                                                        val childUpdates = HashMap<String, Any>()
+                                                        val matcher_info = HashMap<String, Any?>()
+                                                        matcher_info["/matcher/user_email"] = matcherEmail
+                                                        matcher_info["/matcher/user_name"] = result.kakaoAccount.profile.nickname
+                                                        childUpdates["/is_selected"] = "1" //매칭 되었음
+                                                        //매칭자 정보 추가하기
+                                                        data.ref.updateChildren(childUpdates)
+                                                        data.ref.updateChildren(matcher_info)
+                                                        break
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    })
+                                    detail_request_button.text = "매칭중"
+                                    detail_request_button.isEnabled = false
+                                }
+                            })
+
+                            //화면전환
+                            val nextIntent = Intent(context, MainActivity::class.java)
+                            nextIntent.putExtra("fragmentNumber", fragmentNumber)
+                            nextIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP) // 뒤로가기 버튼 눌렀을때 액티비티 스택에 쌓여있는 전의 화면을 불러오는데 이를 없애서 뒤로가기를 계속 눌렀을 때 중복 화면을 없앤다.
+                            startActivity(nextIntent)
+                        })
+                        .setNegativeButton("취소", DialogInterface.OnClickListener { dialog, id ->
+                        })
+                }
+                else{
+                    builder.setTitle("매칭 취소")
+                        .setMessage("제공자와의 매칭을 취소하시겠습니까?")
+                        .setPositiveButton("확인", DialogInterface.OnClickListener { dialog, id ->
+                            val database = FirebaseDatabase.getInstance()
+                            val match_ref = database.getReference("Matching_Info")
+                            val date_ref = database.getReference("PRINTS_REQUEST").child("date").child(requestData.date)
+                            val id_ref = database.getReference("PRINTS_REQUEST").child("id")
+                            UserManagement.getInstance().me(object: MeV2ResponseCallback() {
+                                override fun onFailure(errorResult: ErrorResult?) {
+                                }
+                                override fun onSessionClosed(errorResult: ErrorResult?) {
+                                }
+                                override fun onSuccess(result: MeV2Response?) {
+                                    if (result != null) {
+                                        //Matching_Info 삭제
+                                        match_ref.addListenerForSingleValueEvent(object:ValueEventListener {
+                                            override fun onCancelled(p0: DatabaseError) {
+                                            }
+                                            override fun onDataChange(idData: DataSnapshot) {
+                                                for(oneIdData in idData.children) {
+                                                    for(data in oneIdData.children){
+                                                        if(check(data)) {
+                                                            data.ref.setValue(null)
+                                                            return
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        })
+                                        //date에 있는 매칭 정보
+                                        date_ref.addListenerForSingleValueEvent(object:ValueEventListener {
+                                            override fun onCancelled(p0: DatabaseError) {
+                                            }
+                                            override fun onDataChange(onedayData: DataSnapshot) {
+                                                for(data in onedayData.children) {
+                                                    if(check(data)) {
+                                                        data.child("is_selected").ref.setValue(null)
+                                                        data.child("matcher").ref.setValue(null)
+                                                    }
+                                                }
+                                            }
+                                        })
+                                        val email = result.kakaoAccount.email
+                                        val userRealId = email.substring(0,email.indexOf('@'))//아이디 추출
+                                        id_ref.child(userRealId).addListenerForSingleValueEvent(object:ValueEventListener {
+                                            override fun onCancelled(p0: DatabaseError) {
+                                            }
+                                            override fun onDataChange(oneIdData: DataSnapshot) {
+                                                for(data in oneIdData.children) {
+                                                    if(check(data)) {
+                                                        data.child("is_selected").ref.setValue(null)
+                                                        data.child("matcher").ref.setValue(null)
+                                                    }
+                                                }
+                                            }
+                                        })
                                     }
                                 }
                             })
-                        }
-                    })
-                    dateRef.addListenerForSingleValueEvent(object: ValueEventListener {
-                        override fun onCancelled(p0: DatabaseError) {
-                        }
-                        override fun onDataChange(DateData: DataSnapshot) {
-                            //카카오 세션
-                            UserManagement.getInstance().me(object: MeV2ResponseCallback() {
-                                override fun onFailure(errorResult: ErrorResult?) {
-                                    Log.d("example", "aaabb=실패")
-                                }
-                                override fun onSessionClosed(errorResult: ErrorResult?) {
-                                    Log.d("example", "aaabb=세션 닫힘")
-                                }
-
-                                override fun onSuccess(result: MeV2Response?) {
-                                    if(result!=null) {
-                                        matcher_id = result.kakaoAccount.email
-                                        //카카오 세션정보 받는 시간이 있어서 안에다 써주어야 한다. 아니면 정보를 받지 못한 채로 실행된다
-                                        for(data in DateData.children){
-                                            if(data.child("email").value==requestData.email && data.child("detail_request").value == requestData.detail_request
-                                                && data.child("per_page").value == requestData.per_page && data.child("print_fb").value == requestData.print_fb
-                                                && data.child("print_color").value == requestData.print_color && data.child("is_selected").value!=1) { //요청글 찾음
-                                                val childUpdates = HashMap<String, Any>()
-                                                val matcher_info = HashMap<String, Any?>()
-                                                matcher_info["/matcher/user_email"] = matcher_id
-                                                matcher_info["/matcher/user_name"] = result.kakaoAccount.profile.nickname
-                                                childUpdates["/is_selected"] = "1" //매칭 되었음
-                                                //매칭자 정보 추가하기
-                                                data.ref.updateChildren(childUpdates)
-                                                data.ref.updateChildren(matcher_info)
-                                                break
-                                            }
-                                        }
-                                    }
-                                }
-                            })
-
-                            detail_request_button.text = "매칭중"
-                            detail_request_button.isEnabled = false
-                        }
-                    })
-
-                    //화면전환
-                    val nextIntent = Intent(context, MainActivity::class.java)
-                    nextIntent.putExtra("fragmentNumber", fragmentNumber)
-                    nextIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP) // 뒤로가기 버튼 눌렀을때 액티비티 스택에 쌓여있는 전의 화면을 불러오는데 이를 없애서 뒤로가기를 계속 눌렀을 때 중복 화면을 없앤다.
-                    startActivity(nextIntent)
-                })
-                .setNegativeButton("취소", DialogInterface.OnClickListener { dialog, id ->
-                })
-            builder.create()
-            builder.show()
+                            //화면전환
+                            val nextIntent = Intent(context, MainActivity::class.java)
+                            nextIntent.putExtra("fragmentNumber", fragmentNumber)
+                            nextIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP) // 뒤로가기 버튼 눌렀을때 액티비티 스택에 쌓여있는 전의 화면을 불러오는데 이를 없애서 뒤로가기를 계속 눌렀을 때 중복 화면을 없앤다.
+                            startActivity(nextIntent)
+                        })
+                        .setNegativeButton("취소", DialogInterface.OnClickListener { dialog, id ->
+                        })
+                }
+                builder.create()
+                builder.show()
+            }
         }
+        //매칭하기 버튼 클릭
+        val dbtnListener = DetReqClickListener()
+        detail_request_button.setOnClickListener(dbtnListener)
     }
 }

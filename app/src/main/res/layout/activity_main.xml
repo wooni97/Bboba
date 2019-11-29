@@ -25,11 +25,11 @@
                 android:id="@+id/toolbar_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center"
                 android:gravity="center"
                 android:text="요청 게시글 목록"
                 android:textColor="@color/white"
-                android:textSize="20sp"
-                android:layout_gravity = "center"
+                android:textSize="23sp"
                 tools:layout_editor_absoluteX="16dp"
                 tools:layout_editor_absoluteY="14dp" />
         </androidx.appcompat.widget.Toolbar>
@@ -38,11 +38,12 @@
             android:id="@+id/tabs"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="2dp"
             app:layout_constraintTop_toBottomOf="@+id/my_toolbar"
             app:tabBackground="@color/main_color"
             app:tabGravity="fill"
-            app:tabMode="fixed"
             app:tabIndicatorColor="#ff3939"
+            app:tabMode="fixed"
             app:tabTextColor="@android:color/white" />
 
         <androidx.viewpager.widget.ViewPager

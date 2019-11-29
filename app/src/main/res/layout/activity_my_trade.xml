@@ -11,11 +11,11 @@
         android:layout_height="wrap_content"
         android:background="@color/main_color"
         android:gravity="center"
-        android:paddingTop="20dp"
+        android:paddingTop="10dp"
         android:paddingBottom="10dp"
-        android:text="요청서"
+        android:text="나의 거래목록"
         android:textColor="@color/white"
-        android:textSize="30sp"
+        android:textSize="25sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -70,8 +70,8 @@
             android:layout_height="wrap_content"
             app:layout_constraintTop_toBottomOf="@+id/nav_profile_email_in_mytrade"
             app:tabBackground="@color/main_color"
-            app:tabIndicatorColor="#ff3939"
             app:tabGravity="fill"
+            app:tabIndicatorColor="#ff3939"
             app:tabMode="fixed"
             app:tabTextColor="@android:color/white" />
     </androidx.constraintlayout.widget.ConstraintLayout>

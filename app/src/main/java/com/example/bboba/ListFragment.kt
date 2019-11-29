@@ -27,10 +27,8 @@ class ListFragment : Fragment() {
         //카카오 api에서 정보 받아오기
         UserManagement.getInstance().me(object: MeV2ResponseCallback() {
             override fun onFailure(errorResult: ErrorResult?) {
-                Log.d("example", "aaabb=실패")
             }
             override fun onSessionClosed(errorResult: ErrorResult?) {
-                Log.d("example", "aaabb=세션 닫힘")
             }
             override fun onSuccess(result: MeV2Response) {
                 val userEmail = result.kakaoAccount.email

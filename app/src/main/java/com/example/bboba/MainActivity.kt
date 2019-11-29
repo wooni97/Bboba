@@ -50,12 +50,10 @@ open class MainActivity : AppCompatActivity(),MapFragment.OnFragmentInteractionL
                 val nextIntent = Intent(context, LoginActivity::class.java)
                 startActivity(nextIntent)
             }
-
             override fun onFailure(errorResult: ErrorResult?) {
                 super.onFailure(errorResult)
                 Logger.e("failed to get access token info. msg="+errorResult)
             }
-
             override fun onSuccess(result: AccessTokenInfoResponse?) {
             }
         })
@@ -107,12 +105,9 @@ open class MainActivity : AppCompatActivity(),MapFragment.OnFragmentInteractionL
                 //카카오api에서 유저정보 받아오기
                 UserManagement.getInstance().me(object: MeV2ResponseCallback() {
                     override fun onFailure(errorResult: ErrorResult?) {
-                        Log.d("example", "aaabb=실패")
                     }
                     override fun onSessionClosed(errorResult: ErrorResult?) {
-                        Log.d("example", "aaabb=세션 닫힘")
                     }
-
                     override fun onSuccess(result: MeV2Response?) {//세션정보를 잘 받아왔으면, 정보들을 채워넣는다
                         if(result!=null) {
                             val profileImage = result.kakaoAccount.profile.profileImageUrl
@@ -222,6 +217,4 @@ open class MainActivity : AppCompatActivity(),MapFragment.OnFragmentInteractionL
     override fun onFragmentInteraction(uri: Uri) {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
-
-
 }

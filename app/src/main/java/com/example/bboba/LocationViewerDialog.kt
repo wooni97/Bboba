@@ -36,7 +36,6 @@ class LocationViewrDialog(private val detail_activity: DetailViewActivity, priva
         val builder = AlertDialog.Builder(context!!)
             .setView(customView)
             .setNegativeButton("취소", null)
-
         return builder.create()
     }
 
