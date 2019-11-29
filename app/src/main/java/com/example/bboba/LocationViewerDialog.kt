@@ -42,14 +42,14 @@ class LocationViewrDialog(private val detail_activity: DetailViewActivity, priva
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
-        mapFragment = childFragmentManager.findFragmentByTag("select_map_view") as SupportMapFragment
+        mapFragment = childFragmentManager.findFragmentByTag("select_map_view") as SupportMapFragment?
         if (mapFragment == null) {
             mapFragment = SupportMapFragment.newInstance()
             childFragmentManager.beginTransaction().replace(R.id.select_map_view, mapFragment!!, "select_map_view").commit()
         }
 
-        mapFragment.let { mapFragment ->
-            mapFragment!!.getMapAsync { map ->
+        mapFragment?.let { mapFragment ->
+            mapFragment.getMapAsync { map ->
                 googleMap = map
                 map.addMarker(MarkerOptions().position(LatLng(lat, lng)))
                 map.setOnMapLoadedCallback {

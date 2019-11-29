@@ -110,7 +110,7 @@ class DetailViewActivity: AppCompatActivity() {
                 return false
             }
             override fun onClick(v: View) {
-                if(listenerNum==1){
+                if(listenerNum==1){ //제공자 입장에서 매칭하기를 원할 때
                     builder.setTitle("매칭 선택")
                         .setMessage("이 요청글과 매칭하시겠습니까?")
                         .setPositiveButton("선택하기", DialogInterface.OnClickListener { dialog, id ->
@@ -205,7 +205,7 @@ class DetailViewActivity: AppCompatActivity() {
                         .setNegativeButton("취소", DialogInterface.OnClickListener { dialog, id ->
                         })
                 }
-                else{
+                else{ //요청자 입장에서 매칭 취소를 원할 때
                     builder.setTitle("매칭 취소")
                         .setMessage("제공자와의 매칭을 취소하시겠습니까?")
                         .setPositiveButton("확인", DialogInterface.OnClickListener { dialog, id ->

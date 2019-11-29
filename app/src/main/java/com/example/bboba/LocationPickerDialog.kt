@@ -65,7 +65,7 @@ class LocationPickerDialog(private val req_activity: RequestActivity, private va
         super.onActivityCreated(savedInstanceState)
 
         mapFragment =
-            childFragmentManager.findFragmentByTag("select_map_view") as SupportMapFragment
+            childFragmentManager.findFragmentByTag("select_map_view") as SupportMapFragment?
         if (mapFragment == null) {
             mapFragment = SupportMapFragment.newInstance()
             childFragmentManager.beginTransaction()
@@ -152,7 +152,7 @@ class LocationPickerDialog(private val req_activity: RequestActivity, private va
         var locationName = ""
         override fun run() {
             var content = StringBuilder()
-            try {
+            //try {
                 val myUrl = link
                 val urlConnection = myUrl.openConnection() as HttpURLConnection
                 val inputStream = urlConnection.inputStream
@@ -165,12 +165,12 @@ class LocationPickerDialog(private val req_activity: RequestActivity, private va
                 msg.what = 1
                 msg.obj = locationName
                 myHandler.sendMessage(msg)
-            } catch (e: Exception) {
+            /*} catch (e: Exception) {
                 var msg: Message = myHandler.obtainMessage()
                 msg.what = 2
                 msg.arg1=2
                 myHandler.sendMessage(msg)
-            }
+            }*/
         }
     }
 }
