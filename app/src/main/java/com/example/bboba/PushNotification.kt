@@ -1,58 +1,81 @@
 package com.example.bboba
 
-import android.app.Notification
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.app.PendingIntent
+import android.content.Context
 import android.content.Intent
+import android.graphics.Color
+import android.util.Log
+import androidx.core.app.NotificationCompat
+import androidx.core.content.ContextCompat.getSystemService
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ValueEventListener
+import com.kakao.network.ErrorResult
+import com.kakao.usermgmt.UserManagement
+import com.kakao.usermgmt.callback.MeV2ResponseCallback
+import com.kakao.usermgmt.response.MeV2Response
 
 
-class PushNotification {
-    private val reqData = ArrayList<Prints_Request>()
-    private var tempreqData = ArrayList<Prints_Request>()//슬라이드바
-    private val database = FirebaseDatabase.getInstance()
-    private val reqRef = database.getReference("PRINTS_REQUEST")
-    private val dateRef = reqRef.child("date")
+class PushNotification(private val ctx : Context) {
 
-    /*private val notificationManager: NotificationManager by lazy {
-        ctx.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+    private lateinit var mNotifyManager : NotificationManager
+    private val PRIMARY_CHANNEL_ID = "primary_notification_channel"
+    private val NOTIFICATION_ID: Int = 0
+    private val ACTION_UPDATE_NOTIFICATION: String = "com.android.segunfrancis.notifymekotlin.ACTION_UPDATE_NOTIFICATION"
+
+
+
+
+
+    fun sendNotification() {
+        val updateIntent = Intent(ACTION_UPDATE_NOTIFICATION)
+        val updatePendingIntent = PendingIntent.getBroadcast(ctx,
+            NOTIFICATION_ID, updateIntent, PendingIntent.FLAG_ONE_SHOT)
+        val notifyBuilder: NotificationCompat.Builder = getNotificationBuilder()
+        notifyBuilder.addAction(R.drawable.alert_notify, "Update Notification", updatePendingIntent)
+        mNotifyManager.notify(NOTIFICATION_ID, notifyBuilder.build())
+
     }
 
-    companion object {
-        private const val CHANNEL_ID = "com.ran.todolist"
-        private const val NOTIFICATION_ID = 1001
+    fun createNotificationChannel() {
+        mNotifyManager = ctx.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+        /* Notification Channels are required for android 26 and above */
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+            // Create Notification Channel
+            val notificationChannel = NotificationChannel(
+                PRIMARY_CHANNEL_ID,
+                "Mascot Notification",
+                NotificationManager.IMPORTANCE_HIGH
+            )
+            notificationChannel.enableLights(true)
+            notificationChannel.lightColor = Color.RED
+            notificationChannel.enableVibration(true)
+            notificationChannel.description = "Notification from Mascot"
+            mNotifyManager.createNotificationChannel(notificationChannel)
+        }
     }
 
-    fun createNotificationChannel(id: String, name: String, description: String) {
-        val importance = NotificationManager.IMPORTANCE_LOW
-        val channel = NotificationChannel(id, name, importance)
-
-        channel.description = description
-        channel.enableLights(true)
-        channel.lightColor = Color.RED
-        channel.enableVibration(true)
-        channel.vibrationPattern = longArrayOf(100, 200, 300, 400, 500, 400, 300, 200, 400)
-        notificationManager.createNotificationChannel(channel)
+    private fun getNotificationBuilder(): NotificationCompat.Builder {
+        val notificationIntent = Intent(ctx, MainActivity::class.java)
+        val notificationPendingIntent = PendingIntent.getActivity(
+            ctx, NOTIFICATION_ID,
+            notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT
+        )
+        return NotificationCompat.Builder(ctx, PRIMARY_CHANNEL_ID)
+            .setContentTitle("You have been notified")
+            .setContentText("This is your notification")
+            .setSmallIcon(R.drawable.alert_notify)
+            .setContentIntent(notificationPendingIntent)
+            .setAutoCancel(true) /* This closes the notification when the user taps on it */
+            .setPriority(NotificationCompat.PRIORITY_HIGH)
+            .setDefaults(NotificationCompat.DEFAULT_ALL)
     }
 
-    fun showNotification(contentText: String, resultIntent: Intent) {
-        val pendingIntent = PendingIntent.getActivity(ctx, 0, resultIntent, 0)
 
-        val notification = Notification.Builder(ctx, CHANNEL_ID)
-            .setContentText(contentText)
-            .setSmallIcon(R.drawable.ic_launcher)
-            .setChannelId(CHANNEL_ID)
-            .setContentIntent(pendingIntent)
-            .build()
 
-        notification.flags = Notification.FLAG_NO_CLEAR
-
-        notificationManager.notify(NOTIFICATION_ID, notification)
-    }
-
-    fun dismissNotification() {
-        notificationManager.cancel(NOTIFICATION_ID)
-    }*/
 }
+
 

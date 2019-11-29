@@ -1,11 +1,10 @@
 package com.example.bboba
 
+
 import android.content.DialogInterface
 import android.content.Intent
 import android.os.Bundle
-import android.os.Handler
 import android.util.Log
-import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import com.bumptech.glide.Glide
@@ -23,9 +22,12 @@ import java.util.*
 
 class DetailViewActivity: AppCompatActivity() {
     var setting = 1
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_detail_view)
+
+
 
         val context = this
         val fragmentNumber = intent.getIntExtra("fragmentNumber", 1) // 맵에서 넘어온 것이면 맵을, 리스트에서 넘어온 것이면 리스트를 띄우기 위해서 만듦
@@ -127,6 +129,9 @@ class DetailViewActivity: AppCompatActivity() {
                                 override fun onSessionClosed(errorResult: ErrorResult?) {
                                     Log.d("example", "aaabb=세션 닫힘")
                                 }
+
+
+
 
                                 override fun onSuccess(result: MeV2Response?) {
                                     if(result!=null){
