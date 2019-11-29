@@ -10,7 +10,6 @@
     card_view:cardBackgroundColor="@color/white"
     card_view:cardCornerRadius="5dp"
     card_view:cardElevation="4dp"
-
     card_view:cardUseCompatPadding="true"
     xmlns:tools="http://schemas.android.com/tools">
 
