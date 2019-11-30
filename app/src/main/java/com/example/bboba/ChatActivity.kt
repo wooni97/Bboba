@@ -8,6 +8,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.WindowManager
 import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -35,11 +36,16 @@ class ChatActivity : AppCompatActivity() {
     private val chatRef = database.getReference("CHAT")
     private val userRef = chatRef.child("$myname-$yourname")
     private val op_userRef = chatRef.child("$yourname-$myname")
-
+    private val toBottomofview = LinearLayoutManager(this)
 
     override fun onCreate(savedInstanceState: Bundle?){
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_chat)
+        
+        //채팅창에 있는 대화를 가장 최신으로 업데이트하기위함
+        toBottomofview.setStackFromEnd(true)
+        chatting_recyclerview.setLayoutManager(toBottomofview)
+        //getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
 
         activity_send.setOnClickListener{
 
@@ -50,11 +56,17 @@ class ChatActivity : AppCompatActivity() {
             val Data = Chatting_Element(input_chat)
             userRef.push().setValue(Data)
                 .addOnSuccessListener {
-                    input_message.text.clear()
+                    input_message.text.clear()      //전송이 성공한다면 edit text칸을 지운다
+
+                    toBottomofview.setStackFromEnd(true)        //채팅창에 있는 대화를 가장 최신으로 계속 갱신
+                    chatting_recyclerview.setLayoutManager(toBottomofview)
                 }
             op_userRef.push().setValue(Data)
 
         }
+
+
+
 
 
 
@@ -74,18 +86,18 @@ class ChatActivity : AppCompatActivity() {
                 userRef.addValueEventListener(object: ValueEventListener {
                     override fun onDataChange(p0: DataSnapshot) {
                         chatData.clear()
-                        //Log.d("reading data", "is succeeded")
+                        //Log.d("test", "reading data is succeeded")
                         for (k in p0.children) {
-                            //Log.d("reading data", "= ${k.child("chat_my").value as String}")
+                            //Log.d("test", "reading data ${k.child("chat_my").value as String}")
                             chatData.add(Chatting_Element(k.child("chat_my").value as String))
                         }
-                        chatting.apply {
+                        chatting_recyclerview.apply {
                             layoutManager = LinearLayoutManager(context?:return)
                             adapter = MyChatAdapter(chatData)
                         }
                     }
                     override fun onCancelled(p0: DatabaseError) {
-                        Log.d("raeding data","is failed")
+                        Log.d("test","reading data is failed")
                     }
                 })
 
