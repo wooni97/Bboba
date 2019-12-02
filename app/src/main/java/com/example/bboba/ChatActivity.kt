@@ -28,14 +28,13 @@ import kotlinx.android.synthetic.main.material_chat_yours.view.*
 
 class ChatActivity : AppCompatActivity() {
 
-    val myname : String = "cho"
-    val yourname : String = "gwon"
+    val myemail : String = "uiop527"
+    val youremail : String = "thkthk97"
 
     private val chatData = ArrayList<Chatting_Element>()
     private val database = FirebaseDatabase.getInstance()
     private val chatRef = database.getReference("CHAT")
-    private val userRef = chatRef.child("$myname-$yourname")
-    private val op_userRef = chatRef.child("$yourname-$myname")
+    private val userRef = chatRef.child("$myemail-$youremail")
     private val toBottomofview = LinearLayoutManager(this)
 
     override fun onCreate(savedInstanceState: Bundle?){
@@ -47,13 +46,19 @@ class ChatActivity : AppCompatActivity() {
         chatting_recyclerview.setLayoutManager(toBottomofview)
         //getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
 
-        activity_send.setOnClickListener{
 
+        val chat_userid: String? = "thkthk97"                //말한 사람의 id
+
+
+        activity_send.setOnClickListener{
             val input_chat = input_message.text.toString()
+
             if(input_chat.isEmpty()){
                 Toast.makeText(this,"Please input the meassage", Toast.LENGTH_SHORT).show()
             }
-            val Data = Chatting_Element(input_chat)
+
+            val Data = Chatting_Element(input_chat,chat_userid)
+
             userRef.push().setValue(Data)
                 .addOnSuccessListener {
                     input_message.text.clear()      //전송이 성공한다면 edit text칸을 지운다
@@ -61,13 +66,7 @@ class ChatActivity : AppCompatActivity() {
                     toBottomofview.setStackFromEnd(true)        //채팅창에 있는 대화를 가장 최신으로 계속 갱신
                     chatting_recyclerview.setLayoutManager(toBottomofview)
                 }
-            op_userRef.push().setValue(Data)
-
         }
-
-
-
-
 
 
         //상대방의 이미지를 띄움, 현재는 나의 이미지
@@ -85,15 +84,30 @@ class ChatActivity : AppCompatActivity() {
 
                 userRef.addValueEventListener(object: ValueEventListener {
                     override fun onDataChange(p0: DataSnapshot) {
-                        chatData.clear()
-                        //Log.d("test", "reading data is succeeded")
-                        for (k in p0.children) {
-                            //Log.d("test", "reading data ${k.child("chat_my").value as String}")
-                            chatData.add(Chatting_Element(k.child("chat_my").value as String))
-                        }
-                        chatting_recyclerview.apply {
-                            layoutManager = LinearLayoutManager(context?:return)
-                            adapter = MyChatAdapter(chatData)
+                        if (result != null) {
+                            val useremail = result.kakaoAccount.email
+                            val userid = useremail.substring(0,useremail.indexOf('@'))     //현재 어플을 실행한 사람
+
+                            chatData.clear()
+                            //Log.d("test", "reading data is succeeded")
+                            for (k in p0.children) {
+                                //Log.d("test", "reading data ${k.child("chat_my").value as String}")
+                                chatData.add(
+                                    Chatting_Element(
+                                        k.child("chat").value as String,
+                                        k.child("username").value as String
+                                    )
+                                )
+                            }
+                            chatting_recyclerview.apply {
+                                if (chat_userid == userid) {            //내가 실행하니까 userid = uiop527
+                                    layoutManager = LinearLayoutManager(context ?: return)
+                                    adapter = MyChatAdapter(chatData)
+                                }else{
+                                    layoutManager = LinearLayoutManager(context?: return)
+                                    adapter = YourChatAdapter(chatData)
+                                }
+                            }
                         }
                     }
                     override fun onCancelled(p0: DatabaseError) {

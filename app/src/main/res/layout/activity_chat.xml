@@ -71,7 +71,7 @@
         android:layout_marginTop="3dp"
         android:background="@color/main_color"
         android:id="@+id/chatting_recyclerview"
-        android:windowSoftInputMode="adjustResize"
+        android:windowSoftInputMode="adjustPan"
         app:layout_constraintBottom_toTopOf="@+id/activity_send"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
