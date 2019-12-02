@@ -2,13 +2,11 @@ package com.example.bboba
 
 import android.content.ClipData
 import android.content.Context
+import android.graphics.Rect
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
-import android.view.WindowManager
+import android.view.*
 import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -29,6 +27,7 @@ class ChatActivity : AppCompatActivity() {
     val youremail : String = "thkthk97"
     val myname = "영환"
     val yourname = "태형"
+    val context=this
 
     private val chatData = ArrayList<Chatting_Element>()
     private val database = FirebaseDatabase.getInstance()
@@ -37,12 +36,13 @@ class ChatActivity : AppCompatActivity() {
     private val userRef = chatRef.child("$myemail-$youremail")
     private val toBottomofview = LinearLayoutManager(this)
 
-
     override fun onCreate(savedInstanceState: Bundle?){
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_chat)
+        //키보드 올라오면 화면 조정
+        window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN)
 
-        val context = this
+
 
         //상대방의 이미지를 띄움, 현재는 나의 이미지
         UserManagement.getInstance().me(object : MeV2ResponseCallback() {
@@ -80,6 +80,7 @@ class ChatActivity : AppCompatActivity() {
                             layoutManager = LinearLayoutManager(context?:return)
                             adapter = MyChatAdapter(chatData)
                         }
+                        chatting_recyclerview.scrollToPosition(MyChatAdapter(chatData).itemCount-1)
                     }
                     override fun onCancelled(p0: DatabaseError) {
                     }

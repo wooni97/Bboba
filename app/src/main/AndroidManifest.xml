@@ -36,7 +36,8 @@
 
         <activity android:name=".ComRequestActivity" />
         <activity android:name=".LoginActivity" />
-        <activity android:name=".ChatActivity" />
+        <activity android:name=".ChatActivity"
+            android:windowSoftInputMode="adjustPan"/>
         <activity android:name=".MyTradeActivity" />
         <activity android:name=".RequestActivity" />
         <activity android:name=".SplashActivity"
