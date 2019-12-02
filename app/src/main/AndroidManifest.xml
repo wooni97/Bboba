@@ -24,6 +24,16 @@
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyAwmGNBhCUZ017Y1cN5aPOozOTeOt7yTmY" />
 
+        <!-- [START fcm_disable_auto_init] -->
+        <meta-data
+            android:name="firebase_messaging_auto_init_enabled"
+            android:value="false" />
+        <meta-data
+            android:name="firebase_analytics_collection_enabled"
+            android:value="false" />
+        <!-- [END fcm_disable_auto_init] -->
+
+
         <activity android:name=".ComRequestActivity" />
         <activity android:name=".LoginActivity" />
         <activity android:name=".ChatActivity" />
@@ -48,6 +58,12 @@
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
+        <service
+            android:name=".MyFirebaseMessagingService">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+            </intent-filter>
+        </service>
     </application>
 
 </manifest>

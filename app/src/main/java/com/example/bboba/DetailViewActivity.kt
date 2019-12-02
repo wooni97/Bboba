@@ -93,6 +93,10 @@ class DetailViewActivity: AppCompatActivity() {
                                 detail_request_button.isEnabled = true
                                 listenerNum=2 //리스너를 다르게 하기 위해서 설정
                             }
+                            if(data.child("matcher/user_email").value==result.kakaoAccount.email){ //나의 제공에서 봤을 시(제공자가 글을 들어오면) 매칭 완료라고 뜨게 함
+                                detail_request_button.text = "매칭 완료"
+                                detail_request_button.isEnabled = false
+                            }
                         }
                     }
                 })
@@ -151,7 +155,10 @@ class DetailViewActivity: AppCompatActivity() {
                                                             data.child("locationx").value as String,data.child("locationy").value as String,data.child("location_name").value as String,
                                                             data.child("per_page").value as String,data.child("print_fb").value as String,data.child("print_color").value as String,
                                                             data.child("picture_location").value as String)
-                                                        matRef.child(userRealId).push().setValue(req_Info)
+                                                        val hashRef = matRef.child(userRealId).push()
+                                                        hashRef.setValue(req_Info)
+                                                        hashRef.updateChildren(childUpdates)
+                                                        hashRef.updateChildren(matcher_info)
                                                         break
                                                     }
                                                 }

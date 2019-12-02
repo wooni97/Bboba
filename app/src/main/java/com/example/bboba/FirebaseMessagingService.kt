@@ -1,13 +1,11 @@
 package com.example.bboba
 
-import android.annotation.SuppressLint
 import android.app.NotificationManager
 import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
 import android.media.RingtoneManager
 import android.util.Log
-import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.NotificationCompat
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
@@ -15,7 +13,6 @@ import com.google.firebase.messaging.RemoteMessage
 class MyFirebaseMessagingService : FirebaseMessagingService() {
 
     private val TAG = "FirebaseService"
-
 
     override fun onNewToken(token: String) {
         Log.d(TAG, "new Token: $token")
@@ -33,7 +30,11 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
         }
     }
 
-    fun sendNotification(body: String?) {
+    fun sendNoti(message: String=""){
+        sendNotification(message)
+    }
+
+    private fun sendNotification(body: String?) {
         val intent = Intent(this, MainActivity::class.java).apply {
             flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
             putExtra("Notification", body)

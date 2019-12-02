@@ -6,6 +6,16 @@
     android:layout_height="wrap_content"
     android:background="@color/main_color">
 
+    <ImageView
+        android:id="@+id/partner_image_m"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:background="@color/main_color"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/chat_mine"
+        app:layout_constraintTop_toTopOf="@+id/chat_mine"
+        tools:srcCompat="@tools:sample/avatars[3]" />
+
     <TextView
         android:id="@+id/chat_mine"
         style="@style/AppTheme.RoundedShape"

@@ -1,5 +1,5 @@
 package com.example.bboba
 
 class Chatting_Element(
-   val chat_my: String ){
+   val chat: String, val username: String ){
 }
