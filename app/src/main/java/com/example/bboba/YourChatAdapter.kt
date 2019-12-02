@@ -5,8 +5,9 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.material_chat_mine.view.*
+import kotlinx.android.synthetic.main.material_chat_yours.view.*
 
-class MyChatAdapter(val chatlists:ArrayList<Chatting_Element>): RecyclerView.Adapter<MyChatAdapter.ViewHolder>() {
+class YourChatAdapter (val chatlists:ArrayList<Chatting_Element>): RecyclerView.Adapter<YourChatAdapter.ViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val inflater = LayoutInflater.from(parent.context)
         return ViewHolder(inflater,parent,parent.context)
@@ -22,9 +23,9 @@ class MyChatAdapter(val chatlists:ArrayList<Chatting_Element>): RecyclerView.Ada
     }
 
     class ViewHolder(inflater: LayoutInflater, parent : ViewGroup, val context: Context):
-        RecyclerView.ViewHolder(inflater.inflate(R.layout.material_chat_mine, parent, false)){
-            fun bind(data: Chatting_Element){
-                itemView.chat_mine.text = data.chat
-            }
+        RecyclerView.ViewHolder(inflater.inflate(R.layout.material_chat_yours, parent, false)){
+        fun bind(data: Chatting_Element){
+            itemView.chat_partner.text = data.chat
+        }
     }
 }
