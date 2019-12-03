@@ -4,6 +4,7 @@ import android.content.DialogInterface
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
+import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import com.bumptech.glide.Glide
@@ -27,6 +28,7 @@ class DetailViewActivity: AppCompatActivity() {
 
         val context = this
         val fragmentNumber = intent.getIntExtra("fragmentNumber", 1) // 맵에서 넘어온 것이면 맵을, 리스트에서 넘어온 것이면 리스트를 띄우기 위해서 만듦
+        val chatintent = Intent(context, ChatActivity::class.java)
 
         //각 뷰들에 대한 데이터 채워넣기
         val requestData = intent.getParcelableExtra<Prints_Request>("request_data")
@@ -74,8 +76,10 @@ class DetailViewActivity: AppCompatActivity() {
             }
             override fun onSuccess(result: MeV2Response) {
                 if (requestData.email == result.kakaoAccount.email) {
+
                     detail_request_button.text = "매칭 대기중"
                     detail_request_button.isEnabled = false //자신의 게시글 && 매칭 전 -> 클릭 불가하게 함
+                    to_chat.isEnabled =false
                 }
                 val database = FirebaseDatabase.getInstance()
                 val ref = database.getReference("PRINTS_REQUEST")
@@ -96,6 +100,13 @@ class DetailViewActivity: AppCompatActivity() {
                             if(data.child("matcher/user_email").value==result.kakaoAccount.email){ //나의 제공에서 봤을 시(제공자가 글을 들어오면) 매칭 완료라고 뜨게 함
                                 detail_request_button.text = "매칭 완료"
                                 detail_request_button.isEnabled = false
+                                to_chat.isEnabled = true
+
+                                val chatid_address :String = requestData.email
+                                val chatid :String = chatid_address.substring(0,chatid_address.indexOf('@'))
+                                val chatname :String = requestData.name
+                                chatintent.putExtra("op_chatname", chatname)            //요청자의 이름,아이디가 전달 되어야함
+                                chatintent.putExtra("op_chatemail", chatid)
                             }
                         }
                     }
@@ -122,6 +133,17 @@ class DetailViewActivity: AppCompatActivity() {
                             val ref = database.getReference("PRINTS_REQUEST")
                             val dateRef = ref.child("date").child(requestData.date)
                             val idRef = ref.child("id").child(requestData.email.substring(0,requestData.email.indexOf('@')))
+
+
+                            //채팅때 쓸 정보
+                            val chatid_address :String = requestData.email
+                            val chatid :String = chatid_address.substring(0,chatid_address.indexOf('@'))
+                            val chatname :String = requestData.name
+
+                            chatintent.putExtra("op_chatname", chatname)            //요청자의 이름,아이디가 전달 되어야함
+                            chatintent.putExtra("op_chatemail", chatid)
+
+
                             //id로 넣기
                             idRef.addListenerForSingleValueEvent(object: ValueEventListener {
                                 override fun onCancelled(p0: DatabaseError) {
@@ -159,6 +181,7 @@ class DetailViewActivity: AppCompatActivity() {
                                                         hashRef.setValue(req_Info)
                                                         hashRef.updateChildren(childUpdates)
                                                         hashRef.updateChildren(matcher_info)
+
                                                         break
                                                     }
                                                 }
@@ -236,6 +259,8 @@ class DetailViewActivity: AppCompatActivity() {
                                                     for(data in oneIdData.children){
                                                         if(check(data)) {
                                                             data.ref.setValue(null)
+
+                                                            to_chat.isEnabled = false
                                                             return
                                                         }
                                                     }
@@ -285,8 +310,13 @@ class DetailViewActivity: AppCompatActivity() {
                 builder.show()
             }
         }
+
         //매칭하기 버튼 클릭
         val dbtnListener = DetReqClickListener()
         detail_request_button.setOnClickListener(dbtnListener)
+
+        to_chat.setOnClickListener{
+            startActivity(chatintent)
+        }
     }
 }

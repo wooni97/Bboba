@@ -49,7 +49,7 @@ class MyGivingFragment : Fragment() {
                 reqRef.addValueEventListener(object: ValueEventListener {
                     override fun onDataChange(MatchingPerson: DataSnapshot) {
                         reqData.clear()
-                        for(h in MatchingPerson.children) {//person = 유저의 아이디에 들어 있는 데이터 값을 확인하고 데이터를 넣어줌
+                        for(h in MatchingPerson.children) {//h = 유저의 아이디에 들어 있는 데이터 값을 확인하고 데이터를 넣어줌
                             reqData.add(0,
                                 Prints_Request(
                                     h.child("name").value as String,
