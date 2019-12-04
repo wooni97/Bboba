@@ -150,10 +150,6 @@ open class MainActivity : AppCompatActivity(),MapFragment.OnFragmentInteractionL
 
                 })
             }
-            R.id.chat -> { //채팅
-                val nextintent = Intent(context,ChatActivity::class.java)
-                startActivity(nextintent)
-            }
             R.id.setting -> { //회원탈퇴
                 val appendMessage: String = "회원탈퇴 하시겠습니까?"
                 AlertDialog.Builder(this).setMessage(appendMessage)

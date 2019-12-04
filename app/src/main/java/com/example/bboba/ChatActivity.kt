@@ -23,17 +23,11 @@ import kotlinx.android.synthetic.main.activity_chat.*
 
 class ChatActivity : AppCompatActivity() {
 
-    val myemail : String = "uiop527"
-    val youremail : String = "thkthk97"
-    val myname = "영환"
-    val yourname = "태형"
     val context=this
 
-    private val chatData = ArrayList<Chatting_Element>()
-    private val database = FirebaseDatabase.getInstance()
-    private val chatRef = database.getReference("CHAT")
+    //email을 크기를 비교하여 db에 항상 일관되게 저장
 
-    private val userRef = chatRef.child("$myemail-$youremail")
+    private val chatData = ArrayList<Chatting_Element>()
     private val toBottomofview = LinearLayoutManager(this)
 
     override fun onCreate(savedInstanceState: Bundle?){
@@ -52,6 +46,17 @@ class ChatActivity : AppCompatActivity() {
             }
             override fun onSuccess(result: MeV2Response) {
                 //파이어베이스 데이터 받기
+                val myemail_address = result.kakaoAccount.email
+                val myemail = myemail_address.substring(0,myemail_address.indexOf('@'))
+                val youremail : String = intent.getStringExtra("op_chatemail")
+                val myname = result.kakaoAccount.profile.nickname
+                val yourname = intent.getStringExtra("op_chatname")
+
+                val database = FirebaseDatabase.getInstance()
+                val chatRef = database.getReference("CHAT")
+                val userRef = chatRef.child("$myemail-$youremail")
+
+
                 activity_partner_name.text = yourname
                 activity_send.setOnClickListener{
 
