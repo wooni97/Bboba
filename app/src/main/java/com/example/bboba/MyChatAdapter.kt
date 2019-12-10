@@ -12,12 +12,12 @@ import com.kakao.usermgmt.callback.MeV2ResponseCallback
 import com.kakao.usermgmt.response.MeV2Response
 import kotlinx.android.synthetic.main.material_chat_mine.view.*
 
-class MyChatAdapter(val chatlists:ArrayList<Chatting_Element>): RecyclerView.Adapter<MyChatAdapter.ViewHolder>() {
+class MyChatAdapter(val chatlists:ArrayList<Chatting_Element>, val requestProfileLink: String?): RecyclerView.Adapter<MyChatAdapter.ViewHolder>() {
     var nparent: ViewGroup?=null
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         nparent=parent
         val inflater = LayoutInflater.from(parent.context)
-        return ViewHolder(inflater,parent,parent.context)
+        return ViewHolder(inflater,parent,parent.context, requestProfileLink)
     }
 
     override fun onBindViewHolder(holder : ViewHolder, position : Int){
@@ -42,7 +42,7 @@ class MyChatAdapter(val chatlists:ArrayList<Chatting_Element>): RecyclerView.Ada
     override fun getItemCount(): Int {
         return chatlists.size
     }
-    class ViewHolder(inflater: LayoutInflater, parent : ViewGroup, val context: Context):
+    class ViewHolder(inflater: LayoutInflater, parent : ViewGroup, val context: Context, val requestProfileLink: String?):
         RecyclerView.ViewHolder(inflater.inflate(R.layout.material_chat_mine, parent, false)){
         fun bind(data: Chatting_Element, type: Int, link:String){
             itemView.chat_mine.text = data.chat
@@ -51,7 +51,8 @@ class MyChatAdapter(val chatlists:ArrayList<Chatting_Element>): RecyclerView.Ada
                 else Glide.with(context).load(R.drawable.blank_profile).transform(RoundedCorners(20)).into(itemView.partner_image_m)
             }
             else{
-                Glide.with(context).load(R.drawable.profile1).transform(RoundedCorners(20)).into(itemView.partner_image_m)
+                if(requestProfileLink!=null) Glide.with(context).load(requestProfileLink).transform(RoundedCorners(20)).into(itemView.partner_image_m)
+                else Glide.with(context).load(R.drawable.blank_profile).transform(RoundedCorners(20)).into(itemView.partner_image_m)
             }
         }
     }

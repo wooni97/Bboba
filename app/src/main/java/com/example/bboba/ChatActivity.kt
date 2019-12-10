@@ -28,7 +28,6 @@ class ChatActivity : AppCompatActivity() {
     //email을 크기를 비교하여 db에 항상 일관되게 저장
 
     private val chatData = ArrayList<Chatting_Element>()
-    private val toBottomofview = LinearLayoutManager(this)
 
     override fun onCreate(savedInstanceState: Bundle?){
         super.onCreate(savedInstanceState)
@@ -47,14 +46,20 @@ class ChatActivity : AppCompatActivity() {
             override fun onSuccess(result: MeV2Response) {
                 //파이어베이스 데이터 받기
                 val myemail_address = result.kakaoAccount.email
-                val myemail = myemail_address.substring(0,myemail_address.indexOf('@'))
-                val youremail : String = intent.getStringExtra("op_chatemail")
-                val myname = result.kakaoAccount.profile.nickname
-                val yourname = intent.getStringExtra("op_chatname")
+                val myId = myemail_address.substring(0,myemail_address.indexOf('@'))
+                val yourId : String = intent.getStringExtra("op_chatId")!!
+                //val myname = result.kakaoAccount.profile.nickname
+                val yourname = intent.getStringExtra("op_chatName")
+                val requestProfileLink: String? = intent.getStringExtra("requestProfileLink")//널 가능(프로필 사진이 없으면 널이 들어간다. 후에 널이면 빈 사진을 띄운다)
 
                 val database = FirebaseDatabase.getInstance()
                 val chatRef = database.getReference("CHAT")
-                val userRef = chatRef.child("$myemail-$youremail")
+                val pathString = if(myId.compareTo(yourId)>0){ //아이디 비교를 통해 하나의 경로로 설정
+                    myId+"-"+yourId
+                } else {
+                    yourId+"-"+myId
+                }
+                val userRef = chatRef.child(pathString)
 
 
                 activity_partner_name.text = yourname
@@ -72,7 +77,6 @@ class ChatActivity : AppCompatActivity() {
                         .addOnSuccessListener {
                             input_message.text.clear()      //전송이 성공한다면 edit text칸을 지운다
                         }
-
                 }
 
                 userRef.addValueEventListener(object: ValueEventListener {
@@ -83,9 +87,9 @@ class ChatActivity : AppCompatActivity() {
                         }
                         chatting_recyclerview.apply {
                             layoutManager = LinearLayoutManager(context?:return)
-                            adapter = MyChatAdapter(chatData)
+                            adapter = MyChatAdapter(chatData, requestProfileLink)
                         }
-                        chatting_recyclerview.scrollToPosition(MyChatAdapter(chatData).itemCount-1)
+                        chatting_recyclerview.scrollToPosition(MyChatAdapter(chatData,requestProfileLink).itemCount-1)
                     }
                     override fun onCancelled(p0: DatabaseError) {
                     }
