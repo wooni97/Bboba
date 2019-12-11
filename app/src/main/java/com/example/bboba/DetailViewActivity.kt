@@ -3,8 +3,10 @@ package com.example.bboba
 import android.content.DialogInterface
 import android.content.Intent
 import android.os.Bundle
+import android.telephony.SmsManager
 import android.util.Log
 import android.view.View
+import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isGone
@@ -137,6 +139,7 @@ class DetailViewActivity: AppCompatActivity() {
                 return false
             }
             override fun onClick(v: View) {
+                //제공자 입장 시작
                 if(listenerNum==1){ //제공자 입장에서 매칭하기를 원할 때
                     builder.setTitle("매칭 선택")
                         .setMessage("이 요청글과 매칭하시겠습니까?")
@@ -144,7 +147,9 @@ class DetailViewActivity: AppCompatActivity() {
                             val database = FirebaseDatabase.getInstance()
                             val ref = database.getReference("PRINTS_REQUEST")
                             val dateRef = ref.child("date").child(requestData.date)
-                            val idRef = ref.child("id").child(requestData.email.substring(0,requestData.email.indexOf('@')))
+                            val id = requestData.email.substring(0, requestData.email.indexOf('@'))
+                            val idRef = ref.child("id").child(id)
+                            val phoneRef = database.getReference("Phone").child(id)
                             //id로 넣기
                             idRef.addListenerForSingleValueEvent(object: ValueEventListener {
                                 override fun onCancelled(p0: DatabaseError) {
@@ -226,6 +231,22 @@ class DetailViewActivity: AppCompatActivity() {
                                 }
                             })
 
+                            //매칭 성공시 문자 보내기
+                            phoneRef.addListenerForSingleValueEvent(object: ValueEventListener{
+                                override fun onCancelled(p0: DatabaseError) {
+                                }
+                                override fun onDataChange(p0: DataSnapshot) {
+                                    val phoneNumber = p0.child("phone_number").value as String
+                                    val message: String = "<뽀바> 매칭이 완료되었습니다."
+                                    try {
+                                        val smsManager: SmsManager = SmsManager.getDefault()
+                                        smsManager.sendTextMessage(phoneNumber, null, message, null, null)
+                                        Toast.makeText(context, "요청자에게 메세지를 전송했습니다.", Toast.LENGTH_SHORT).show()
+                                    } catch (e: Exception) {
+                                        Toast.makeText(context, "요청자에게의 메세지 전송이 실패했습니다.", Toast.LENGTH_SHORT).show()
+                                    }
+                                }
+                            })
                             //화면전환
                             val nextIntent = Intent(context, MainActivity::class.java)
                             nextIntent.putExtra("fragmentNumber", fragmentNumber)
@@ -235,6 +256,8 @@ class DetailViewActivity: AppCompatActivity() {
                         .setNegativeButton("취소", DialogInterface.OnClickListener { dialog, id ->
                         })
                 }
+                //제공자 입장 끝
+                //요청자 입장 시작
                 else{ //요청자 입장에서 매칭 취소를 원할 때
                     builder.setTitle("매칭 취소")
                         .setMessage("제공자와의 매칭을 취소하시겠습니까?")
