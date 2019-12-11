@@ -21,11 +21,12 @@ open class MyTradeActivity : AppCompatActivity(){
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_my_trade)
 
+        //adapter에 fragment인 나의 요청과 나의 제공을 연결한다
         val adapter = ViewPagerAdapter(supportFragmentManager)
         adapter.addFragment(myRequestFragment, "나의 요청")
-        adapter.addFragment(myGivingFragment, "제공")
+        adapter.addFragment(myGivingFragment, "나의 제공")
         viewPager_in_mytrade.adapter = adapter
-        tabs_in_mytrade.setupWithViewPager(viewPager_in_mytrade)
+        tabs_in_mytrade.setupWithViewPager(viewPager_in_mytrade)    //탭을 통하여 이동이 가능하다
 
         UserManagement.getInstance().me(object: MeV2ResponseCallback() {
             override fun onFailure(errorResult: ErrorResult?) {
@@ -34,6 +35,8 @@ open class MyTradeActivity : AppCompatActivity(){
             override fun onSessionClosed(errorResult: ErrorResult?) {
                 Log.d("example", "aaabb=세션 닫힘")
             }
+
+            //나의 거래 목록에 본인의 프로필사진과 이름,email을 보여준다
             override fun onSuccess(result: MeV2Response?) {
                 if(result!=null) {
                     val picture_location = result.kakaoAccount.profile.profileImageUrl?:"" //프로필 이미지가 없으면 null이 들어감

@@ -14,9 +14,9 @@ import kotlinx.android.synthetic.main.material_chat_mine.view.*
 
 class MyChatAdapter(val chatlists:ArrayList<Chatting_Element>, val requestProfileLink: String?): RecyclerView.Adapter<MyChatAdapter.ViewHolder>() {
     var nparent: ViewGroup?=null
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {     //생성된 viewholder와 material_chat_mine들을 holder와 연결해준다
         nparent=parent
-        val inflater = LayoutInflater.from(parent.context)
+        val inflater = LayoutInflater.from(parent.context)  //xml파일을 view객체로 만들기위해서 inflater를 선언
         return ViewHolder(inflater,parent,parent.context, requestProfileLink)
     }
 
@@ -24,7 +24,7 @@ class MyChatAdapter(val chatlists:ArrayList<Chatting_Element>, val requestProfil
         val data: Chatting_Element = chatlists[position]
 
         UserManagement.getInstance().me(object:MeV2ResponseCallback(){
-            override fun onSuccess(result: MeV2Response) {
+            override fun onSuccess(result: MeV2Response) {  //email을 받아 @를 제외하고 아이디를 추출한다
                 val userRealId = result.kakaoAccount.email.substring(0,result.kakaoAccount.email.indexOf('@'))//아이디 추출
                 val profileLink = result.kakaoAccount.profile.profileImageUrl?:""
                 if(data.username==userRealId){
@@ -39,9 +39,12 @@ class MyChatAdapter(val chatlists:ArrayList<Chatting_Element>, val requestProfil
         })
     }
 
-    override fun getItemCount(): Int {
+    override fun getItemCount(): Int {  //리스트의 사이즈를 아이템의 숫자로 받는다
         return chatlists.size
     }
+
+    //뷰홀더를 생성하고 뷰홀더는 material_chat_mine view를 묶어둔다
+    //안의 데이터는 카카오톡 프로필사진과 채팅 내용이다
     class ViewHolder(inflater: LayoutInflater, parent : ViewGroup, val context: Context, val requestProfileLink: String?):
         RecyclerView.ViewHolder(inflater.inflate(R.layout.material_chat_mine, parent, false)){
         fun bind(data: Chatting_Element, type: Int, link:String){

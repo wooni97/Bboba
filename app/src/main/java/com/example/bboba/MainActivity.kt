@@ -199,7 +199,7 @@ open class MainActivity : AppCompatActivity(),MapFragment.OnFragmentInteractionL
             drawerLayout.closeDrawers()
         }else{
             Toast.makeText(this,"어플을 종료합니다.", Toast.LENGTH_SHORT).show()
-            finishAffinity()
+            finishAffinity()        //메인페이지에서 뒤로가기를 누르면 어플이 종료된다
         }
     }
 

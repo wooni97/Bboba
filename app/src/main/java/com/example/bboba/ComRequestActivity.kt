@@ -17,7 +17,7 @@ class ComRequestActivity : AppCompatActivity() {
             startActivity(nextintent)
         }
     }
-    override fun onBackPressed() {
+    override fun onBackPressed() {  //사용자가 뒤로가기를 눌렀을 때 다시 요청글을 쓰는 창이 아닌 메인페이지로 이동함
         Toast.makeText(this,"메인 페이지로 이동합니다.",Toast.LENGTH_SHORT).show()
         val intent = Intent(this,MainActivity::class.java)
         startActivity(intent)

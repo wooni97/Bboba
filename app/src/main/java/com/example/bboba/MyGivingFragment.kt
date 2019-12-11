@@ -38,6 +38,8 @@ class MyGivingFragment : Fragment() {
                 val userEmail = result.kakaoAccount.email       //카카오API에서 이메일을 받아옴
                 val userId = userEmail.substring(0,userEmail.indexOf('@'))      //email에서 @이후의 말을 떼어냄
                 val reqRef = database.getReference("Matching_Info").child("$userId")
+                //나의id와 제공자의id를 확인함
+                //Matching_info에 제공자(나의id)의 아이디목록에서 세부요청들이 닮겨있음
 
 
 
@@ -49,7 +51,7 @@ class MyGivingFragment : Fragment() {
                 reqRef.addValueEventListener(object: ValueEventListener {
                     override fun onDataChange(MatchingPerson: DataSnapshot) {
                         reqData.clear()
-                        for(h in MatchingPerson.children) {//h = 유저의 아이디에 들어 있는 데이터 값을 확인하고 데이터를 넣어줌
+                        for(h in MatchingPerson.children) { //h = 유저의 아이디에 들어 있는 데이터 값을 확인하고 데이터를 넣어줌
                             reqData.add(0,
                                 Prints_Request(
                                     h.child("name").value as String,
@@ -80,6 +82,7 @@ class MyGivingFragment : Fragment() {
             }
         })
     }
+    //fragment_my_giving을 연결
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,

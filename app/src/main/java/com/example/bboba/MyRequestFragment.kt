@@ -36,6 +36,7 @@ class MyRequestFragment : Fragment() {
             }
             override fun onSuccess(result: MeV2Response) {
                 val userEmail = result.kakaoAccount.email
+                //유저의 email을 확인함으로써 요청 또는 제공을 확일할 수 있는 식별자가 됨
 
                 //파이어베이스에서 데이터 받아오기
                 //파이어베이스 데이터를 받아오는 부분을 카카오api정보 받아오는 곳 속에 넣음
@@ -47,7 +48,7 @@ class MyRequestFragment : Fragment() {
                         reqData.clear()
                         for(eud in eachUserData.children) {//eud : 날짜 별 유저 데이터
                             for(h in eud.children) {//한 날짜 대한 유저의 요청 정보
-                                if(h.child("email").value==userEmail) {
+                                if(h.child("email").value==userEmail) {//사용자의 email과 요청자의 email이 같은 것만 보여줌
                                     reqData.add(
                                         0,
                                         Prints_Request(

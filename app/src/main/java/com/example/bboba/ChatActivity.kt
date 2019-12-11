@@ -37,7 +37,7 @@ class ChatActivity : AppCompatActivity() {
 
 
 
-        //상대방의 이미지를 띄움, 현재는 나의 이미지
+        //상대방의 이미지,이름,email,id를 카카오톡으로 받아옮
         UserManagement.getInstance().me(object : MeV2ResponseCallback() {
             override fun onFailure(errorResult: ErrorResult?) {
             }
@@ -79,13 +79,13 @@ class ChatActivity : AppCompatActivity() {
                         }
                 }
 
-                userRef.addValueEventListener(object: ValueEventListener {
+                userRef.addValueEventListener(object: ValueEventListener {      //채팅 내역을 화면에 띄워준다
                     override fun onDataChange(p0: DataSnapshot) {
-                        chatData.clear()
+                        chatData.clear()                //같은 채팅의 내역이 쌓이지 않도록 clear해준다
                         for (hashData in p0.children) {
                             chatData.add(Chatting_Element(hashData.child("chat").value.toString(), hashData.child("username").value.toString()))
                         }
-                        chatting_recyclerview.apply {
+                        chatting_recyclerview.apply {       //채팅말풍선의 layout과 adapting해준다
                             layoutManager = LinearLayoutManager(context?:return)
                             adapter = MyChatAdapter(chatData, requestProfileLink)
                         }
