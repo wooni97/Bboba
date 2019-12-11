@@ -22,6 +22,7 @@ import com.kakao.util.helper.Utility.getPackageInfo
 import java.security.MessageDigest
 import java.security.NoSuchAlgorithmException
 
+//카카오 Developer 사이트의 공식 자바코드를 코틀린 형식에 맞게 재작성함
 class LoginActivity : AppCompatActivity() {
     private var callback: SessionCallback = SessionCallback(this)
 
@@ -65,7 +66,7 @@ class LoginActivity : AppCompatActivity() {
                 }
                 override fun onSuccess(result: MeV2Response?) {
                     checkNotNull(result) { "session response null" }
-                    // register or login
+                    // 성공적으로 세션 확인이 되었으므로 메인액티비티로 이동한다
                     val nextIntent = Intent(context, MainActivity::class.java)
                     startActivity(context, nextIntent, null)
                 }

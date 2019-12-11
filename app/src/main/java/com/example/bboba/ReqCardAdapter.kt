@@ -11,11 +11,9 @@ import kotlinx.android.synthetic.main.material_cardview.view.*
 import kotlin.collections.ArrayList
 
 class ReqCardAdapter(val requestLists:ArrayList<Prints_Request>): RecyclerView.Adapter<ReqCardAdapter.ViewHolder>() {
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder { //뷰홀더를 생성
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder { //뷰홀더 생성
         val inflater = LayoutInflater.from(parent.context)
         return ViewHolder(inflater, parent, parent.context)
-        //val view = LayoutInflater.from(parent.context).inflate(R.layout.fragment_list, parent, false)
-        //return ViewHolder(view)
     }
     override fun getItemCount(): Int {
         return requestLists.size

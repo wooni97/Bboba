@@ -1,7 +1,6 @@
 package com.example.bboba
 
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -15,10 +14,10 @@ import com.kakao.usermgmt.response.MeV2Response
 import kotlinx.android.synthetic.main.fragment_list.*
 
 class ListFragment : Fragment() {
-    private val reqData = ArrayList<Prints_Request>()
+    private val reqData = ArrayList<Prints_Request>() //요청글들의 정보를 담는 배열
     private val database = FirebaseDatabase.getInstance()
     private val reqRef = database.getReference("PRINTS_REQUEST")
-    private val dateRef = reqRef.child("date")
+    private val dateRef = reqRef.child("date") //역시간순 정렬을 위해 날짜 데이터에서 데이터들을 읽는다
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -37,10 +36,10 @@ class ListFragment : Fragment() {
                 //파이어베이스 데이터를 받아오는 부분을 카카오api정보 받아오는 곳 속에 넣음
                 //카카오api 받아오는 속도가 느려서 파이어베이스 데이터를 받는 부분에서 자신의 글을 필터링 할 때
                 //정보를 받아오지 못함(널 값이 들어감)
-                //따라서 카카오에서 정보를 받은 이후에 파이어베이스 데이터 받는 것을 진행하기 위해서 이렇게 함
+                //따라서 카카오에서 정보를 받은 이후에 파이어베이스 데이터 받는 것을 진행하기 위해서 내부에 코드 작성
                 dateRef.addValueEventListener(object: ValueEventListener {
                     override fun onDataChange(eachUserData: DataSnapshot) {
-                        reqData.clear()
+                        reqData.clear() //배열 초기화
                         for(eud in eachUserData.children) {//eud : 날짜 별 유저 데이터
                             for(h in eud.children) {//한 날짜에 대한 유저의 요청 정보
                                 if(h.child("email").value==userEmail) continue //자신이 올린 요청은 보여주지 않는다
@@ -66,17 +65,16 @@ class ListFragment : Fragment() {
                                 )
                             }
                         }
-                        list_recyclerview.apply { //데이터 뽑은 후 출력
-                            layoutManager = LinearLayoutManager(activity?:return)
-                            adapter = ReqCardAdapter(reqData)
+                        list_recyclerview.apply {
+                            layoutManager = LinearLayoutManager(activity?:return) //다른 곳에서 컨택스트를 사용할 때 이 곳의 컨택스트를 종료한다
+                            adapter = ReqCardAdapter(reqData) //데이터를 어댑터에 넘겨준다
                         }
                     }
-
                     override fun onCancelled(p0: DatabaseError) {
                     }
-                })
+                }) //dateRef.addValueEventListener 끝
             }
-        })
+        }) //카카오 api 끝
     }
 
     override fun onCreateView(

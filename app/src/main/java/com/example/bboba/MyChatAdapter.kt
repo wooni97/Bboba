@@ -12,7 +12,7 @@ import com.kakao.usermgmt.callback.MeV2ResponseCallback
 import com.kakao.usermgmt.response.MeV2Response
 import kotlinx.android.synthetic.main.material_chat_mine.view.*
 
-class MyChatAdapter(val chatlists:ArrayList<Chatting_Element>, val requestProfileLink: String?): RecyclerView.Adapter<MyChatAdapter.ViewHolder>() {
+class MyChatAdapter(val chatlists:ArrayList<Chatting_Element>, val requestProfileLink: String): RecyclerView.Adapter<MyChatAdapter.ViewHolder>() {
     var nparent: ViewGroup?=null
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {     //생성된 viewholder와 material_chat_mine들을 holder와 연결해준다
         nparent=parent
@@ -45,7 +45,7 @@ class MyChatAdapter(val chatlists:ArrayList<Chatting_Element>, val requestProfil
 
     //뷰홀더를 생성하고 뷰홀더는 material_chat_mine view를 묶어둔다
     //안의 데이터는 카카오톡 프로필사진과 채팅 내용이다
-    class ViewHolder(inflater: LayoutInflater, parent : ViewGroup, val context: Context, val requestProfileLink: String?):
+    class ViewHolder(inflater: LayoutInflater, parent : ViewGroup, val context: Context, val requestProfileLink: String):
         RecyclerView.ViewHolder(inflater.inflate(R.layout.material_chat_mine, parent, false)){
         fun bind(data: Chatting_Element, type: Int, link:String){
             itemView.chat_mine.text = data.chat
@@ -54,7 +54,7 @@ class MyChatAdapter(val chatlists:ArrayList<Chatting_Element>, val requestProfil
                 else Glide.with(context).load(R.drawable.blank_profile).transform(RoundedCorners(20)).into(itemView.partner_image_m)
             }
             else{
-                if(requestProfileLink!=null) Glide.with(context).load(requestProfileLink).transform(RoundedCorners(20)).into(itemView.partner_image_m)
+                if(requestProfileLink!="") Glide.with(context).load(requestProfileLink).transform(RoundedCorners(20)).into(itemView.partner_image_m)
                 else Glide.with(context).load(R.drawable.blank_profile).transform(RoundedCorners(20)).into(itemView.partner_image_m)
             }
         }

@@ -14,8 +14,8 @@ import kotlinx.android.synthetic.main.activity_my_trade.*
 
 
 open class MyTradeActivity : AppCompatActivity(){
-    val myRequestFragment = MyRequestFragment()
-    val myGivingFragment = MyGivingFragment()
+    private val myRequestFragment = MyRequestFragment()
+    private val myGivingFragment = MyGivingFragment()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -30,19 +30,17 @@ open class MyTradeActivity : AppCompatActivity(){
 
         UserManagement.getInstance().me(object: MeV2ResponseCallback() {
             override fun onFailure(errorResult: ErrorResult?) {
-                Log.d("example", "aaabb=실패")
             }
             override fun onSessionClosed(errorResult: ErrorResult?) {
-                Log.d("example", "aaabb=세션 닫힘")
             }
 
             //나의 거래 목록에 본인의 프로필사진과 이름,email을 보여준다
             override fun onSuccess(result: MeV2Response?) {
                 if(result!=null) {
-                    val picture_location = result.kakaoAccount.profile.profileImageUrl?:"" //프로필 이미지가 없으면 null이 들어감
+                    val pictureLocation = result.kakaoAccount.profile.profileImageUrl?:"" //프로필 이미지가 없으면 null이 들어감
                     val name = result.kakaoAccount.profile.nickname
                     val userEmail = result.kakaoAccount.email?:""
-                    if(picture_location!="") Glide.with(this@MyTradeActivity).load(picture_location).transform(RoundedCorners(20)).into(nav_header_profile_in_mytrade)
+                    if(pictureLocation!="") Glide.with(this@MyTradeActivity).load(pictureLocation).transform(RoundedCorners(20)).into(nav_header_profile_in_mytrade)
                     else Glide.with(this@MyTradeActivity).load(R.drawable.blank_profile).transform(RoundedCorners(20)).into(nav_header_profile_in_mytrade)
                     nav_profile_name_in_mytrade.text = name
                     nav_profile_email_in_mytrade.text = userEmail

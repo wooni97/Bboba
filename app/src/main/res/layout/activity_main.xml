@@ -42,7 +42,7 @@
             app:layout_constraintTop_toBottomOf="@+id/my_toolbar"
             app:tabBackground="@color/main_color"
             app:tabGravity="fill"
-            app:tabIndicatorColor="#ff3939"
+            app:tabIndicatorColor="#fa2828"
             app:tabMode="fixed"
             app:tabTextColor="@android:color/white" />
 

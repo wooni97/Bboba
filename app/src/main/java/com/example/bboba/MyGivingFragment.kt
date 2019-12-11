@@ -14,9 +14,6 @@ import com.kakao.usermgmt.callback.MeV2ResponseCallback
 import com.kakao.usermgmt.response.MeV2Response
 import kotlinx.android.synthetic.main.fragment_my_giving.*
 
-/**
- * A simple [Fragment] subclass.
- */
 class MyGivingFragment : Fragment() {
 
     private val reqData = ArrayList<Prints_Request>()
@@ -35,13 +32,11 @@ class MyGivingFragment : Fragment() {
                 Log.d("example", "test=세션 닫힘")
             }
             override fun onSuccess(result: MeV2Response) {
-                val userEmail = result.kakaoAccount.email       //카카오API에서 이메일을 받아옴
-                val userId = userEmail.substring(0,userEmail.indexOf('@'))      //email에서 @이후의 말을 떼어냄
-                val reqRef = database.getReference("Matching_Info").child("$userId")
+                val userEmail = result.kakaoAccount.email //카카오API에서 이메일을 받아옴
+                val userId = userEmail.substring(0,userEmail.indexOf('@')) //email에서 @이후의 말을 떼어냄
+                val reqRef = database.getReference("Matching_Info").child(userId)
                 //나의id와 제공자의id를 확인함
-                //Matching_info에 제공자(나의id)의 아이디목록에서 세부요청들이 닮겨있음
-
-
+                //Matching_info에 제공자(나의id)의 아이디목록에서 세부요청들이 담겨있음
 
                 //파이어베이스에서 데이터 받아오기
                 //파이어베이스 데이터를 받아오는 부분을 카카오api정보 받아오는 곳 속에 넣음
@@ -82,7 +77,6 @@ class MyGivingFragment : Fragment() {
             }
         })
     }
-    //fragment_my_giving을 연결
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,

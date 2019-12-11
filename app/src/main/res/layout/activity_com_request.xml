@@ -10,39 +10,26 @@
         android:id="@+id/Done_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="80dp"
         android:text="요청이 완료되었습니다."
-        android:textSize="35dp"
         android:textColor="#FFFFFF"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:textSize="35sp"
+        app:layout_constraintBottom_toTopOf="@id/Caution"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
         android:id="@+id/Caution"
-        android:layout_width="230dp"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="3dp"
         android:ems="10"
-        android:text="요청을 수락할 때까지 기다려주세요!"
-        android:textSize="15dp"
+        android:paddingTop="10dp"
+        android:text="매칭이 완료될 때까지 기다려주세요!"
+        android:textAlignment="center"
         android:textColor="#FFFFFF"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@+id/Done_text"
         app:layout_constraintStart_toStartOf="@+id/Done_text"
-        app:layout_constraintTop_toBottomOf="@+id/Done_text" />
-
-    <Button
-        android:id="@+id/To_main"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="70dp"
-        android:text="홈으로"
-        android:background="#FFFFFF"
-        android:textColor="@color/main_color"
-        android:textSize="16dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

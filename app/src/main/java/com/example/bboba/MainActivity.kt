@@ -35,7 +35,7 @@ import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.main_nav_header.*
 
 
-open class MainActivity : AppCompatActivity(),MapFragment.OnFragmentInteractionListener, NavigationView.OnNavigationItemSelectedListener {
+class MainActivity : AppCompatActivity(),MapFragment.OnFragmentInteractionListener, NavigationView.OnNavigationItemSelectedListener {
     val listFragment = ListFragment() // 하나의 프레그먼트를 계속 이용하기 위해 생성자로 생성후 변수에 저장
     val mapFragment = MapFragment()
     val context: Context = this // MainActivity context
@@ -68,7 +68,7 @@ open class MainActivity : AppCompatActivity(),MapFragment.OnFragmentInteractionL
         requestAccessTokenInfo(this)//카카오 로그인 여부 검사 후 인텐트로 화면 전환
 
 
-        val adapter = ViewPagerAdapter(supportFragmentManager)
+        val adapter = ViewPagerAdapter(supportFragmentManager) //프레그먼트 이동을 위한 어댑터
         adapter.addFragment(listFragment, "시간순 보기")
         adapter.addFragment(mapFragment, "지도로 보기")
         viewPager.adapter = adapter
@@ -84,7 +84,7 @@ open class MainActivity : AppCompatActivity(),MapFragment.OnFragmentInteractionL
         //네비게이션뷰 리스너 등록
         navigationView.setNavigationItemSelectedListener(this)
 
-        //요청글 작성 버튼 등록
+        //요청글 작성 버튼 리스너 등록
         add_request_button.setOnClickListener {
             val nextIntent = Intent(this, RequestActivity::class.java)
             startActivity(nextIntent)
@@ -157,9 +157,6 @@ open class MainActivity : AppCompatActivity(),MapFragment.OnFragmentInteractionL
                         object: DialogInterface.OnClickListener {
                             override fun onClick(dialog: DialogInterface?, which: Int) {
                                 UserManagement.getInstance().requestUnlink(object: UnLinkResponseCallback() {
-                                    override fun onFailure(errorResult: ErrorResult) {
-                                        super.onFailure(errorResult)
-                                    }
                                     override fun onSessionClosed(errorResult: ErrorResult) {
                                         val nextIntent = Intent(context, RequestActivity::class.java)
                                         startActivity(nextIntent)

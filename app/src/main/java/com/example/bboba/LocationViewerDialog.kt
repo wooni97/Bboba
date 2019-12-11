@@ -23,8 +23,8 @@ import com.google.android.gms.maps.model.MarkerOptions
 class LocationViewrDialog(private val detail_activity: DetailViewActivity, private val lat: Double=37.5999500, private val lng: Double=126.8642749) : DialogFragment() {
     lateinit var customView: View
     private val DEFAULT_ZOOM = 17f
-    private var mapFragment: SupportMapFragment? = null
-    private var googleMap: GoogleMap? = null
+    private var mapFragment: SupportMapFragment? = null //mapFragment가 null일때 뒤에서 처리해준다
+    lateinit var googleMap: GoogleMap
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return customView
