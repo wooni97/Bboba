@@ -1,7 +1,9 @@
 package com.example.bboba
 
+import android.Manifest
 import android.content.DialogInterface
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.os.Bundle
 import android.telephony.SmsManager
 import android.util.Log
@@ -9,6 +11,8 @@ import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import androidx.core.view.isGone
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
@@ -25,9 +29,48 @@ import java.util.*
 
 class DetailViewActivity: AppCompatActivity() {
     var listenerNum = 1
+
+    //매칭되면 요청자에게 문자발송이 된다
+    //만약 로그인 시에 문자발송 권한을 거부했으면, 여기서 다시 요청한다
+    private val multiplePermissionCode = 100
+    private val requiredPermissionList = arrayOf(Manifest.permission.SEND_SMS) //여기서는 문자 전송 권한만 필요하다
+    private fun checkPermissions() {
+        val rejectedPermissionList = ArrayList<String>()
+        //필요한 퍼미션들을 체크한다
+        for(permission in requiredPermissionList) {
+            if(ContextCompat.checkSelfPermission(this, permission) != PackageManager.PERMISSION_GRANTED) {
+                //필요한 권한중 승인 받지 못한 것을 배열에 담는다
+                rejectedPermissionList.add(permission)
+            }
+        }
+        if(rejectedPermissionList.isNotEmpty()) { //승인 받지 못한 권한이 존재하면
+            //권한 요청하기
+            val array = arrayOfNulls<String>(rejectedPermissionList.size)
+            ActivityCompat.requestPermissions(this, rejectedPermissionList.toArray(array), multiplePermissionCode)
+        }
+    }
+
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+
+        when(requestCode) {
+            multiplePermissionCode -> {
+                if(grantResults.isNotEmpty()) {
+                    for((i, permission) in permissions.withIndex()) {
+                        if(grantResults[i] != PackageManager.PERMISSION_GRANTED) {
+                            Toast.makeText(this, "문자 발신 권한을 허용해주세요", Toast.LENGTH_SHORT).show()
+                            finish() //현재 액티비티를 끝낸다(액티비티 스택중 상위 액티비티를 다시 연다)
+                        }
+                    }
+                }
+            }
+        }
+    }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_detail_view)
+
+        checkPermissions() //권한 설정 여부 검사
 
         val context = this
         val fragmentNumber = intent.getIntExtra("fragmentNumber", 1) // 맵에서 넘어온 것이면 맵을, 리스트에서 넘어온 것이면 리스트를 띄우기 위해서 만듦
@@ -38,6 +81,7 @@ class DetailViewActivity: AppCompatActivity() {
         var op_id = requestData.email.substring(0, requestData.email.indexOf('@'))//채팅 상대방 id
         val calendar = Calendar.getInstance()
         val date = requestData.date
+        var pictureLocation = requestData.picture_location
         calendar.set(date.substring(0,4).toInt(), date.substring(5,7).toInt(),date.substring(8,10).toInt()) //DB의 date에 저장된 문자열을 쪼개서 달력 날짜 설정(요일을 구하기 위해)
         val day_num = calendar.get(Calendar.DAY_OF_WEEK)
         val day_name = when(day_num) {
@@ -49,7 +93,7 @@ class DetailViewActivity: AppCompatActivity() {
             6->"금"
             else->"토"
         }
-        detail_profile_name.text = requestData!!.name
+        detail_profile_name.text = requestData.name
         detail_user_email.text = requestData.email
         detail_edit_total.text = requestData.total_page
         detail_edit_request.text = requestData.detail_request
@@ -73,6 +117,7 @@ class DetailViewActivity: AppCompatActivity() {
             dialogFragment.show(fragmentManager, null)
         }
 
+        //카카오 api
         UserManagement.getInstance().me(object: MeV2ResponseCallback() {
             override fun onFailure(errorResult: ErrorResult?) {
             }
@@ -99,33 +144,34 @@ class DetailViewActivity: AppCompatActivity() {
                                 //내 글 && 매칭된 글이면
                                 detail_request_button.text = "매칭 취소"
                                 detail_request_button.isEnabled = true
+                                pictureLocation=""
                                 listenerNum=2 //리스너를 다르게 하기 위해서 설정(1=매칭하기, 2=매칭 취소하기)
-                                op_id = data.child("matcher").child("user_email").value as String //채팅 상대방 정보
+                                val op_email = data.child("matcher").child("user_email").value as String //채팅 상대방 정보
+                                op_id = op_email.substring(0,op_email.indexOf('@')) //이메일에서 아이디 추출
                                 op_name = data.child("matcher").child("user_name").value as String
+                                to_chat.visibility = View.VISIBLE //버튼 보이기
                             }
                             if(data.child("matcher/user_email").value==result.kakaoAccount.email){ //나의 제공에서 봤을 시(제공자가 글을 들어오면) 매칭 완료라고 뜨게 함
                                 detail_request_button.text = "매칭 완료"
                                 detail_request_button.isEnabled = false
-                                op_id = requestData.email //채팅 상대방 정보
+                                val op_email = requestData.email //채팅 상대방 정보
+                                op_id = op_email.substring(0,op_email.indexOf('@')) //이메일에서 아이디 추출
                                 op_name = requestData.name
+                            }
+                            //리스너 등록을 밖에서 하려고 하면, api들의 받아오는 속도가 느려서 lateinit 변수들의 초기화가 이루어 지지 않음
+                            //api 정보 받는 부분 안에다 작성
+                            //챗 인텐트 생성
+                            val chatIntent = Intent(context, ChatActivity::class.java)
+                            chatIntent.putExtra("op_chatName", op_name)
+                            chatIntent.putExtra("op_chatId", op_id)
+                            chatIntent.putExtra("requestProfileLink", pictureLocation)
+                            //채팅 버튼 리스너 등록
+                            to_chat.setOnClickListener{
+                                startActivity(chatIntent)
                             }
                         }
                     }
                 })
-
-                //리스너 등록을 밖에서 하려고 하면, api들의 받아오는 속도가 느려서 lateinit 변수들의 초기화가 이루어 지지 않음
-                //api 정보 받는 부분 안에다 작성
-                //챗 인텐트 생성
-                val chatIntent = Intent(context, ChatActivity::class.java)
-                chatIntent.putExtra("op_chatName", op_name)
-                chatIntent.putExtra("op_chatId", op_id)
-                chatIntent.putExtra("requestProfileLink", requestData.picture_location)
-                //채팅 버튼 리스너 등록
-                to_chat.setOnClickListener{
-                    startActivity(chatIntent)
-                }
-
-                return
             }
         })
 
@@ -139,7 +185,7 @@ class DetailViewActivity: AppCompatActivity() {
                 return false
             }
             override fun onClick(v: View) {
-                //제공자 입장 시작
+                //리스너에서 제공자 기능 시작
                 if(listenerNum==1){ //제공자 입장에서 매칭하기를 원할 때
                     builder.setTitle("매칭 선택")
                         .setMessage("이 요청글과 매칭하시겠습니까?")
@@ -257,7 +303,7 @@ class DetailViewActivity: AppCompatActivity() {
                         })
                 }
                 //제공자 입장 끝
-                //요청자 입장 시작
+                //리스너에서 요청자 입장 기능 시작부분
                 else{ //요청자 입장에서 매칭 취소를 원할 때
                     builder.setTitle("매칭 취소")
                         .setMessage("제공자와의 매칭을 취소하시겠습니까?")

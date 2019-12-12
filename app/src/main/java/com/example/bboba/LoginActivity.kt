@@ -125,9 +125,10 @@ class LoginActivity : AppCompatActivity() {
                             if(p0.child("phone_number").value == null){
                                 val builder = AlertDialog.Builder(context)
                                 builder.setTitle("핸드폰 번호 입력")
-                                builder.setMessage("010ABCDEFGH 형식으로 입력해주세요")
+                                builder.setMessage("숫자만 입력해주세요")
 
                                 val et: EditText = EditText(context)
+
                                 builder.setView(et)
                                 builder.setPositiveButton("완료", object: DialogInterface.OnClickListener{
                                     override fun onClick(dialog: DialogInterface, which: Int) {
@@ -135,6 +136,7 @@ class LoginActivity : AppCompatActivity() {
                                         p0.child("phone_number").ref.setValue(phoneNumber)
                                         dialog.dismiss()
 
+                                        if(phoneNumber.length!=11) return
                                         //성공적으로 로그인 했으므로 메인액티비티로 이동한다
                                         val nextIntent = Intent(context, MainActivity::class.java)
                                         startActivity(context, nextIntent, null)

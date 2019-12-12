@@ -32,7 +32,7 @@ import java.util.*
 //위 사이트 참고함
 //RequestActivity를 매개변수로 받아와서 RequestActivity의 텍스트뷰 값을 변경할 수 있도록 함
 class LocationPickerDialog(private val req_activity: RequestActivity, private val lat: Double=37.5999500, private val lng: Double=126.8642749) : DialogFragment() {
-    lateinit var customView: View //뒤에서 초기화해줌
+    lateinit var customView: View //뒤에서 초기화한다
     private val DEFAULT_ZOOM = 17f
     private var mapFragment: SupportMapFragment? = null //널처리를 뒤에서 해준다
     lateinit var googleMap: GoogleMap
