@@ -25,7 +25,7 @@
 <img align="left" width="200px" height="400px" src="read_me_images/login.PNG">
 <img align="center width="200px" height="400px" src="read_me_images/menu.PNG">  
 
-**어플 로그인 화면 / 메인메뉴**
+**어플 로그인 화면 / 메인메뉴**  
  어플 첫 접속시 회원가입을 진행합니다.(카카오 로그인 이용)  
  어플 메인화면의 메인메뉴 화면에서 원하는 메뉴를 선택할 수 있습니다.  
  
