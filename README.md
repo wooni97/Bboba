@@ -15,7 +15,8 @@
 <img aligh="center" width="200px" height="400px" src="read_me_images/request.PNG">  
   
 **어플의 메인 페이지 / 프린트물 요청 페이지**  
- 메인 페이지의 +버튼을 누르면 프린트물 요청 페이지로 넘어갑니다.       
+ 메인 페이지의 +버튼을 누르면 프린트물 요청 페이지로 넘어갑니다.  
+ 
 <img align="left" width="200px" height="400px" src="read_me_images/request2.PNG">
 <img align="center" width="200px" height="400px" src="read_me_images/request3.png">  
 
