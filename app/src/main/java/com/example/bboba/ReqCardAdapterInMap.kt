@@ -9,7 +9,8 @@ import kotlinx.android.synthetic.main.material_cardview_map.view.*
 import kotlin.collections.ArrayList
 
 class ReqCardAdapterInMap(val requestLists:ArrayList<Prints_Request>): RecyclerView.Adapter<ReqCardAdapterInMap.ViewHolder>() {
-    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+
+    override fun onBindViewHolder(holder: ViewHolder, position: Int) {//생성된 뷰홀더에 데이터를 binding
         val data: Prints_Request = requestLists[position]
         holder.bind(data)
     }

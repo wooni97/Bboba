@@ -23,9 +23,7 @@ import com.kakao.usermgmt.UserManagement
 import com.kakao.usermgmt.callback.MeV2ResponseCallback
 import com.kakao.usermgmt.response.MeV2Response
 import com.sothree.slidinguppanel.SlidingUpPanelLayout
-import kotlinx.android.synthetic.main.fragment_list.*
 import kotlinx.android.synthetic.main.fragment_list.list_recyclerview
-import kotlinx.android.synthetic.main.fragment_map.*
 
 
 // TODO: Rename parameter arguments, choose names that match
@@ -82,7 +80,7 @@ class MapFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnMarkerClickListe
 
         lv = layout.findViewById(R.id.list_recyclerview) as RecyclerView
 
-        mLayout = layout.findViewById(R.id.sliding_layout) as SlidingUpPanelLayout
+        mLayout = layout.findViewById(R.id.sliding_layout) as SlidingUpPanelLayout//슬라이딩 패널
 
         mLayout!!.setFadeOnClickListener { mLayout!!.panelState = SlidingUpPanelLayout.PanelState.COLLAPSED }
 
@@ -208,6 +206,7 @@ class MapFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnMarkerClickListe
                             for (h in eud.children) {
                                 if (h.child("email").value == userEmail) continue //자신이 올린 요청은 보여주지 않는다
                                 if (h.child("is_selected").value == "1") continue //매칭된 글은 보여주지 않는다
+                                if(h.child("matcher").child("email").value == result.kakaoAccount.email) continue
                                 reqData.add(
                                     0,
                                     Prints_Request(
@@ -226,7 +225,7 @@ class MapFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnMarkerClickListe
                                         h.child("picture_location").value as String
                                     )
                                 )
-                                val place = LatLng(
+                                val place = LatLng(//요청글의 위치 지도에 표시
                                     (h.child("locationx").value as String).toDouble(),
                                     (h.child("locationy").value as String).toDouble()
                                 )

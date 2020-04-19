@@ -20,28 +20,13 @@ import java.util.*
 
 class RequestActivity : AppCompatActivity(),SeekBar.OnSeekBarChangeListener {
     val context = this
-    //Seekbar
-    override fun onProgressChanged(seekBar: SeekBar, progress: Int,fromUser: Boolean) {
-        val d_page = progress+1
-        this.div_page = d_page.toString()
-        progressView.text = "$d_page 장 "
-    }
-    override fun onStartTrackingTouch(seekBar: SeekBar) {
-    }
-    override fun onStopTrackingTouch(seekBar: SeekBar) {
-    }
-    val progressView: TextView by lazy{
-        this.per_page
-    }
-    val seekbarView: SeekBar by lazy{
-        this.page_seekbar
-    }
 
-    //변수
-    val locations = arrayOf("과학관", "전자관", "기계관", "강의동", "학생회관")
+    //변수 선언
     lateinit var name: String
-    var total_page: String? = null
-    var detail_request: String? = null
+    lateinit var totalPage: String
+    lateinit var detailRequest: String
+    //lateinit을 안 쓰고 var 변수명 = null 을 쓰는 이유 : 입력을 받지 않고 글쓰기를 할 때 null여부를 판단하여 처리한다
+    //lateinit을 쓰면 초기화 하지 않았다는 에러가 발생한다
     var date: String? = null
     var time: String? = null
     var locationx: String? = null
@@ -62,10 +47,8 @@ class RequestActivity : AppCompatActivity(),SeekBar.OnSeekBarChangeListener {
         //카카오 api에서 정보 받아오기
         UserManagement.getInstance().me(object: MeV2ResponseCallback() {
             override fun onFailure(errorResult: ErrorResult?) {
-                Log.d("example", "aaabb=실패")
             }
             override fun onSessionClosed(errorResult: ErrorResult?) {
-                Log.d("example", "aaabb=세션 닫힘")
             }
             override fun onSuccess(result: MeV2Response?) {
                 if(result!=null) {
@@ -82,23 +65,22 @@ class RequestActivity : AppCompatActivity(),SeekBar.OnSeekBarChangeListener {
 
         //수령시간 선택
         //날짜
-        val edit_date = findViewById<TextView>(R.id.edit_date)
         edit_date.setOnClickListener { view ->
             val calendar = Calendar.getInstance()
             val year = calendar.get(Calendar.YEAR)
             val month = calendar.get(Calendar.MONTH)
             val day = calendar.get(Calendar.DAY_OF_MONTH)
-            var day_name = "일"
+            var dayName = "일"
             val format = SimpleDateFormat("yyyy-MM-dd")
 
-            val date_listener = object: DatePickerDialog.OnDateSetListener {
+            val dateListener = object: DatePickerDialog.OnDateSetListener {
                 override fun onDateSet(view: DatePicker?, year: Int, month: Int, dayOfMonth: Int) {
-                    val str_date = "$year-${month+1}-$dayOfMonth"
-                    val dt_date: Date = format.parse(str_date)!! //널이 들어갈 수 없다
-                    val st_date = format.format(dt_date)
+                    val strDate = "$year-${month+1}-$dayOfMonth"
+                    val dtDate: Date = format.parse(strDate)!! //널이 들어갈 수 없다
+                    val stDate = format.format(dtDate)
                     calendar.set(year, month, dayOfMonth)
-                    val day_num = calendar.get(Calendar.DAY_OF_WEEK)
-                    day_name = when(day_num) {
+                    val dayNum = calendar.get(Calendar.DAY_OF_WEEK)
+                    dayName = when(dayNum) {
                         1->"일"
                         2->"월"
                         3->"화"
@@ -107,16 +89,15 @@ class RequestActivity : AppCompatActivity(),SeekBar.OnSeekBarChangeListener {
                         6->"금"
                         else->"토"
                     }
-                    edit_date.text = "$st_date ($day_name)"
-                    date = st_date
+                    edit_date.text = "$stDate ($dayName)"
+                    date = stDate
                     return
                 }
             }
-            val builder = DatePickerDialog(this, date_listener, year, month, day)
+            val builder = DatePickerDialog(this, dateListener, year, month, day)
             builder.show()
         }
         //시간
-        val edit_time = findViewById<TextView>(R.id.edit_time)
         edit_time.setOnClickListener { view->
             val nowtime = Calendar.getInstance()
             val hour = nowtime.get(Calendar.HOUR)
@@ -133,14 +114,15 @@ class RequestActivity : AppCompatActivity(),SeekBar.OnSeekBarChangeListener {
             builder.show()
         }
         location_select.setOnClickListener {//지도 선택 버튼 클릭
+            location_select.text = "한국항공대학교"
             val dialogFragment = LocationPickerDialog(context)
             val fragmentManager = supportFragmentManager
             dialogFragment.show(fragmentManager, null)
         }
 
         request_button.setOnClickListener { //요청하기 버튼 클릭
-            total_page = findViewById<EditText>(R.id.edit_total).text.toString()
-            detail_request = findViewById<EditText>(R.id.edit_request).text.toString()
+            totalPage = findViewById<EditText>(R.id.edit_total).text.toString()
+            detailRequest = findViewById<EditText>(R.id.edit_request).text.toString()
             print_fb = findViewById<CheckBox>(R.id.print_fb).isChecked.toString()
             color_print = findViewById<CheckBox>(R.id.color_print).isChecked.toString()
             if(total_page==null || detail_request==null || date==null ||  time==null || locationx==null){ //빈 칸이 있으면 멈춘다
@@ -148,7 +130,7 @@ class RequestActivity : AppCompatActivity(),SeekBar.OnSeekBarChangeListener {
                 return@setOnClickListener
             }
             location_name = findViewById<TextView>(R.id.location_select).text.toString()
-            val pr = Prints_Request(name, userEmail, total_page!!, detail_request!!, date!!, time!!, locationx!!, locationy!!, location_name, div_page, print_fb, color_print, picture_location)
+            val pr = Prints_Request(name, userEmail, totalPage, detailRequest, date!!, time!!, locationx!!, locationy!!, location_name, div_page, print_fb, color_print, picture_location)
             //Firebase 데이터 삽입
             //Firebase 변수
             val database = FirebaseDatabase.getInstance()
@@ -160,5 +142,22 @@ class RequestActivity : AppCompatActivity(),SeekBar.OnSeekBarChangeListener {
             val nextIntent = Intent(this, ComRequestActivity::class.java)
             startActivity(nextIntent)
         }
+    }
+
+    //Seekbar 관련 함수
+    override fun onProgressChanged(seekBar: SeekBar, progress: Int,fromUser: Boolean) {
+        val perPage = progress+1
+        this.div_page = perPage.toString()
+        progressView.text = "$perPage 장 "
+    }
+    override fun onStartTrackingTouch(seekBar: SeekBar) {
+    }
+    override fun onStopTrackingTouch(seekBar: SeekBar) {
+    }
+    val progressView: TextView by lazy{
+        this.per_page
+    }
+    val seekbarView: SeekBar by lazy{
+        this.page_seekbar
     }
 }

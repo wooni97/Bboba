@@ -12,8 +12,6 @@ import com.kakao.network.ErrorResult
 import com.kakao.usermgmt.UserManagement
 import com.kakao.usermgmt.callback.MeV2ResponseCallback
 import com.kakao.usermgmt.response.MeV2Response
-import kotlinx.android.synthetic.main.fragment_list.*
-import kotlinx.android.synthetic.main.fragment_my_giving.*
 import kotlinx.android.synthetic.main.fragment_my_request.*
 
 /**
@@ -31,13 +29,12 @@ class MyRequestFragment : Fragment() {
         //카카오 api에서 정보 받아오기
         UserManagement.getInstance().me(object: MeV2ResponseCallback() {
             override fun onFailure(errorResult: ErrorResult?) {
-                Log.d("example", "aaabb=실패")
             }
             override fun onSessionClosed(errorResult: ErrorResult?) {
-                Log.d("example", "aaabb=세션 닫힘")
             }
             override fun onSuccess(result: MeV2Response) {
                 val userEmail = result.kakaoAccount.email
+                //유저의 email을 확인함으로써 요청 또는 제공을 확일할 수 있는 식별자가 됨
 
                 //파이어베이스에서 데이터 받아오기
                 //파이어베이스 데이터를 받아오는 부분을 카카오api정보 받아오는 곳 속에 넣음
@@ -49,7 +46,7 @@ class MyRequestFragment : Fragment() {
                         reqData.clear()
                         for(eud in eachUserData.children) {//eud : 날짜 별 유저 데이터
                             for(h in eud.children) {//한 날짜 대한 유저의 요청 정보
-                                if(h.child("email").value==userEmail) {
+                                if(h.child("email").value==userEmail) {//사용자의 email과 요청자의 email이 같은 것만 보여줌
                                     reqData.add(
                                         0,
                                         Prints_Request(
